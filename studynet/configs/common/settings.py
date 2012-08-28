@@ -13,6 +13,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
         'default': dj_database_url.config(default='postgres://localhost')
+        
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -115,6 +116,12 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+HEROKU_APPS = (
+    'gunicorn',
+)
+
+INSTALLED_APPS += HEROKU_APPS
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
