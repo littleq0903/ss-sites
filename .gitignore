@@ -1,0 +1,17 @@
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+
+# Installer logs
+pip-log.txt
+
+# Translations
+*.mo
+
+# Django specified files
+settings_local.py
