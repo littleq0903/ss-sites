@@ -2,6 +2,25 @@
 import os
 import sys
 
+python_path = os.path.join(
+        os.path.realpath(os.path.dirname(__file__)),
+        '../../..'
+        )
+
+apps_path = os.path.join(
+        os.path.realpath(os.path.dirname(__file__)),
+        '../../apps'
+        )
+
+lib_path = os.path.join(
+        os.path.realpath(os.path.dirname(__file__)),
+        '../../lib'
+        )
+
+sys.path.insert(0, python_path)
+sys.path.insert(0, apps_path)
+sys.path.insert(0, lib_path)
+
 if __name__ == "__main__":
 
 # Settings switching
