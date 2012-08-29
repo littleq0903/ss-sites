@@ -18,17 +18,17 @@ import sys
 
 python_path = os.path.join(
         os.path.realpath(os.path.dirname(__file__)),
-        'studynet'
+        '.'
         )
 
 apps_path = os.path.join(
         os.path.realpath(os.path.dirname(__file__)),
-        'studynet/apps'
+        './apps'
         )
 
 lib_path = os.path.join(
         os.path.realpath(os.path.dirname(__file__)),
-        'studynet/lib'
+        './lib'
         )
 
 sys.path.insert(0, python_path)
