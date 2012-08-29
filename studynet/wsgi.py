@@ -15,7 +15,13 @@ framework.
 """
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "studynet.configs.heroku.settings")
+# Settings switching
+if os.environ['HEROKU'] == "true":
+    settings_location = "studynet.configs.heroku.settings"
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_location)
+else:
+    settings_location = "studynet.configs.common.settings"
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_location)
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
