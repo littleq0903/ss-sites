@@ -102,6 +102,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    'studynet/templates',
 )
 
 INSTALLED_APPS = (
@@ -117,10 +118,15 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 )
 
+SITE_APPS = (
+    'globals',
+)
+
 HEROKU_APPS = (
     'gunicorn',
 )
 
+INSTALLED_APPS += SITE_APPS
 INSTALLED_APPS += HEROKU_APPS
 
 # A sample logging configuration. The only tangible logging
