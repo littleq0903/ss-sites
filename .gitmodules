@@ -1,0 +1,3 @@
+[submodule "studynet/apps/globals/static/js/lib/fluorine"]
+	path = studynet/apps/globals/static/js/lib/fluorine
+	url = git@github.com:snowmantw/Fluorine.git
