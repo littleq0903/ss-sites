@@ -42,12 +42,12 @@
          }(document));
     </script>
     <!-- Navtigation Bar -->
-    <div class="navbar">
-        <div class="navbar-inner">
+    <div class="navbar navbar-fixed-top" >
+        <div class="navbar-inner" style="padding-left: 10px; padding-right: 10px">
             <a class="brand" href="#">Social Study</a>
             <ul class="nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Rank</a></li>
+                <li><a href="#">Home</a></li>
+                <li class="active"><a href="#">Courses</a></li>
                 <li><a href="mailto:littleq0903@gmail.com">Contact Us</a></li>
                 <li><a href="#"></a></li>
             </ul>
@@ -58,7 +58,7 @@
     </div>
 
     <!-- Fluid System -->
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-top: 60px;">
         <div class="row-fluid">
 
             <!-- Left float -->
@@ -73,8 +73,15 @@
                         <li><a href="#">Physics</a></li>
                         <li><a href="#">Law</a></li>
                         <li class="divider"></li>
-                        <li class="nav-header">Others</li>
-                        <li><a href="#">Common Courses</a></li>
+                        <li class="nav-header">Common Courses</li>
+                        <li><a href="#">Chinese</a></li>
+                        <li><a href="#">English</a></li>
+                        <li><a href="#">Science</a></li>
+                        <li><a href="#">Society</a></li>
+                        <li><a href="#">Humanity</a></li>
+                        <li><a href="#">P.E.</a></li>
+                        <li><a href="#">Military</a></li>
+                        <li><a href="#">Others</a></li>
                     </ul>
                 </div>
             </div>
@@ -82,6 +89,11 @@
             <!-- Right float -->
             <div class="span9">
                 <!-- Courses Table -->
+                <div class="btn-group pull-right">
+                    <button class="btn" id="addCourseBtn"><span class="icon-plus"></span>Add a Course</button>
+                </div>
+                <h2>Courses</h2>
+
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -141,12 +153,13 @@
 
 
         <!-- Modal -->
-        <div class="modal hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal hide fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h3 id="myModalLabel">000211011 政治學</h3>
             </div>
             <div class="modal-body">
+                <div class="fb-like" style="float:right;" data-href="http://example.com" data-send="true" data-layout="box_count" data-width="300" data-show-faces="true" data-action="recommend"></div>
                 <ul>
                     <li>Semester: 1001</li>
                     <li>Course Number: 000211011</li>
@@ -164,10 +177,39 @@
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             </div>
         </div>
+        
+        <div class="modal hide fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Import a Course</h3>
+            </div>
+            <div class="modal-body">
+                <div class="input-append">
+                    <p>
+                        Please Input Course#: 
+                    </p>
+                    <input class="span2" id="appendedInputButton" size="16" type="text"><button class="btn" type="button">Go!</button>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+
+
+
+
         <script type="text/javascript">
-            $("#myModal").modal({show:false});
+
+            $("#courseModal").modal({show:false});
             $("tbody tr").on("click", function(){        
-                $("#myModal").modal();
+                $("#courseModal").modal();
+            });
+
+            $("#importModal").modal({show:false});
+            $("#addCourseBtn").on("click", function(){
+                $("#importModal").modal();
             });
         </script>
 
