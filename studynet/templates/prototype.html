@@ -7,11 +7,13 @@
 
 </head>
 <body>
+    <!-- Navtigation Bar -->
     <div class="navbar">
         <div class="navbar-inner">
             <a class="brand" href="#">StudyNet</a>
             <ul class="nav">
                 <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Rank</a></li>
                 <li><a href="mailto:littleq0903@gmail.com">Contact Us</a></li>
                 <li><a href="#"></a></li>
             </ul>
@@ -20,7 +22,87 @@
             </form>
         </div>
     </div>
-    
+
+    <!-- Fluid System -->
+    <div class="container-fluid">
+        <div class="row-fluid">
+
+            <!-- Left float -->
+            <div class="span3">
+                <!-- Sidebar -->
+                <div class="well sidebar-nav">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Categories By Department</li>
+                        <li class="active"><a href="#">Computer Science</a></li>
+                        <li><a href="#">Mathematics</a></li>
+                        <li><a href="#">Chinese</a></li>
+                        <li><a href="#">Physics</a></li>
+                        <li><a href="#">Law</a></li>
+                        <li class="divider"></li>
+                        <li class="nav-header">Others</li>
+                        <li><a href="#">Common Courses</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right float -->
+            <div class="span9">
+                <!-- Courses Table -->
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Semester</th>
+                            <th>Course#</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Credit Pt.</th>
+                            <th>Time</th>
+                            <th>Classroom</th>
+                            <th>Department</th>
+                            <th>Like</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>000211011</td>
+                            <td>政治學</td>
+                            <td>蔡中民</td>
+                            <td>3.0</td>
+                            <td>三234</td>
+                            <td>大勇210105</td>
+                            <td>政治系</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <td>1001</td>
+                            <td>000211011</td>
+                            <td>政治學</td>
+                            <td>蔡中民</td>
+                            <td>3.0</td>
+                            <td>三234</td>
+                            <td>大勇210105</td>
+                            <td>政治系</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <td>1001</td>
+                            <td>000211011</td>
+                            <td>政治學</td>
+                            <td>蔡中民</td>
+                            <td>3.0</td>
+                            <td>三234</td>
+                            <td>大勇210105</td>
+                            <td>政治系</td>
+                            <td>25</td>
+                        </tr>
+
+                    </tbody>
+                
+                </table>
+            </div>
+        </div>
+    </div>
 <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
 </body>
 </html>
