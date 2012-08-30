@@ -19,6 +19,28 @@
 
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                    appId      : '142892519093949', // App ID
+                    channelUrl : '/channel.html', // Channel File
+                    status     : true, // check login status
+                    cookie     : true, // enable cookies to allow the server to access the session
+                    xfbml      : true  // parse XFBML
+                    });
+            // Additional initialization code here
+        };
+
+        // Load the SDK Asynchronously
+        (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+         }(document));
+    </script>
     <!-- Navtigation Bar -->
     <div class="navbar">
         <div class="navbar-inner">
@@ -71,7 +93,7 @@
                             <th>Time</th>
                             <th>Classroom</th>
                             <th>Department</th>
-                            <th>Like</th>
+                            <th>Comments</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,7 +106,9 @@
                             <td>三234</td>
                             <td>大勇210105</td>
                             <td>政治系</td>
-                            <td>25</td>
+                            <td>
+                                3
+                            </td>
                         </tr>
                         <tr>
                             <td>1001</td>
@@ -128,14 +152,13 @@
                     <li>Course Number: 000211011</li>
                     <li>Name: 政治學</li>
                     <li>Teacher: 蔡中民</li>
-                    <li>Creadit Point: 3.0</li>
+                    <li>Credit Point: 3.0</li>
                     <li>Time: 三234</li>
                     <li>Classroom: 大勇210105</li>
                     <li>Created by: 政治系</li>
                     <li>Like: 25</li>
                 </ul>
-                <hr />
-                Facebook Comment
+                <div class="fb-comments" data-href="http://example.com" data-num-posts="10" data-width="530"></div>
             </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -143,7 +166,7 @@
         </div>
         <script type="text/javascript">
             $("#myModal").modal({show:false});
-            $("tr").on("click", function(){        
+            $("tbody tr").on("click", function(){        
                 $("#myModal").modal();
             });
         </script>

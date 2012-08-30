@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
     (r'^prototype/', TemplateView.as_view(template_name="prototype.html")),
+    (r'^channel.html', TemplateView.as_view(template_name="fb/channel.html")),
 )
 
 
