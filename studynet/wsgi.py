@@ -18,17 +18,17 @@ import sys
 
 python_path = os.path.join(
         os.path.realpath(os.path.dirname(__file__)),
-        '../../..'
+        '.'
         )
 
 apps_path = os.path.join(
         os.path.realpath(os.path.dirname(__file__)),
-        '../../apps'
+        './apps'
         )
 
 lib_path = os.path.join(
         os.path.realpath(os.path.dirname(__file__)),
-        '../../lib'
+        './lib'
         )
 
 sys.path.insert(0, python_path)
