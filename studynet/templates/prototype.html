@@ -1,16 +1,24 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>StudyNet Prototype</title>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
+    <!-- fluorine -->
+    <script src="{{ STATIC_URL }}js/lib/fluorine/library/jquery/jquery-min.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/fluorine/library/underscore/underscore-min.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/fluorine/library/main/notifier.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/fluorine/library/main/process.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/fluorine/library/main/context.js"></script>
+    <!-- bootstrap -->
+    <script src="{{ STATIC_URL }}js/lib/bootstrap.min.js"></script>
 
 </head>
 <body>
     <!-- Navtigation Bar -->
     <div class="navbar">
         <div class="navbar-inner">
-            <a class="brand" href="#">StudyNet</a>
+            <a class="brand" href="#">Social Study</a>
             <ul class="nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#">Rank</a></li>
@@ -102,13 +110,46 @@
                 </table>
             </div>
         </div>
+
+
+        <!-- Modal -->
+        <div class="modal hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">000211011 政治學</h3>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>Semester: 1001</li>
+                    <li>Course Number: 000211011</li>
+                    <li>Name: 政治學</li>
+                    <li>Teacher: 蔡中民</li>
+                    <li>Creadit Point: 3.0</li>
+                    <li>Time: 三234</li>
+                    <li>Classroom: 大勇210105</li>
+                    <li>Created by: 政治系</li>
+                    <li>Like: 25</li>
+                </ul>
+                <hr />
+                Facebook Comment
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $("#myModal").modal({show:false});
+            $("tr").on("click", function(){        
+                $("#myModal").modal();
+            });
+        </script>
+
+        <hr />
+
+        <footer>
+            <p>© NCCUCS PLSM Labs 2012</p>
+        </footer>
     </div>
-<script src="{{ STATIC_URL }}js/lib/bootstrap.min.js"></script>
-<!-- fluorine -->
-<script src="{{ STATIC_URL }}js/lib/fluorine/library/jquery/jquery-min.js"></script>
-<script src="{{ STATIC_URL }}js/lib/fluorine/library/underscore/underscore-min.js"></script>
-<script src="{{ STATIC_URL }}js/lib/fluorine/library/main/notifier.js"></script>
-<script src="{{ STATIC_URL }}js/lib/fluorine/library/main/process.js"></script>
-<script src="{{ STATIC_URL }}js/lib/fluorine/library/main/context.js"></script>
+
 </body>
 </html>
