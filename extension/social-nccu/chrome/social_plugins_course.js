@@ -6,6 +6,12 @@ var URL_ROOT = "http://127.0.0.1:8090"
 
 // ----
 
+// UI () -> Bool
+var isQryPage = function()
+{
+    return ( 0 != $('.maintain_profile_content_table').length )
+}
+
 // UI () -> UI [DOM]
 var fn$QryDescRow = function()
 {
@@ -15,6 +21,14 @@ var fn$QryDescRow = function()
             {   return null!= ($(this).attr('id')).match("_Qrytt$")  }
          )
 }
+
+var fn$QryDataRow = function()
+{
+    return $('.maintain_profile_content_table tr[id]')
+        .filter(function(){ {   return null!= ($(this).attr('id')).match("_QryTr$")  }})
+}
+
+// ---- 
 
 // UI [DOM] -> UI [Buttom]
 var addBtn = function($doms)
@@ -29,29 +43,6 @@ var addBtn = function($doms)
          
             }
          )
-}
-
-// Vanilla notifier.
-var note = function(name, data)
-{
-    var cb = note.cb[name]
-    if( cb )
-    {   cb(name, data)
-
-    }
-}
-
-note.cb = {}
-note.cb['social-course'] = function(name, data)
-{   
-    // Find the row and parse it.
-    var $row = $(data.currentTarget)
-        .parents('tr[id]')
-        .siblings('tr[id]')
-        .filter(function(){ {   return null!= ($(this).attr('id')).match("_QryTr$")  }})
-        .eq(0)
-
-    ioUpdateCourse(parseInfoRow($row))
 }
 
 // Parse the Qry row and get infos
@@ -97,34 +88,110 @@ var parseInfoRow = function($row)
     )
 }
 
-// UI () -> Bool
-var isQryPage = function()
+// ----
+
+// Vanilla notifier.
+var note = function(name, data)
 {
-    return ( 0 != $('.maintain_profile_content_table').length )
+    var cb = note.cb[name]
+    if( cb )
+    {   cb(name, data)
+
+    }
 }
 
+note.cb = {}
+note.cb['social-course'] = function(name, data)
+{   
+    // Find the row and parse it.
+    var $row = $(data.currentTarget)
+        .parents('tr[id]')
+        .siblings('tr[id]')
+        .filter(function(){ {   return null!= ($(this).attr('id')).match("_QryTr$")  }})
+        .eq(0)
+
+    // Flush background parsed data with this one.
+    ioForwardCourse(parseInfoRow($row)['courseId']).flush()
+}
+
+// Each signal bring left rows of data.
+//
+// Signal (SignalName, UI [DOM])
+note.cb['signal.collect_result'] = function(name, $rows)
+{
+    // Change the $rows.
+    if( 1 != $rows.length )
+    {
+        ioUpdateCourse( parseInfoRow($($rows.pop())) )
+        _.defer(function(){  note('signal.collect_result', $rows) })
+    }
+    else
+    {
+        ioUpdateCourse( parseInfoRow($($rows.pop())) ).flush()  //final
+    }
+}
+
+// ----
+
+// IO CourseData -> { flush: IO () }
 var ioUpdateCourse = function(data)
 {
-    $.post(URL_ROOT+'/course/new/'+data['courseId'], data)
-     .success
-      ( function()
-        {
-        
-        }
-      )
-     .error
-      ( function()
-        {
-      
-        }
-      )
+    ioUpdateCourse.buffer.push(data)
+
+    var fnFlush = function(buffer)
+    {   $.post(URL_ROOT+'/course/update/batch', JSON.stringify(buffer))
+         .success
+          ( function()
+            {
+            
+            }
+          )
+         .error
+          ( function()
+            {
+          
+            }
+          )
+    }
+
+    return {flush: function(){ fnFlush(ioUpdateCourse.buffer) }}
 }
+ioUpdateCourse.buffer = []
+
+// IO CourseId -> { flush: IO () }
+var ioForwardCourse= function(id)
+{
+    ioForwardCourse.buffer.push(id)
+
+    var fnFlush = function(buffer)
+    {   $.post(URL_ROOT+'/course/forward', JSON.stringify(buffer))
+         .success
+          ( function()
+            {
+                // Open new Application: Social Study
+                window.location.href = "http://www.nccu.edu.tw/" 
+            }
+          )
+         .error
+          ( function()
+            {
+                window.location.href = "http://www.nccu.edu.tw/" 
+            }
+          )
+    }
+
+    return {flush: function(){ fnFlush(ioForwardCourse.buffer) }}
+}
+ioForwardCourse.buffer = []
+
+// ----
 
 var main = function()
 {
     if( isQryPage )
     {
         addBtn(fn$QryDescRow())
+        note('signal.collect_result',fn$QryDataRow().toArray())
     }
 }
 
