@@ -3,6 +3,7 @@ var tmpl = {}
 tmpl['btn_social_course'] = "<span class='btn social-course'>加入到 Social Study</span>"
 
 var URL_ROOT = "http://127.0.0.1:8090"
+var SCHOOL = "nccu"
 
 // ----
 
@@ -139,7 +140,7 @@ note.cb['social-course'] = function(name, data)
     }
 
     // Flush background parsed data with this one.
-    ioForwardCourse(parseInfoRow($row)['courseId']).flush()
+    ioForwardCourse( parseInfoRow($row)['courseId'] ).flush()
 }
 
 // Each signal bring left rows of data.
@@ -150,12 +151,16 @@ note.cb['signal.collect_result'] = function(name, $rows)
     // Change the $rows.
     if( 1 != $rows.length )
     {
-        ioUpdateCourse( parseInfoRow($($rows.pop())) )
+        var data = parseInfoRow($($rows.pop()))
+        data['school'] = SCHOOL
+        ioUpdateCourse( data )
         _.defer(function(){  note('signal.collect_result', $rows) })
     }
     else
     {
-        ioUpdateCourse( parseInfoRow($($rows.pop())) ).flush()  //final
+        var data = parseInfoRow($($rows.pop()))
+        data['school'] = SCHOOL
+        ioUpdateCourse( data ).flush()  //final
     }
 }
 
@@ -200,20 +205,16 @@ var ioForwardCourse= function(id)
 
     var fnFlush = function(buffer)
     {   
-        $.post(URL_ROOT+'/courses/forward', JSON.stringify(buffer))
+        var ids = buffer
+        $.post(URL_ROOT+'/courses/forward', JSON.stringify({'school': SCHOOL, 'ids': ids}))
          .success
           ( function()
             {
-                // Open new Application: Social Study
-                window.location.href = "http://www.nccu.edu.tw/" 
             }
           )
          .error
           ( function()
             {
-                console.log(
-                   window.location.href = "http://www.nccu.edu.tw/" 
-                )
 
             }
           )
