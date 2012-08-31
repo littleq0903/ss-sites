@@ -121,6 +121,7 @@ INSTALLED_APPS = (
 
 SITE_APPS = (
     'globals',
+    'courses'
 )
 
 HEROKU_APPS = (

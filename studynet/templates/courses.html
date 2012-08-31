@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block course_active %}active{% endblock %}
+
+{% block head_end %}
+<style type="text/css">
+    .course-table tbody {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block content_with_fluid %}
+
+<!-- Left float -->
+<div class="span3">
+    <!-- Sidebar -->
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">Categories By Department</li>
+            <li class="active"><a href="#">Computer Science</a></li>
+            <li><a href="#">Mathematics</a></li>
+            <li><a href="#">Chinese</a></li>
+            <li><a href="#">Physics</a></li>
+            <li><a href="#">Law</a></li>
+            <li class="divider"></li>
+            <li class="nav-header">Common Courses</li>
+            <li><a href="#">Chinese</a></li>
+            <li><a href="#">English</a></li>
+            <li><a href="#">Science</a></li>
+            <li><a href="#">Society</a></li>
+            <li><a href="#">Humanity</a></li>
+            <li><a href="#">P.E.</a></li>
+            <li><a href="#">Military</a></li>
+            <li><a href="#">Others</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Right float -->
+<div class="span9">
+    <!-- Courses Table -->
+    <div class="btn-group pull-right">
+        <button class="btn" id="addCourseBtn"><span class="icon-plus"></span>Add a Course</button>
+    </div>
+    <h3>Courses</h3>
+
+    <table class="table table-hover course-table">
+        <thead>
+            <tr>
+                <th>Semester</th>
+                <th>Course#</th>
+                <th>Name</th>
+                <th>Teacher</th>
+                <th>Credit Pt.</th>
+                <th>Time</th>
+                <th>Classroom</th>
+                <th>Department</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1001</td>
+                <td>000211011</td>
+                <td>政治學</td>
+                <td>蔡中民</td>
+                <td>3.0</td>
+                <td>三234</td>
+                <td>大勇210105</td>
+                <td>政治系</td>
+                <td>
+                    3
+                </td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>000211011</td>
+                <td>政治學</td>
+                <td>蔡中民</td>
+                <td>3.0</td>
+                <td>三234</td>
+                <td>大勇210105</td>
+                <td>政治系</td>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>000211011</td>
+                <td>政治學</td>
+                <td>蔡中民</td>
+                <td>3.0</td>
+                <td>三234</td>
+                <td>大勇210105</td>
+                <td>政治系</td>
+                <td>25</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+</div>
+</div>
+{% endblock %}
+
+
+{% block modals %}
+<!-- Modal -->
+<div class="modal hide fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">000211011 政治學</h3>
+    </div>
+    <div class="modal-body">
+        <div class="fb-like" style="float:right;" data-href="http://example.com" data-send="true" data-layout="box_count" data-width="300" data-show-faces="true" data-action="recommend"></div>
+        <ul>
+            <li>Semester: 1001</li>
+            <li>Course Number: 000211011</li>
+            <li>Name: 政治學</li>
+            <li>Teacher: 蔡中民</li>
+            <li>Credit Point: 3.0</li>
+            <li>Time: 三234</li>
+            <li>Classroom: 大勇210105</li>
+            <li>Created by: 政治系</li>
+            <li>Like: 25</li>
+        </ul>
+        <div class="fb-comments" data-href="http://example.com" data-num-posts="10" data-width="530"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+
+<div class="modal hide fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Import a Course</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+            Please Input Course#: 
+        </p>
+        <div class="input-append">
+            <input class="span2" id="appendedInputButton" size="16" type="text"><button class="btn" type="button">Go!</button>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $("#courseModal").modal({show:false});
+    $("tbody tr").on("click", function(){        
+            $("#courseModal").modal();
+            });
+
+$("#importModal").modal({show:false});
+$("#addCourseBtn").on("click", function(){
+        $("#importModal").modal();
+        });
+    </script>
+
+    {% endblock %}
+

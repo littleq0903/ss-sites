@@ -11,14 +11,17 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
+    # Module View
+    (r'^courses/', include('courses.urls')),
 )
 
 urlpatterns += patterns('',
     (r'^prototype/', TemplateView.as_view(template_name="prototype.html")),
-    (r'^channel.html', TemplateView.as_view(template_name="fb/channel.html")),
+    (r'^channel\.html', TemplateView.as_view(template_name="fb/channel.html")),
+    (r'^favicon\.ico', 'django.views.generic.simple.redirect_to', {'url': '/static/img/favicon.ico'}),
+    (r'^$', TemplateView.as_view(template_name="home.html")),
 )
 
 

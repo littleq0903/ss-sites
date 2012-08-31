@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block home_active %}active{% endblock %}
+
+{% block content_with_fluid %}
+<div class="hero-unit">
+    <h2>New Study Way in This New Semester</h2>
+    <p>Choosing Courses won't be boring anymore, and will be with fun. So does learning.</p>
+    <p>
+        <a class="btn btn-primary btn-large" href="/courses">
+            Start from here
+        </a>
+    </p>
+</div>
+
+<div class="row-fluid">
+    <div class="span4 well-large">
+        <h3>Technologies</h3>
+        <p>We have self-confidence at all technologies we used to build this website. It's high-tolerance, high-performance and never fall down when you need it.</p>
+        <p>More features are on the way, we promised will provide students a clean, fast and useful system for everything in school.</p>
+    </div>
+    <div class="span4 well-large">
+        <h3>Why Do We Do?</h3>
+        <p>The reason why we spend efforts on this website is only one, convenience of student, which push us to create this website. Because of much crashing on our schools's platforms, students feel much inconvenience, they deserve better one.</p>
+    </div>
+    <div class="span4 well-large">
+        <h3>About Us</h3>
+        <p>Show you who did this.</p>
+    </div>
+</div>
+
+{% endblock %}

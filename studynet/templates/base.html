@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>StudyNet Prototype</title>
+    <title>StudyNet</title>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
     <!-- fluorine -->
     <!--
@@ -46,12 +46,13 @@
     </script>
     {% endblock %}
     <!-- Navtigation Bar -->
-    <div class="navbar navbar-fixed-top" >
+    <div class="navbar navbar-fixed-top navbar-inverse" >
         <div class="navbar-inner" style="padding-left: 10px; padding-right: 10px">
-            <a class="brand" href="#">Social Study</a>
+            <a class="brand" href="/">Social Study</a>
             <ul class="nav">
-                <li><a href="#">Home</a></li>
-                <li class="active"><a href="#">Courses</a></li>
+                {# this is important for activate the buttons on navbar #}
+                <li class="{% block home_active %}{% endblock %}"><a href="/">Home</a></li>
+                <li class="{% block course_active %}{% endblock %}"><a href="/courses">Courses</a></li>
                 <li><a href="mailto:littleq0903@gmail.com">Contact Us</a></li>
                 <li><a href="#"></a></li>
             </ul>
