@@ -21,4 +21,10 @@ class CourseData(models.Model):
     fs_creater = models.CharField(max_length=50)
     fs_full_times = models.IntegerField()
 
+    # property
+    uuid = models.CharField(max_length=40)
+    school = models.CharField(max_length=10)
+
+
+
 
