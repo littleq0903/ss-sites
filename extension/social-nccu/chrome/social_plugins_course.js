@@ -166,7 +166,7 @@ var ioUpdateCourse = function(data)
 {
     var fnFlush = function(buffer)
     {   if(0 == buffer.length ) { return }
-        $.post(URL_ROOT+'/courses/update/batch', JSON.stringify(buffer))
+        $.post(URL_ROOT+'/courses/update/batch/', JSON.stringify(buffer))
          .success
           ( function()
             {
@@ -200,7 +200,7 @@ var ioForwardCourse= function(id)
 
     var fnFlush = function(buffer)
     {   
-        $.post(URL_ROOT+'/courses/forward', JSON.stringify(buffer))
+        $.post(URL_ROOT+'/courses/forward/', JSON.stringify(buffer))
          .success
           ( function()
             {
