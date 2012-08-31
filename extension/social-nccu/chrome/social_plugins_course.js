@@ -110,6 +110,12 @@ note.cb['social-course'] = function(name, data)
         .filter(function(){ {   return null!= ($(this).attr('id')).match("_QryTr$")  }})
         .eq(0)
 
+    // Make sure the couse data sending before forward.
+    if( 0 == ioUpdateCourse.ts_flush )
+    {
+        ioUpdateCourse().flush()
+    }
+
     // Flush background parsed data with this one.
     ioForwardCourse(parseInfoRow($row)['courseId']).flush()
 }
@@ -136,14 +142,13 @@ note.cb['signal.collect_result'] = function(name, $rows)
 // IO CourseData -> { flush: IO () }
 var ioUpdateCourse = function(data)
 {
-    ioUpdateCourse.buffer.push(data)
-
     var fnFlush = function(buffer)
-    {   $.post(URL_ROOT+'/course/update/batch', JSON.stringify(buffer))
+    {   if(0 == buffer.length ) { return }
+        $.post(URL_ROOT+'/course/update/batch', JSON.stringify(buffer))
          .success
           ( function()
             {
-            
+                ioUpdateCourse.ts_flush = Date.now()
             }
           )
          .error
@@ -154,9 +159,17 @@ var ioUpdateCourse = function(data)
           )
     }
 
+    // IO send null should be an acceptable thing ( do no-op is still an instruction ).
+    if( null == data)
+    {
+        return {flush: function(){ fnFlush(ioUpdateCourse.buffer) }}
+    }
+
+    ioUpdateCourse.buffer.push(data)
     return {flush: function(){ fnFlush(ioUpdateCourse.buffer) }}
 }
 ioUpdateCourse.buffer = []
+ioUpdateCourse.ts_flush = 0
 
 // IO CourseId -> { flush: IO () }
 var ioForwardCourse= function(id)
@@ -164,7 +177,8 @@ var ioForwardCourse= function(id)
     ioForwardCourse.buffer.push(id)
 
     var fnFlush = function(buffer)
-    {   $.post(URL_ROOT+'/course/forward', JSON.stringify(buffer))
+    {   
+        $.post(URL_ROOT+'/course/forward', JSON.stringify(buffer))
          .success
           ( function()
             {
@@ -175,7 +189,10 @@ var ioForwardCourse= function(id)
          .error
           ( function()
             {
-                window.location.href = "http://www.nccu.edu.tw/" 
+                console.log(
+                   window.location.href = "http://www.nccu.edu.tw/" 
+                )
+
             }
           )
     }
