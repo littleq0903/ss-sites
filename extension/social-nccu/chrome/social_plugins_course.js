@@ -171,7 +171,7 @@ var ioUpdateCourse = function(data)
 {
     var fnFlush = function(buffer)
     {   if(0 == buffer.length ) { return }
-        $.post(URL_ROOT+'/courses/update/batch', JSON.stringify(buffer))
+        $.post(URL_ROOT+'/courses/update/batch/', JSON.stringify(buffer))
          .success
           ( function()
             {
