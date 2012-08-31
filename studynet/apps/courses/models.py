@@ -25,6 +25,11 @@ class CourseData(models.Model):
     uuid = models.CharField(max_length=40)
     school = models.CharField(max_length=10)
 
+    def save(self, *args, **kwargs):
+        uuid_form = "%s_%s_%s" % (self.school, self.fs_semester, self.fs_course_number)
+        self.uuid = uuid_form
+        super(CourseData, self).save(*args, **kwargs)
+
 
 
 
