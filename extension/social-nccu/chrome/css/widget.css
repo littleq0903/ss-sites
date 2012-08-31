@@ -1,0 +1,10 @@
+
+.btn.social-course
+{
+    color: blue;
+    cursor: pointer;
+    position: relative;
+    left: 100px;
+    text-decoration: underline;
+    white-space: nowrap;
+}
