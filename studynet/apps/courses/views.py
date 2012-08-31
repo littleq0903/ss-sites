@@ -5,8 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from courses.models import CourseData
 
 @csrf_exempt
-def input_view(request, course_id):
-    print "Recieve course_id: %s" % course_id
+def input_view(request):
     for i in request.POST.keys():
         print "%s:%s" % (i, request.POST[i])
 
