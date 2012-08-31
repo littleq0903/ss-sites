@@ -24,8 +24,25 @@ var fn$QryDescRow = function()
 
 var fn$QryDataRow = function()
 {
-    return $('.maintain_profile_content_table tr[id]')
+    var data_rows = $('.maintain_profile_content_table tr[id]')
         .filter(function(){ {   return null!= ($(this).attr('id')).match("_QryTr$")  }})
+        .clone()    // prevent ui change after add some cells.
+        .toArray()
+
+    // Unfortunately, the name of course is not in the info row.
+    // We should manually add it into the DOM.
+    var desc_rows = fn$QryDescRow().toArray()
+    _.each
+    (   desc_rows
+    ,   function(row, idx)
+        {   // The CourseName cell is the head of a description row.
+            // Clone it's infomation and append it into data row.
+            $(data_rows[idx]).children('td[class]:last')
+                .after( $(row).children('td[class]:first').clone().hide() )
+        }
+    )
+
+    return $(data_rows)
 }
 
 // ---- 
@@ -58,7 +75,7 @@ var parseInfoRow = function($row)
     ,   { 'teacher'    : __text }
     ,   { 'credit'     : __text }
     ,   { 'dateTime'   : __text }
-    ,   { 'place'   : __text }
+    ,   { 'place'      : __text }
     ,   { 'syllabus'   : function(td){ return $(td).find('input:first').attr('name')}  }
     ,   { 'way'        : __text }
     ,   { 'isRemote'   : __text }
@@ -72,6 +89,7 @@ var parseInfoRow = function($row)
     ,   { 'isKernel'   : __text }
     ,   { 'numLeft'    : __text }
     ,   { 'numQueue'   : __text }
+    ,   { 'courseName' : __text }
     ]
 
     var tds = $row.find('td')
@@ -109,6 +127,10 @@ note.cb['social-course'] = function(name, data)
         .siblings('tr[id]')
         .filter(function(){ {   return null!= ($(this).attr('id')).match("_QryTr$")  }})
         .eq(0)
+
+    // Unfortunately, the name of course is not in the info row.
+    // We should manually add it into the DOM, even though the course name info is needn't.
+    $row.append('<td style="display:none"></td>')
 
     // Make sure the couse data sending before forward.
     if( 0 == ioUpdateCourse.ts_flush )
