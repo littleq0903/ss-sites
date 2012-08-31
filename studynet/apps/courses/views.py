@@ -1,10 +1,27 @@
 # Create your views here.
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 from courses.utils import save_a_course
+from departments.models import Department
+from courses.models import CourseData
 
 import json
+import random
+
+def all_course_page(request, depart_id=''):
+    if not depart_id:
+        depart_id = random.sample(Department.objects.filter(), 1)[0]
+    dataContext = {
+        "non_general_departments": Department.objects.filter(is_general_cate=False),
+        "general_departments": Department.objects.filter(is_general_cate=True),
+        "current_uuid": depart_id,
+        "courses": CourseData.objects.filter(department=depart_id)
+    }
+    return render_to_response("courses.html", dataContext, context_instance=RequestContext(request))
+
 
 @csrf_exempt
 def input_view(request):
