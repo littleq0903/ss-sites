@@ -105,7 +105,7 @@ var isQryPage = function()
 
 var ioUpdateCourse = function(data)
 {
-    $.post(URL_ROOT+'/course/new/'+data['courseId'], data)
+    $.post(URL_ROOT+'/courses/new/'+data['courseId']+'/', data)
      .success
       ( function()
         {
