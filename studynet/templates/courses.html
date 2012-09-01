@@ -62,8 +62,8 @@
         </thead>
 
         {% for course in courses %}
-        <tbody class="course-{{course.uuid}}">
-            <tr>
+        <tbody>
+            <tr study-course="{{course.uuid}}">
                 <td>{{course.fs_semester}}</td>
                 <td>{{course.fs_course_number}}</td>
                 <td>{{course.get_name}}</td>
@@ -83,64 +83,55 @@
 
 
 {% block modals %}
+
+
 <!-- Modal -->
 <div class="modal hide fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+
+
+<script type="tmpl/underscore" id="modal-course-detail">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">000211011 政治學</h3>
+        <h3 id="myModalLabel"><%=teacher%> - <%=course_name%></h3>
     </div>
     <div class="modal-body">
-        <div class="fb-like" style="float:right;" data-href="http://example.com" data-send="true" data-layout="box_count" data-width="300" data-show-faces="true" data-action="recommend"></div>
+    <div class="fb-like" style="float:right;" data-href="<%=syllabus_link%>" data-send="true" data-layout="box_count" data-width="300" data-show-faces="true" data-action="recommend"></div>
         <ul>
-            <li>Semester: 1001</li>
-            <li>Course Number: 000211011</li>
-            <li>Name: 政治學</li>
-            <li>Teacher: 蔡中民</li>
-            <li>Credit Point: 3.0</li>
-            <li>Time: 三234</li>
-            <li>Classroom: 大勇210105</li>
-            <li>Created by: 政治系</li>
-            <li>Like: 25</li>
+        <li>Semester: <%=semester%></li>
+        <li>Course Number: <%=course_number%></li>
+        <li>Name: <%=course_name%></li>
+        <li>Teacher: <%=teacher%></li>
+        <li>Credit Point: <%=credit%></li>
+        <li>Time: <%=time%></li>
+        <li>Classroom: <%=classroom%></li>
+        <li>Created by: <%=department%></li>
+        <li>Click: <%=click%></li>
         </ul>
-        <div class="fb-comments" data-href="http://example.com" data-num-posts="10" data-width="530"></div>
+        <div class="fb-comments" data-href="<%=syllabus_link%>" data-num-posts="10" data-width="530"></div>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     </div>
-</div>
-
-<div class="modal hide fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Import a Course</h3>
-    </div>
-    <div class="modal-body">
-        <p>
-            Please Input Course#: 
-        </p>
-        <div class="input-append">
-            <input class="span2" id="appendedInputButton" size="16" type="text"><button class="btn" type="button">Go!</button>
-        </div>
-
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    </div>
-</div>
-
+</script>
 
 
 <script type="text/javascript">
     $("#courseModal").modal({show:false});
-    $("tbody tr").on("click", function(){        
-            $("#courseModal").modal();
-            });
+    $("tbody tr").on("click", function(evt){        
+        var course_id = $(evt.srcElement).parent("tr").attr('study-course');
+        $.ajax({
+            url: '/courses/ajax/detail/' + course_id + '/',
+            success: function(res) {
+                $("#courseModal").modal();
+                var content = _.template($("#modal-course-detail").html(), res.data);
+                $("#courseModal").html(content);
+                $(".fb-comments").map(function(t){FB.XFBML.parse(t);});
+                $(".fb-like").map(function(t){FB.XFBML.parse(t);});
+            }
+        }); 
+    } );
+</script>
 
-$("#importModal").modal({show:false});
-$("#addCourseBtn").on("click", function(){
-        $("#importModal").modal();
-        });
-    </script>
-
-    {% endblock %}
+{% endblock %}
 

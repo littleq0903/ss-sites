@@ -35,7 +35,7 @@ def query_course_detail(request, course_id):
         raise Http404
     else:
         resp = {
-            'data': m_course.to_json(),
+            'data': m_course.to_json(detail=True),
             }
 
         return HttpResponse(json.dumps(resp, indent=2, sort_keys=True), content_type='application/json')
