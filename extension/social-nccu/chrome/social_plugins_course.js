@@ -1,8 +1,8 @@
 
 var tmpl = {}
-tmpl['btn_social_course'] = function(courseId)
+tmpl['btn_social_course'] = function(courseId, idRow)
 {   
-    return "<span class='btn social-course' id='c"+courseId+"'>加入到 Social Study</span>" 
+    return "<span class='btn social-course' id='c"+courseId+"' data-idrow='"+idRow+"'>加入到 Social Study</span>" 
 }
 
 tmpl['label_forward_done'] = function(courseId)
@@ -28,7 +28,7 @@ var isQryPage = function()
 }
 
 // UI () -> UI [DOM]
-var fn$QryDescRow = _.memoize
+var fn$QryDescRow =// _.memoize
 (   function()
     {
         return $('.maintain_profile_content_table tr[id]')
@@ -41,7 +41,7 @@ var fn$QryDescRow = _.memoize
 
 // NOTE: Get single row will be a DOM Row, not a (UI Row)
 // UI [DOM]
-var fn$QryDataRow = _.memoize
+var fn$QryDataRow =// _.memoize
 (    function()
      {
         var data_rows = $('.maintain_profile_content_table tr[id]')
@@ -75,7 +75,7 @@ var addBtn = function($doms, ids)
          .each
           ( function(idx)
             {
-                var btn = tmpl['btn_social_course'](ids[idx])
+                var btn = tmpl['btn_social_course'](ids[idx], idx)
                 $(this).after(btn)
             }
           )
@@ -93,7 +93,7 @@ var addBtn = function($doms, ids)
 // Parse the Qry row and get infos
 //
 // UI DOM -> QryResult
-var parseInfoRow = _.memoize
+var parseInfoRow =// _.memoize
 (   function($row)
     {
         var __text = function(td){ return $(td).text().replace(/\s/g,"") }
@@ -155,12 +155,12 @@ note.cb['social-course'] = function(name, data)
     var $row = $(data.currentTarget)
         .parents('tr[id]')
         .siblings('tr[id]')
-        .filter(function(){ {   return null!= ($(this).attr('id')).match("_QryTr$")  }})
-        .eq(0)
+        .filter(function() {   return null!= ($(this).attr('id')).match("_QryTr$")  })
+        .eq($(data.currentTarget).data('idrow'))
 
     // Unfortunately, the name of course is not in the info row.
     // We should manually add it into the DOM, even though the course name info is needn't.
-    $row.append('<td style="display:none"></td>')
+    $row.clone().append('<td style="display:none"></td>')
 
     // Make sure the couse data sending before forward.
     if( 0 == ioUpdateCourse.ts_flush )
@@ -216,12 +216,14 @@ var ioUpdateCourse = function(data)
           ( function()
             {
                 ioUpdateCourse.ts_flush = Date.now()
+                ioUpdateCourse.buffer.length = 0
             }
           )
          .error
           ( function()
             {
-          
+                //FIXME: only for test
+                ioUpdateCourse.buffer.length = 0
             }
           )
     }
@@ -251,6 +253,7 @@ var ioForwardCourse= function(id)
           ( function()
             {
                 note('social-course.forward_done', ids)
+                ioForwardCourse.buffer.length = 0
             }
           )
          .error
@@ -258,6 +261,7 @@ var ioForwardCourse= function(id)
             {
                 //FIXME: only for test
                 note('social-course.forward_done', ids)
+                ioForwardCourse.buffer.length = 0
             }
           )
     }
