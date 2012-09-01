@@ -71,7 +71,10 @@ class CourseData(models.Model):
                 'credit': self.fs_credit_point,
                 'time': self.fs_class_time,
                 'classroom': self.fs_class_room,
-                'department': self.fs_creater}
+                'department': self.fs_creater,
+                'school': self.school,
+                'uuid': self.uuid
+                }
         if detail:
             resp.update({
                 'syllabus_link': self.fs_syllabus_link,

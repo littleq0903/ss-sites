@@ -9,3 +9,12 @@ urlpatterns = patterns('courses.views',
     url(r'^(?P<course_id>\w+)/$', 'courses_page', name="course-page"),
     url(r'^$', 'all_course_page'),
 )
+
+urlpatterns += patterns('courses.ajax',
+    # query by department
+    url(r'^ajax/by_depart/(?P<depart_id>\w+)/$', 'query_course_by_department'),
+    url(r'^ajax/by_depart/(?P<depart_id>\w+)/(?P<limit>\d+)/$', 'query_course_by_department'),
+    url(r'^ajax/by_depart/(?P<depart_id>\w+)/(?P<limit>\d+)/(?P<offset>\d+)/$', 'query_course_by_department'),
+    # query course detail
+    url(r'^ajax/detail/(?P<course_id>\w+)/$', 'query_course_detail')
+)
