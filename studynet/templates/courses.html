@@ -96,7 +96,7 @@
         <h3 id="myModalLabel"><%=teacher%> - <%=course_name%></h3>
     </div>
     <div class="modal-body">
-    <div class="fb-like" style="float:right;" data-href="<%=syllabus_link%>" data-send="true" data-layout="box_count" data-width="300" data-show-faces="true" data-action="recommend"></div>
+    <div class="fb-like" style="float:right;" data-href="<%=fb_target_link%>" data-send="true" data-layout="box_count" data-width="300" data-show-faces="true" data-action="recommend"></div>
         <ul>
         <li>Semester: <%=semester%></li>
         <li>Course Number: <%=course_number%></li>
@@ -108,7 +108,7 @@
         <li>Created by: <%=department%></li>
         <li>Click: <%=click%></li>
         </ul>
-        <div class="fb-comments" data-href="<%=syllabus_link%>" data-num-posts="10" data-width="530"></div>
+        <div class="fb-comments" data-href="<%=fb_target_link%>" data-num-posts="10" data-width="530"></div>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -117,20 +117,37 @@
 
 
 <script type="text/javascript">
-    $("#courseModal").modal({show:false});
-    $("tbody tr").on("click", function(evt){        
-        var course_id = $(evt.srcElement).parent("tr").attr('study-course');
-        $.ajax({
-            url: '/courses/ajax/detail/' + course_id + '/',
-            success: function(res) {
-                $("#courseModal").modal();
-                var content = _.template($("#modal-course-detail").html(), res.data);
-                $("#courseModal").html(content);
-                $(".fb-comments").map(function(t){FB.XFBML.parse(t);});
-                $(".fb-like").map(function(t){FB.XFBML.parse(t);});
-            }
-        }); 
-    } );
+    $(function(){
+        var open_course_modal = function (course_id) {
+            $.ajax({
+                url: '/courses/ajax/detail/' + course_id + '/',
+                success: function(res) {
+                    $("#courseModal").modal();
+                    var content = _.template($("#modal-course-detail").html(), res.data);
+                    $("#courseModal").html(content);
+                    $(".fb-comments").map(function(t){FB.XFBML.parse(t);});
+                    $(".fb-like").map(function(t){FB.XFBML.parse(t);});
+                }
+            }); 
+        };
+
+        $("#courseModal").modal({show:false});
+        $("tbody tr").on("click", function(evt){        
+            var course_id = $(evt.srcElement).parent("tr").attr('study-course');
+            open_course_modal(course_id);
+        } );
+
+        if (window.location.href.search("course_uuid") >= 0) {
+            var params = window.location.href.split("?")[1];
+            var l_params = params.split("&");
+            var result = l_params.filter(function(a){
+                console.log(a);
+                return (a.search("course_uuid") >= 0);    
+            });
+            var course_id = result[0].split("=")[1];
+            open_course_modal(course_id);
+        }
+    });
 </script>
 
 {% endblock %}

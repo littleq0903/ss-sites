@@ -75,6 +75,9 @@ class CourseData(models.Model):
     def get_semester(self):
         return self.fs_semester.split('/')[1]
 
+    def get_fb_target_link(self):
+        return '/courses/depart-%s/?course_uuid=%s' % (self.department.uuid, self.uuid)
+
     def click_one(self):
         m_click, status = CourseClick.objects.get_or_create(course=self)
         m_click.click += 1
@@ -97,6 +100,7 @@ class CourseData(models.Model):
                 }
         if detail:
             resp.update({
+                'fb_target_link': self.get_fb_target_link(),
                 'syllabus_link': self.fs_syllabus_link,
                 'way': self.fs_choose_method,
                 'is_general_course': self.fs_is_common_course,

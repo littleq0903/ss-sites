@@ -26,8 +26,14 @@ def all_course_page(request, depart_id=''):
 
 
 @csrf_exempt
-def input_view(request):
-    return HttpResponse("OK", content_type="text/plain")
+def forward(request, school, course_id):
+    try:
+        m_course = CourseData.objects.get(fs_course_number=course_id, school=school)
+    except CourseData.DoesNotExist:
+        raise Http404
+    else:
+        redirect_url = "/courses/depart-%s?course_uuid=%s" % (m_course.department.uuid, m_course.uuid)
+        return HttpResponseRedirect(redirect_url)
 
 
 @csrf_exempt
