@@ -15,7 +15,10 @@ import random
 
 def all_course_page(request, depart_id=''):
     if not depart_id:
-        depart_id = random.sample(Department.objects.filter(), 1)[0]
+        try:
+            depart_id = random.sample(Department.objects.filter(), 1)[0]
+        except:
+            depart_id = 0
     dataContext = {
         "non_general_departments": Department.objects.filter(is_general_cate=False),
         "general_departments": Department.objects.filter(is_general_cate=True),
