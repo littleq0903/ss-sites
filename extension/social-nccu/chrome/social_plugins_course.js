@@ -9,7 +9,7 @@ tmpl['label_forward_done'] = function(courseId)
 {
     var t = 
     [ "<span class='label forward-done' id='c"+courseId+"'>已加入"
-    , "<a href='"+URL_ROOT+"/courses/"+SCHOOL+"/"+courseId+"' target='_blank'>StudyNet</a>"
+    , "<a href='"+URL_ROOT+"/courses/"+SCHOOL+"/"+courseId+"' target='_blank'>Social Study</a>"
     , "</span>"
     ].join("")
 
