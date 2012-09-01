@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 from courses.models import CourseData
 
+import simplejson as json
+
 def save_a_course(course_id, kwargs):
-    print "Trying to save a course: %s" % course_id
+    print "[save_a_course] Trying to save a course: %s" % course_id
+    print "[save_a_course:data]"
+    print json.dumps(kwargs, sort_keys = True, indent=2)
     try:
         m_course = CourseData.objects.get(fs_course_number = course_id)
     except CourseData.DoesNotExist:
+        print '[save_a_course] Course ID: %d, does not exist, create this course.'
         params = {
                 'fs_semester': kwargs['semester'],
                 'fs_course_number': kwargs['courseId'],
@@ -33,6 +38,7 @@ def save_a_course(course_id, kwargs):
         for name in name_exception:
             if creater_text[0:2] == name:
                 if name == u'商學' or name == u'商院':
+                    print '[name = %s] matched name exception, break.' % name
                     params['fs_common_course_category'] = u'商學院'
                 params['fs_is_common_course'] = True
                 break
@@ -48,6 +54,8 @@ def save_a_course(course_id, kwargs):
 
         m_course = CourseData(**params)
         m_course.save()
+        print '[save_a_course] data saved.'
         return True
     else:
+        print 'Course does exist, do nothing.'
         return False

@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 # Create your views here.
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response
@@ -8,7 +10,7 @@ from courses.utils import save_a_course
 from departments.models import Department
 from courses.models import CourseData
 
-import json
+import simplejson as json
 import random
 
 def all_course_page(request, depart_id=''):
@@ -33,23 +35,19 @@ def batch_update(request):
     try:
         data = json.loads(request.body)
     except Exception as e:
-        print e
-        return HttpResponse("OK", content_type="text/plain")
+        print "[batch_update: json.loads] error:", e
+        return HttpResponse("false", content_type="text/plain")
 
-    print "==recieve data=="
-    print data
+    print "[batch_update: recieve data]"
+    print json.dumps(data, sort_keys=True, indent=2)
 
-    print '++length: %s' % len(data)
     for course in data:
-        print '===each data==='
-        print course
         try:
             print save_a_course(course['courseId'], course)
         except Exception as e:
-            print e
-            print "exception occurred!"
+            print "[batch_update] course ID: %s exception occurred: %s" % (course['courseId'], e)
 
-    return HttpResponse("OK2", content_type="text/plain")
+    return HttpResponse("true", content_type="text/plain")
 
 def courses_page(request):
     return HttpResponseRedirect("/courses/")
