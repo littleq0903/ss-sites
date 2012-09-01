@@ -23,7 +23,7 @@
         }
     ],
 
-    "permissions": [ "http://127.0.0.1:8090/" ],
+    "permissions": [ "http://127.0.0.1:8090/", "http://nccu-study-net.herokuapp.com/" ],
 
     "icons": {
         "16": "icons/logo-16.png",
