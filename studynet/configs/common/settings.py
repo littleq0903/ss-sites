@@ -123,6 +123,7 @@ INSTALLED_APPS = (
 
 SITE_APPS = (
     'globals',
+    'departments',
     'courses'
 )
 
