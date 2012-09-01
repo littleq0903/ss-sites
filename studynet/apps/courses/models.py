@@ -3,12 +3,19 @@ from django.db import models
 from departments.models import Department
 
 # Create your models here.
+class CourseDataManager(models.Manager):
+    def get_by_click(self, depart_id):
+        return sorted(super(CourseDataManager, self).filter(department=depart_id), key=lambda x:x.click, reverse=True)
+
 
 class CourseData(models.Model):
     """
         Model for courses data from school
         fs_: prefix stands for this attribute came from school data.
     """
+
+    objects = CourseDataManager()
+
     # From school data
     fs_semester = models.CharField(max_length=5)
     fs_course_number = models.CharField(max_length=20)
@@ -28,7 +35,7 @@ class CourseData(models.Model):
     # property
     uuid = models.AutoField(primary_key=True)
     school = models.CharField(max_length=10)
-    department = models.ForeignKey('departments.Department')
+    department = models.ForeignKey('departments.Department', null=True, on_delete=models.SET_NULL)
     create_time = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -46,6 +53,12 @@ class CourseData(models.Model):
         except:
             return text
 
+    def count_click(self):
+        m_click, status = CourseClick.objects.get_or_create(course=self)
+        if status:
+            m_click.save()
+        return m_click.click
+    click = property(count_click)
 
     def get_name(self, lang='chinese'):
         return self.get_attr('fs_course_name', lang)
@@ -62,6 +75,12 @@ class CourseData(models.Model):
     def get_semester(self):
         return self.fs_semester.split('/')[1]
 
+    def click_one(self):
+        m_click, status = CourseClick.objects.get_or_create(course=self)
+        m_click.click += 1
+        m_click.save()
+        return m_click
+
     def to_json(self, detail=False, lang='chinese', *args, **kwargs):
         resp = {
                 'semester': self.fs_semester,
@@ -73,7 +92,8 @@ class CourseData(models.Model):
                 'classroom': self.fs_class_room,
                 'department': self.fs_creater,
                 'school': self.school,
-                'uuid': self.uuid
+                'uuid': self.uuid,
+                'click': self.click,
                 }
         if detail:
             resp.update({
@@ -103,3 +123,6 @@ class CourseData(models.Model):
         self.department = m_department
         super(CourseData, self).save(*args, **kwargs)
 
+class CourseClick(models.Model):
+    click = models.PositiveIntegerField(default=0)
+    course = models.ForeignKey(CourseData, related_name='+')
