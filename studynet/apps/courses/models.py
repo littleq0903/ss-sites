@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from departments.models import Department
 
@@ -25,7 +26,7 @@ class CourseData(models.Model):
 
 
     # property
-    uuid = models.CharField(max_length=50)
+    uuid = models.AutoField(primary_key=True)
     school = models.CharField(max_length=10)
     department = models.ForeignKey('departments.Department')
     create_time = models.DateTimeField(auto_now_add=True)
@@ -80,10 +81,11 @@ class CourseData(models.Model):
         return resp
 
     def save(self, *args, **kwargs):
-        uuid_form = "%s_%s_%s" % (self.school, self.fs_semester.replace('/',''), self.fs_course_number)
+
+        # TODO: remove this in the future going global
         if not self.school:
             self.school = 'nccu'
-        self.uuid = uuid_form
+
         self.fs_syllabus_link = "http://wa.nccu.edu.tw/qrytor/schmtpe.aspx?yy=%s&smt=%s&sub=%s" % (self.get_year(), self.get_semester(), self.fs_course_number)
 
         if self.fs_is_common_course:
@@ -92,11 +94,9 @@ class CourseData(models.Model):
         else:
             depart_name = self.fs_creater
             is_g = False
+
         m_department, status = Department.objects.get_or_create(name=depart_name, school=self.school, is_general_cate=is_g)
-        print "QQ"
-        print m_department
         m_department.save()
-        print "QQ"
         self.department = m_department
         super(CourseData, self).save(*args, **kwargs)
 

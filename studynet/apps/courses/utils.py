@@ -57,5 +57,6 @@ def save_a_course(course_id, kwargs):
         print '[save_a_course] data saved.'
         return True
     else:
-        print 'Course does exist, do nothing.'
+        print '[save_a_course:log] m_course = %s' % m_course
+        print '[save_a_course] Course does exist, do nothing.'
         return False
