@@ -59,8 +59,9 @@
                 <th>上課地點</th>
             </tr>
         </thead>
-            {% for course in courses %}
-        <tbody>
+
+        {% for course in courses %}
+        <tbody class="course-{{course.uuid}}">
             <tr>
                 <td>{{course.fs_semester}}</td>
                 <td>{{course.fs_course_number}}</td>
@@ -71,7 +72,7 @@
                 <td>{{course.fs_class_room}}</td>
             </tr>
         </tbody>
-            {% endfor %}
+        {% endfor %}
 
     </table>
 </div>

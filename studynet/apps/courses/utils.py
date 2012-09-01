@@ -10,7 +10,7 @@ def save_a_course(course_id, kwargs):
     try:
         m_course = CourseData.objects.get(fs_course_number = course_id)
     except CourseData.DoesNotExist:
-        print '[save_a_course] Course ID: %d, does not exist, create this course.'
+        print '[save_a_course] Course ID: %s, does not exist, create this course.' % course_id
         params = {
                 'fs_semester': kwargs['semester'],
                 'fs_course_number': kwargs['courseId'],
