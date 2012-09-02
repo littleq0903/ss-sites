@@ -105,18 +105,20 @@
         <h3 id="myModalLabel"><%=teacher%> - <%=course_name%></h3>
     </div>
     <div class="modal-body">
-    <div class="fb-like" style="float:right;" data-href="<%=fb_target_link%>" data-send="true" data-layout="box_count" data-width="300" data-show-faces="true" data-action="recommend"></div>
+        <div class="fb-like" data-send="true" data-href="<%=fb_target_link%>" data-width="540" data-show-faces="true"></div>
+        <div class="well-large">
         <ul>
-        <li>Semester: <%=semester%></li>
-        <li>Course Number: <%=course_number%></li>
-        <li>Name: <%=course_name%></li>
-        <li>Teacher: <%=teacher%></li>
-        <li>Credit Point: <%=credit%></li>
-        <li>Time: <%=time%></li>
-        <li>Classroom: <%=classroom%></li>
-        <li>Created by: <%=department%></li>
-        <li>Click: <%=click%></li>
+            <li>學期: <%=semester%></li>
+            <li>課程代號: <%=course_number%></li>
+            <li>姓名: <%=course_name%></li>
+            <li>教授: <%=teacher%></li>
+            <li>學分數: <%=credit%></li>
+            <li>上課時間: <%=time%></li>
+            <li>上課教室: <%=classroom%></li>
+            <li>開課系所: <%=department%></li>
+            <li>點閱數: <%=click%></li>
         </ul>
+        </div>
         <div class="fb-comments" data-href="<%=fb_target_link%>" data-num-posts="10" data-width="530"></div>
     </div>
     <div class="modal-footer">
