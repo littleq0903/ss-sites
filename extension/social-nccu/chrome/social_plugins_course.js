@@ -16,7 +16,8 @@ tmpl['label_forward_done'] = function(courseId)
     return t
 }
 
-var URL_ROOT = "http://127.0.0.1:8090"
+//var URL_ROOT = "http://127.0.0.1:8090"
+var URL_ROOT = "http://socialstudy.tw"
 var SCHOOL = "nccu"
 
 // ----
