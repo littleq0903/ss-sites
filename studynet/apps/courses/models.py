@@ -76,7 +76,7 @@ class CourseData(models.Model):
         return self.fs_semester.split('/')[1]
 
     def get_fb_target_link(self):
-        return '/courses/depart-%s/?course_uuid=%s' % (self.department.uuid, self.uuid)
+        return 'http://socialstudy.tw/courses/depart-%s/?course_uuid=%s' % (self.department.uuid, self.uuid)
 
     def click_one(self):
         m_click, status = CourseClick.objects.get_or_create(course=self)
