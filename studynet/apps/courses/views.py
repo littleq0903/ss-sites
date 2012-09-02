@@ -55,6 +55,9 @@ def batch_update(request):
             save_a_course(course['courseId'], course)
         except Exception as e:
             print "[batch_update] course ID: %s exception occurred: %s" % (course['courseId'], e)
+            import traceback, os.pth
+            top = traceback.extract_stack()[-1]
+            print ", ".join([type(e).__name__, os.path.basename(top[0]), str(top[1])])
 
     return HttpResponse("true", content_type="text/plain")
 
