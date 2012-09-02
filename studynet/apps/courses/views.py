@@ -52,7 +52,7 @@ def batch_update(request):
 
     for course in data:
         try:
-            print save_a_course(course['courseId'], course)
+            save_a_course(course['courseId'], course)
         except Exception as e:
             print "[batch_update] course ID: %s exception occurred: %s" % (course['courseId'], e)
 
