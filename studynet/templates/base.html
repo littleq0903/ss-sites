@@ -49,8 +49,11 @@
             // Add share dialog attached on share button
             $(".fb-share-btn").on('click', function(evt){
                 FB.ui({
-                    method: "send",
-                    name: "Social Study 政大選課評論",
+                    method: "feed",
+                    name: "Social Study",
+                    caption: "政大選課評論網",
+                    desciption: "看選課系統選課太無聊了嗎？試試看 Social Study 吧！看看 FB 的好友對於選課怎麼說",
+                    picture: "http://socialstudy.tw/static/img/nccu_logo.png",
                     link: "http://socialstudy.tw/"
                 })
             });
