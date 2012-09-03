@@ -2,10 +2,50 @@
 
 {% block home_active %}active{% endblock %}
 
+{% block head_end %}
+<style type="text/css">
+    .video-div {
+        width: 400px;
+        height: 280px;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        padding: 4px;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+    }
+    .ss-hero-unit {
+        height: 295px;
+    }
+    p.ss-video-caption {
+        font-size: 13px;
+        line-height: 1.5em;
+
+    }
+</style>
+
+{% endblock %}
+
 {% block content_with_fluid %}
-<div class="hero-unit">
+<div class="hero-unit ss-hero-unit">
+    <div class="video-div pull-right">
+
+        <object bgcolor='#ffffff' data='http://www.twitch.tv/widgets/archive_embed_player.swf' height='244' id='clip_embed_player_flash' type='application/x-shockwave-flash' width='400' class="pull-right"><param name='movie' value='http://www.twitch.tv/widgets/archive_embed_player.swf'><param name='allowScriptAccess' value='always'><param name='allowNetworking' value='all'><param name='allowFullScreen' value='true'><param name='flashvars' value='title=%E4%BA%8C%E9%9A%8E%E9%81%B8%E8%AA%B2%E5%BF%97%E9%A1%98%E6%8E%92%E5%BA%8F%E3%80%81%E6%A0%A1%E5%9C%92%E6%8E%88%E6%AC%8A%E8%BB%9F%E9%AB%94%E3%80%81+Social+Study%E3%80%81%E5%AE%BF%E7%B6%B2++%E6%95%99%E5%AD%B8+%289%2F3%29&auto_play=false&start_volume=25&hostname=www.twitch.tv&archive_id=330934185&channel=thisopenj'></object>
+
+        <center>
+            <p class="ss-video-caption">第二階段選課介紹影片，感謝社會系
+                <a target="_blank" href="https://www.facebook.com/thisopenj">Han Jiangping</a>
+                同學為我們介紹 Social Study
+            </p>
+        </center>
+    </div>
     <h2>新學期。新開始</h2>
     <p>和同學一起選課、上課、討論，都變得不再那麼無聊：）給政大學生的一個禮物。</p>
+    <p>還不知道怎麼選課嗎？看看右邊的影片吧！</p>
+    <br />
+    
     <p>
         <a class="btn btn-primary btn-large" href="/courses">
             按這裡開始吧！
