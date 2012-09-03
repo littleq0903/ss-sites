@@ -17,18 +17,17 @@
     <!-- Sidebar -->
     <div class="well sidebar-nav">
         <ul class="nav nav-list depart-list">
-            
-            <li class="nav-header">Categories By Department</li>
 
-            {% for non_general_department in non_general_departments %}
-            <li class="depart-{{non_general_department.uuid}}"><a href="/courses/depart-{{non_general_department.uuid}}">{{ non_general_department.name }}</a></li>
-            {% endfor %}
-
-            <li class="divider"></li>
             <li class="nav-header">Common Courses</li>
-
             {% for general_department in general_departments %}
             <li class="depart-{{general_department.uuid}}"><a href="/courses/depart-{{general_department.uuid}}">{{ general_department.name }}</a></li>
+            {% endfor %}
+            
+            <li class="divider"></li>
+
+            <li class="nav-header">Categories By Department</li>
+            {% for non_general_department in non_general_departments %}
+            <li class="depart-{{non_general_department.uuid}}"><a href="/courses/depart-{{non_general_department.uuid}}">{{ non_general_department.name }}</a></li>
             {% endfor %}
         </ul>
         <script type="text/javascript">
