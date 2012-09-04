@@ -9,23 +9,24 @@ tmpl['label_forward_done'] = function(courseId)
 {
     var t = 
     [ "<span class='label forward-done' id='c"+courseId+"'>已加入"
-    , "<a href='"+URL_ROOT+"/courses/"+SCHOOL+"/"+courseId+"' target='_blank'>Social Study</a>"
+    , "<a href='"+ENV.URL_ROOT+"/courses/"+ENV.SCHOOL+"/"+courseId+"' target='_blank'>Social Study</a>"
     , "</span>"
     ].join("")
 
     return t
 }
 
+// Use ENV instead.
 //var URL_ROOT = "http://127.0.0.1:8090"
-var URL_ROOT = "http://socialstudy.tw"
-var SCHOOL = "nccu"
+//var URL_ROOT = "http://socialstudy.tw"
+//var SCHOOL = "nccu"
 
 // ----
 
 // UI () -> Bool
 var isQryPage = function()
 {
-    return ( 0 != $('.maintain_profile_content_table').length )
+    return ( 0 != $('#FilterDiv').length )
 }
 
 // UI () -> UI [DOM]
@@ -193,14 +194,14 @@ note.cb['signal.collect_result'] = function(name, $rows)
     if( 1 != $rows.length )
     {
         var data = parseInfoRow($($rows.pop()))
-        data['school'] = SCHOOL
+        data['school'] = ENV.SCHOOL
         ioUpdateCourse( data )
         _.defer(function(){  note('signal.collect_result', $rows) })
     }
     else
     {
         var data = parseInfoRow($($rows.pop()))
-        data['school'] = SCHOOL
+        data['school'] = ENV.SCHOOL
         ioUpdateCourse( data ).flush()  //final
     }
 }
@@ -212,7 +213,7 @@ var ioUpdateCourse = function(data)
 {
     var fnFlush = function(buffer)
     {   if(0 == buffer.length ) { return }
-        $.post(URL_ROOT+'/courses/update/batch/', JSON.stringify(buffer))
+        $.post(ENV.URL_ROOT+'/courses/update/batch/', JSON.stringify(buffer))
          .success
           ( function()
             {
@@ -249,7 +250,7 @@ var ioForwardCourse= function(id)
     var fnFlush = function(buffer)
     {   
         var ids = buffer
-        $.post(URL_ROOT+'/courses/forward', JSON.stringify({'school': SCHOOL, 'ids': ids}))
+        $.post(ENV.URL_ROOT+'/courses/forward', JSON.stringify({'school': ENV.SCHOOL, 'ids': ids}))
          .success
           ( function()
             {
@@ -271,11 +272,29 @@ var ioForwardCourse= function(id)
 }
 ioForwardCourse.buffer = []
 
+var ioConfig = function(cb)
+{
+    $.getJSON(chrome.extension.getURL('/config/config.json'))
+     .success
+      ( function(cfg)
+        {   $.getJSON( chrome.extension.getURL('/config/config.local.json') )
+             .success
+             (  function(cfg_local)
+                {
+                   var env = _.extend(cfg, cfg_local) 
+                   if( cb ) { cb(env) }
+                }
+             )
+        }
+      )
+}
+
 // ----
 
-var main = function()
+var main = function(env)
 {
-    if( isQryPage )
+    ENV = env
+    if( isQryPage() )
     {
         var courseIds = function()
         {
@@ -292,5 +311,5 @@ var main = function()
     }
 }
 
-main()
+ioConfig(main)
 

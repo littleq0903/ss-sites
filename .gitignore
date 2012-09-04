@@ -17,3 +17,6 @@ pip-log.txt
 # Django specified files
 settings_local.py
 studynet/static
+
+# extension
+extension/social-nccu/chrome/config/config.local.json
