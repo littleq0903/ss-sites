@@ -2,10 +2,50 @@
 
 {% block home_active %}active{% endblock %}
 
+{% block head_end %}
+<style type="text/css">
+    .video-div {
+        width: 400px;
+        height: 280px;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        padding: 4px;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+    }
+    .ss-hero-unit {
+        height: 295px;
+    }
+    p.ss-video-caption {
+        font-size: 13px;
+        line-height: 1.5em;
+
+    }
+</style>
+
+{% endblock %}
+
 {% block content_with_fluid %}
-<div class="hero-unit">
+<div class="hero-unit ss-hero-unit">
+    <div class="video-div pull-right">
+
+        <object bgcolor='#ffffff' data='http://www.twitch.tv/widgets/archive_embed_player.swf' height='244' id='clip_embed_player_flash' type='application/x-shockwave-flash' width='400' class="pull-right"><param name='movie' value='http://www.twitch.tv/widgets/archive_embed_player.swf'><param name='allowScriptAccess' value='always'><param name='allowNetworking' value='all'><param name='allowFullScreen' value='true'><param name='flashvars' value='title=%E4%BA%8C%E9%9A%8E%E9%81%B8%E8%AA%B2%E5%BF%97%E9%A1%98%E6%8E%92%E5%BA%8F%E3%80%81%E6%A0%A1%E5%9C%92%E6%8E%88%E6%AC%8A%E8%BB%9F%E9%AB%94%E3%80%81+Social+Study%E3%80%81%E5%AE%BF%E7%B6%B2++%E6%95%99%E5%AD%B8+%289%2F3%29&auto_play=false&start_volume=25&hostname=www.twitch.tv&archive_id=330934185&channel=thisopenj'></object>
+
+        <center>
+            <p class="ss-video-caption">第二階段選課介紹影片，感謝社會系
+                <a target="_blank" href="https://www.facebook.com/thisopenj">Han Jiangping</a>
+                同學為我們介紹 Social Study
+            </p>
+        </center>
+    </div>
     <h2>新學期。新開始</h2>
     <p>和同學一起選課、上課、討論，都變得不再那麼無聊：）給政大學生的一個禮物。</p>
+    <p>還不知道怎麼選課嗎？看看右邊的影片吧！</p>
+    <br />
+    
     <p>
         <a class="btn btn-primary btn-large" href="/courses">
             按這裡開始吧！
@@ -16,45 +56,46 @@
 <div class="row-fluid">
     <div class="span4 well-large">
         <h3>科技始終來自於人性</h3>
+        <p>對於大學生來說，選課、上課和討論一直都是一件很麻煩的事情，原因是在這個科技發達的時代，卻沒有好的解決方案來作這些事情，「科技始終來自於人性」，因此我們利用科技，提供你最時尚的網路環境，讓這些事情都像使用臉書般容易。</p>
+
         <center class="well-large">
             <img class="img-polaroid" src="{{ STATIC_URL }}img/schoolserver_sucks.jpeg" alt="" />
         </center>
-        <p>對於大學生來說，選課、上課和討論一直都是一件很麻煩的事情，原因是在這個科技發達的時代，卻沒有好的解決方案來作這些事情，「科技始終來自於人性」，因此我們利用科技，提供你最時尚的網路環境，讓這些事情都像使用臉書般容易。</p>
     </div>
     <div class="span4 well-large">
         <h3>這是什麼？</h3>
 
-        <a target="_blank" href="https://chrome.google.com/webstore/detail/lpihnfnmcibhakaadhjhdfppndhomkid">
-        <div class="well">
-            <center>
-                <img src="{{ STATIC_URL }}img/available-on-chrome-store.png" alt="" />
-            </center>
-        </div>
-        </a>
 
         <p>
             這是一個和政大學生息息相關的課程網站，我們將會在未來推出幾個我們規劃好的功能，讓你在上課時完全不想上臉書只想要上這個網站。
         </p>
         <p>
-            我們建議使用 Google Chrome 瀏覽器的您按下上方 Web Store 的連結，前往下載我們的「
+            我們建議使用 Google Chrome 瀏覽器的您按下下方 Web Store 的連結，前往下載我們的「
             <a target="_blank" href="https://chrome.google.com/webstore/detail/lpihnfnmcibhakaadhjhdfppndhomkid">
-            Social Study - NCCU
+                Social Study - NCCU
             </a>
             」擴充套件，他將會讓你的政大首頁和選課系統變得生動活潑。
         </p>
         <p>
             覺得功能不夠？別急，好戲還在後頭！
         </p>
+        <a target="_blank" href="https://chrome.google.com/webstore/detail/lpihnfnmcibhakaadhjhdfppndhomkid">
+            <div class="well">
+                <center>
+                    <img src="{{ STATIC_URL }}img/available-on-chrome-store.png" alt="" />
+                </center>
+            </div>
+        </a>
 
     </div>
     <div class="span4 well-large">
         <h3>關於我們</h3>
+        <p>我們只是一群阿宅，我們知道大家也是，所以我們做出了讓大家可以「宅」著學習的方式，希望大家會喜歡。</p>
         <div class="well-large">
         <center>
             <img class="img-polaroid" src="{{ STATIC_URL }}img/hackathon.png" alt="" />
         </center>
         </div>
-        <p>我們只是一群阿宅，我們知道大家也是，所以我們做出了讓大家可以「宅」著學習的方式，希望大家會喜歡。</p>
     </div>
 </div>
 
