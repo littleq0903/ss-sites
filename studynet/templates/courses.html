@@ -17,13 +17,16 @@
     <!-- Sidebar -->
     <div class="well sidebar-nav">
         <ul class="nav nav-list depart-list">
+            <li class="depart-all">
+                <a href="/courses/depart-all">全部前 100 名</a>
+            </li>
+
+            <li class="divider"></li>
 
             <li class="nav-header">Common Courses</li>
             {% for general_department in general_departments %}
             <li class="depart-{{general_department.uuid}}"><a href="/courses/depart-{{general_department.uuid}}">{{ general_department.name }}</a></li>
             {% endfor %}
-            
-            <li class="divider"></li>
 
             <li class="nav-header">Categories By Department</li>
             {% for non_general_department in non_general_departments %}

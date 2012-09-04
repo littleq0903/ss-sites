@@ -5,6 +5,8 @@ from departments.models import Department
 # Create your models here.
 class CourseDataManager(models.Manager):
     def get_by_click(self, depart_id):
+        if depart_id == 'all':
+            return sorted(super(CourseDataManager, self).all()[0:100], key=lambda x:x.click, reverse=True)
         return sorted(super(CourseDataManager, self).filter(department=depart_id), key=lambda x:x.click, reverse=True)
 
 

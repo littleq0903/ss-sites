@@ -15,16 +15,15 @@ import random
 
 def all_course_page(request, depart_id=''):
     if not depart_id:
-        try:
-            depart_id = random.sample(Department.objects.filter(), 1)[0]
-        except:
-            depart_id = 0
+        ALL = True
+        depart_id = 'all'
     dataContext = {
         "non_general_departments": Department.objects.filter(is_general_cate=False),
         "general_departments": Department.objects.filter(is_general_cate=True),
         "current_uuid": depart_id,
         "courses": CourseData.objects.get_by_click(depart_id)
     }
+
     return render_to_response("courses.html", dataContext, context_instance=RequestContext(request))
 
 
