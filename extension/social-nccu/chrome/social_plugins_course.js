@@ -288,6 +288,7 @@ var ioConfig = function(cb)
              .error // no matter whether local exists, the next step still works.
              (  function()
                 {
+                   var env = cfg
                    if( cb ) { cb(env) }
                 }
              )
