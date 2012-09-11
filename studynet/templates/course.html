@@ -50,7 +50,7 @@ var postCourse = function ()
     FB.api(
             '/me/socialstudytw:study',
             'post',
-            { course: '{{ course_link }}' },
+            { course: '{{ course_url }}' },
             function(response) {
                 console.log(response);
                 if (!response || response.error) {
