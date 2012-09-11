@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block og_tags %}
+        <meta property="fb:app_id" content="417930571597341" /> 
+        <meta property="og:type"   content="socialstudytw:course" /> 
+        <meta property="og:url"    content="{{ course_url }}" /> 
+        <meta property="og:title"  content="{{ course.course_name }}" /> 
+        <meta property="og:image"  content="https://s-static.ak.fbcdn.net/images/devsite/attachment_blank.png" /> 
+{% endblock %}
+
+{% block content_with_fluid %}
+<div class="row-fluid well-large">
+    <div class="span9">
+        <div class="fb-like" data-send="true" data-href="<%=fb_target_link%>" data-width="540" data-show-faces="true"></div>
+    </div>
+    <div class="span3">
+        <div class="btn-group">
+            <button id="studied_btn" class="btn">Studied?</button>
+        </div>
+    </div>
+</div>
+
+<div class="span4">
+    <div class="well">
+    <ul>
+        <li>Semester: {{ course.semester }}</li>
+        <li>Syllabus Link: 
+            <a target="_blank" href="{{ course.syllabus_link }}">Syllabus</a>
+        </li>
+        <li>Name: {{ course.course_name }}</li>
+        <li>Professor: {{ course.teacher }}</li>
+        <li>Credit: {{ course.credit }}</li>
+        <li>Time: {{ course.time }}</li>
+        <li>Classromm: {{ course.classroom }}</li>
+        <li>Department: {{ course.department }}</li>
+        <li>Click: {{ course.click }}</li>
+    </ul>
+    </div>
+
+</div>
+
+<div class="span4">
+    <div class="fb-comments" data-href="{{ course.fb_target_link }}" data-num-posts="10" data-width="530"></div>
+</div>
+    
+
+<script type="text/javascript">
+var postCourse = function ()
+{
+    FB.api(
+            '/me/socialstudytw:course',
+            'post',
+            { course: '{{ course_link }}' },
+            function(response) {
+                console.log(response);
+                if (!response || response.error) {
+                    alert('Error occured');
+                } else {
+                    alert('Course was successful! Action ID: ' + response.id);
+                }
+            }
+            );
+}
+
+$("#studied_btn").click(function(){
+    postCourse();        
+});
+
+
+</script>
+{% endblock %}

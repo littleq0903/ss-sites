@@ -131,6 +131,7 @@
 
 <script type="text/javascript">
     $(function(){
+            /*
         var open_course_modal = function (course_id) {
             $.ajax({
                 url: '/courses/ajax/detail/' + course_id + '/',
@@ -142,7 +143,12 @@
                     $(".fb-like").map(function(t){FB.XFBML.parse(t);});
                 }
             }); 
-        };
+            };
+            */
+        var open_course_modal = function(course_id) {
+            window.location = "/courses/course-" + course_id;
+        }
+
 
         $("#courseModal").modal({show:false});
         $("tbody tr").on("click", function(evt){        

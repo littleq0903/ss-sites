@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+          xmlns:fb="https://www.facebook.com/2008/fbml">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# socialstudytw: http://ogp.me/ns/fb/socialstudytw#">
     <meta charset="UTF-8">
     <meta name="author" content="LittleQ"/>
     <meta name="description" content="政大選課評論系統，用學校選課系統選課太無聊嗎？來試試看 Social Study 吧！"/>
@@ -22,6 +23,9 @@
     <script src="{{ STATIC_URL }}js/lib/bootstrap.min.js"></script>
 
     {% block head_end %}
+    {% endblock %}
+
+    {% block og_tags %}
     {% endblock %}
     <! -- Google Analytics -->
     <script type="text/javascript">
@@ -105,23 +109,24 @@
         {% block modals %}
         {% endblock %}
 
-        <hr />
-
-        <footer>
-            <!--
-            <div class="pull-right">
-                <a href="https://chrome.google.com/webstore/detail/lpihnfnmcibhakaadhjhdfppndhomkid">
-                    <img src="{{ STATIC_URL }}img/available-on-chrome-store.png" alt="" height="50"/>
-                </a>
-            </div>
-            -->
-            <div>
-                <center>
-                <p>© LittleQ X Snowman 2012</p>
-                </center>
-            </div>
-        </footer>
     </div>
+
+    <hr />
+
+    <footer>
+        <!--
+        <div class="pull-right">
+            <a href="https://chrome.google.com/webstore/detail/lpihnfnmcibhakaadhjhdfppndhomkid">
+                <img src="{{ STATIC_URL }}img/available-on-chrome-store.png" alt="" height="50"/>
+            </a>
+        </div>
+        -->
+        <div>
+            <center>
+            <p>© LittleQ X Snowman 2012</p>
+            </center>
+        </div>
+    </footer>
 
 </body>
 </html>

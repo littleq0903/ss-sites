@@ -80,6 +80,9 @@ class CourseData(models.Model):
     def get_fb_target_link(self):
         return 'http://socialstudy.tw/courses/depart-%s/?course_uuid=%s' % (self.department.uuid, self.uuid)
 
+    def get_url(self):
+        return 'http://socialstudy.tw/courses/course-%s/' % (self.uuid)
+
     def click_one(self):
         m_click, status = CourseClick.objects.get_or_create(course=self)
         m_click.click += 1

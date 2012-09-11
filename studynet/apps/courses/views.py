@@ -26,6 +26,20 @@ def all_course_page(request, depart_id=''):
 
     return render_to_response("courses.html", dataContext, context_instance=RequestContext(request))
 
+@csrf_exempt
+def course_detail(request, course_id):
+    try:
+        m_course = CourseData.objects.get(uuid=course_id)
+    except CourseData.DoesNotExist:
+        raise Http404
+    else:
+        dataContext = {
+                "course": m_course.to_json(detail=True),
+                "course_url": m_course.get_url()
+        }
+        return render_to_response("course.html", dataContext, context_instance=RequestContext(request))
+
+
 
 @csrf_exempt
 def forward(request, school, course_id):
