@@ -47,10 +47,12 @@
 <script type="text/javascript">
 var postCourse = function ()
 {
+    var score = parseInt(prompt("How much score did you get in this course?"));
     FB.api(
             '/me/socialstudytw:study',
             'post',
-            { course: '{{ course_url }}' },
+            { course: '{{ course_url }}',
+              score: score },
             function(response) {
                 console.log(response);
                 if (!response || response.error) {
