@@ -36,11 +36,12 @@ def do_ship(request):
 # Temporarily bootstraping Javascript should be replaced in application.js .
 APPLICATION_JS = """
     self.app = {}
+    self.app.settings  = { 'DEBUG': true }
     self.app.bootstrap = {}
     self.app.bootstrap.onArrive = function(id)
     {   
         $('script[subpage="'+id+'"]').remove()
-    console.log("[DEBUG] Subpage arrived: ",id)
+        if( true == self.app.settings.DEBUG ){ console.log("[DEBUG] Subpage arrived: ",id) }
         $('#'+id).replaceWith($('[subpage="'+id+'"]'))
         $('[subpage="'+id+'"]').attr('id',id)
 
