@@ -1,5 +1,5 @@
 
-<div page='home'>
+<div subpage='home'>
     {% extends "base/base.html" %}
 
     {% block home_active %}active{% endblock %}
@@ -102,8 +102,12 @@
     </div>
 
     {% endblock %}
+
+    {% block subpage_end %}
+
 </div> <!-- page done-->
 
 <!-- For Bootstraping: notify this subpage is done.  -->
 <script type="application/javascript"> self.app.bootstrap.onArrive("home")</script>
 
+    {% endblock %}
