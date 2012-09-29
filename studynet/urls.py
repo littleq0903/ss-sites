@@ -13,6 +13,14 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
+    # note: In my concepts about individual client/server application,
+    # the bootstrap server should be a separated process, 
+    # and should handle both client/server boostraping.
+    #   
+    # This is just for compromising with usual server-side frameworks.
+    # And will only bootstrap the client application.
+    url(r'^bootstrap/$', 'bootstrap.views.ship'),
+
     # Module View
     (r'^courses/', include('courses.urls')),
 )

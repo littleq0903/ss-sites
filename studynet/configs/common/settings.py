@@ -106,6 +106,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     'studynet/templates',
+    'apps/bootstrap',
 )
 
 INSTALLED_APPS = (
@@ -124,7 +125,8 @@ INSTALLED_APPS = (
 SITE_APPS = (
     'globals',
     'departments',
-    'courses'
+    'courses',
+    'bootstrap',
 )
 
 HEROKU_APPS = (

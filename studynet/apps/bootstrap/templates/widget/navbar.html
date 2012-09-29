@@ -1,0 +1,22 @@
+
+    <!-- Navtigation Bar -->
+    <div class="navbar navbar-fixed-top navbar-inverse" >
+        <div class="navbar-inner" style="padding-left: 10px; padding-right: 10px">
+            <a class="brand" href="/">Social Study</a>
+            <ul class="nav">
+                {# this is important for activate the buttons on navbar #}
+                <li class="{% block home_active %}{% endblock %}"><a href="/">Home</a></li>
+                <li class="{% block course_active %}{% endblock %}"><a href="/courses">Courses</a></li>
+                <li><a href="mailto:littleq0903+socialstudy@gmail.com">Contact Us</a></li>
+                <li><a href="#"></a></li>
+            </ul>
+
+            <ul class="nav pull-right">
+                <li>
+                    <a class="fb-share-btn" href="#">
+                        <i class="icon-share-alt icon-white"></i> Share to Facebook
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>

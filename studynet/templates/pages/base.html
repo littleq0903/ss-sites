@@ -1,0 +1,88 @@
+
+    {% block fb_root %}
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '417930571597341', // App ID
+                channelUrl : '/channel.html', // Channel File
+                status     : true, // check login status
+                cookie     : true, // enable cookies to allow the server to access the session
+                xfbml      : true  // parse XFBML
+            });
+            // Additional initialization code here
+            // Add share dialog attached on share button
+            $(".fb-share-btn").on('click', function(evt){
+                FB.ui({
+                    method: "feed",
+                    name: "Social Study",
+                    caption: "政大選課評論網",
+                    desciption: "看選課系統選課太無聊了嗎？試試看 Social Study 吧！看看 FB 的好友對於選課怎麼說",
+                    picture: "http://socialstudy.tw/static/img/nccu_logo.png",
+                    link: "http://socialstudy.tw/"
+                })
+            });
+        };
+
+        // Load the SDK Asynchronously
+        (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+         }(document));
+    </script>
+    {% endblock %}
+    <!-- Navtigation Bar -->
+    <div class="navbar navbar-fixed-top navbar-inverse" >
+        <div class="navbar-inner" style="padding-left: 10px; padding-right: 10px">
+            <a class="brand" href="/">Social Study</a>
+            <ul class="nav">
+                {# this is important for activate the buttons on navbar #}
+                <li class="{% block home_active %}{% endblock %}"><a href="/">Home</a></li>
+                <li class="{% block course_active %}{% endblock %}"><a href="/courses">Courses</a></li>
+                <li><a href="mailto:littleq0903+socialstudy@gmail.com">Contact Us</a></li>
+                <li><a href="#"></a></li>
+            </ul>
+
+            <ul class="nav pull-right">
+                <li>
+                    <a class="fb-share-btn" href="#">
+                        <i class="icon-share-alt icon-white"></i> Share to Facebook
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Fluid System -->
+    <div class="container-fluid" style="padding-top: 60px;">
+        <div class="row-fluid">
+
+        {% block content_with_fluid %}
+        {% endblock %}
+
+
+        {% block modals %}
+        {% endblock %}
+
+    </div>
+
+    <hr />
+
+    <footer>
+        <!--
+        <div class="pull-right">
+            <a href="https://chrome.google.com/webstore/detail/lpihnfnmcibhakaadhjhdfppndhomkid">
+                <img src="{{ STATIC_URL }}img/available-on-chrome-store.png" alt="" height="50"/>
+            </a>
+        </div>
+        -->
+        <div>
+            <center>
+            <p>© LittleQ X Snowman 2012</p>
+            </center>
+        </div>
+    </footer>
+
