@@ -39,9 +39,11 @@ APPLICATION_JS = """
     self.app.bootstrap = {}
     self.app.bootstrap.onArrive = function(id)
     {   
-    //console.log("[DEBUG] Subpage arrived: ",id)
+        $('script[subpage="'+id+'"]').remove()
+    console.log("[DEBUG] Subpage arrived: ",id)
         $('#'+id).replaceWith($('[subpage="'+id+'"]'))
         $('[subpage="'+id+'"]').attr('id',id)
+
     }
 
 """
