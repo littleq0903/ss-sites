@@ -1,0 +1,111 @@
+
+<div subpage="course" class="subpage" >
+
+    {% extends "base/base.html" %}
+
+    {% block og_tags %}
+            <meta property="fb:app_id" content="417930571597341" /> 
+            <meta property="og:type"   content="socialstudytw:course" /> 
+            <meta property="og:url"    content="{{ course_url }}" /> 
+            <meta property="og:title"  content="{{ course.course_name }}" /> 
+            <meta property="og:image"  content="http://socialstudy.tw/static/img/nccu_logo.png" /> 
+    {% endblock %}
+
+    {% block content_with_fluid %}
+    <div class="row-fluid well-large">
+        <div class="span9">
+            <div class="fb-like" data-send="true" data-href="{{ course.fb_target_link }}" data-width="540" data-show-faces="true"></div>
+        </div>
+        <div class="span3">
+            <div class="btn-group">
+                <button id="studied_btn" class="btn">Studied?</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="span4">
+        <div class="well">
+        <ul>
+            <li>Semester: {{ course.semester }}</li>
+            <li>Syllabus Link: 
+                <a target="_blank" href="{{ course.syllabus_link }}">Syllabus</a>
+            </li>
+            <li>Name: {{ course.course_name }}</li>
+            <li>Professor: {{ course.teacher }}</li>
+            <li>Credit: {{ course.credit }}</li>
+            <li>Time: {{ course.time }}</li>
+            <li>Classromm: {{ course.classroom }}</li>
+            <li>Department: {{ course.department }}</li>
+            <li>Click: {{ course.click }}</li>
+        </ul>
+        </div>
+
+    </div>
+
+    <div class="span4">
+        <div class="fb-comments" data-href="{{ course.fb_target_link }}" data-num-posts="10" data-width="530"></div>
+    </div>
+        
+
+    <script type="text/javascript">
+    var postCourse = function ()
+    {
+        var score = parseInt(prompt("How much score did you get in this course?"));
+        FB.api(
+                '/me/socialstudytw:study',
+                'post',
+                { course: '{{ course_url }}',
+                  score: score },
+                function(response) {
+                    console.log(response);
+                    if (!response || response.error) {
+                        showAlert('You had performed this action on Facebook.');
+                    } else {
+                        showAlert('This information has been added to your timeline.');
+                    }
+                }
+                );
+    }
+
+    $("#studied_btn").click(function(){
+        postCourse();        
+    });
+
+
+    </script>
+    {% endblock %}
+
+    {% block modals %}
+
+    <div class="modal hide fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>Studied</h3>
+        </div>
+
+        <div class="modal-body">
+            <p id="modal-body-p"></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        function showAlert(alert_s) {
+            $("#modal-body-p").html(alert_s);
+            $("#alertModal").modal();
+        }
+    </script>
+
+    {% endblock %}
+
+{% block subpage_end %}
+
+</div> <!-- page done-->
+
+<!-- For Bootstraping: notify this subpage is done.  -->
+<script type="application/javascript" subpage="course" > self.app.bootstrap.onArrive("course")</script>
+
+{% endblock %}

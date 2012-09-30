@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     # This is just for compromising with usual server-side frameworks.
     # And will only bootstrap the client application.
     url(r'^bootstrap/$', 'bootstrap.views.ship'),
+#    url(r'^$', 'bootstrap.views.ship'),
 
     # Module View
     (r'^courses/', include('courses.urls')),

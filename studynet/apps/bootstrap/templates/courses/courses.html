@@ -1,0 +1,187 @@
+
+<div subpage='courses' class="subpage">
+
+{% extends "base/base.html" %}
+
+{% block course_active %}active{% endblock %}
+
+{% block head_end %}
+<style type="text/css">
+    .course-table tbody {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block content_with_fluid %}
+
+<!-- Left float -->
+<div class="span3">
+    <!-- Sidebar -->
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list depart-list">
+            <li class="depart-all">
+                <a href="/courses/depart-all">全部前 100 名</a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li class="nav-header">Common Courses</li>
+            {% for general_department in general_departments %}
+            <li class="depart-{{general_department.uuid}}"><a href="/courses/depart-{{general_department.uuid}}">{{ general_department.name }}</a></li>
+            {% endfor %}
+
+            <li class="nav-header">Categories By Department</li>
+            {% for non_general_department in non_general_departments %}
+            <li class="depart-{{non_general_department.uuid}}"><a href="/courses/depart-{{non_general_department.uuid}}">{{ non_general_department.name }}</a></li>
+            {% endfor %}
+        </ul>
+        <script type="text/javascript">
+            $("ul.depart-list li.depart-{{ current_uuid }}").addClass("active");
+        </script>
+    </div>
+</div>
+
+<!-- Right float -->
+<div class="span9">
+    <!-- Courses Table -->
+    <!--
+    <div class="btn-group pull-right">
+        <button class="btn" id="addCourseBtn"><span class="icon-plus"></span>Add a Course</button>
+    </div>
+    -->
+    <h3>Courses</h3>
+
+    <div class="alert">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>覺得課程資料不太夠？</strong>別著急，並前往
+        <a href="http://wa.nccu.edu.tw/QryTor/" target="_blank">
+        政大選課系統
+        </a>
+        查詢你找的那堂課，並按下「加入 Social Study」，就會在這裡看到囉！
+    </div>
+
+    <table class="table table-hover course-table">
+        <thead>
+            <tr>
+                <th>學期</th>
+                <th>課程代碼</th>
+                <th>名稱</th>
+                <th>教授</th>
+                <th>學分數</th>
+                <th>上課時間</th>
+                <th>上課地點</th>
+                <th>點閱數</th>
+            </tr>
+        </thead>
+
+        {% for course in courses %}
+        <tbody>
+            <tr study-course="{{course.uuid}}">
+                <td>{{course.fs_semester}}</td>
+                <td>{{course.fs_course_number}}</td>
+                <td>{{course.get_name}}</td>
+                <td>{{course.get_teacher}}</td>
+                <td>{{course.fs_credit_point}}</td>
+                <td>{{course.fs_class_time}}</td>
+                <td>{{course.fs_class_room}}</td>
+                <td>{{course.click}}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+
+    </table>
+</div>
+</div>
+{% endblock %}
+
+
+{% block modals %}
+
+
+<!-- Modal -->
+<div class="modal hide fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+
+
+<script type="tmpl/underscore" id="modal-course-detail">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel"><%=teacher%> - <%=course_name%></h3>
+    </div>
+    <div class="modal-body">
+        <div class="fb-like" data-send="true" data-href="<%=fb_target_link%>" data-width="540" data-show-faces="true"></div>
+        <div class="well-large">
+        <ul>
+            <li>學期: <%=semester%></li>
+            <li>課程代號: <%=course_number%></li>
+            <li>姓名: <%=course_name%></li>
+            <li>教授: <%=teacher%></li>
+            <li>學分數: <%=credit%></li>
+            <li>上課時間: <%=time%></li>
+            <li>上課教室: <%=classroom%></li>
+            <li>開課系所: <%=department%></li>
+            <li>點閱數: <%=click%></li>
+        </ul>
+        </div>
+        <div class="fb-comments" data-href="<%=fb_target_link%>" data-num-posts="10" data-width="530"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</script>
+
+
+<script type="text/javascript">
+    $(function(){
+            /*
+        var open_course_modal = function (course_id) {
+            $.ajax({
+                url: '/courses/ajax/detail/' + course_id + '/',
+                success: function(res) {
+                    $("#courseModal").modal();
+                    var content = _.template($("#modal-course-detail").html(), res.data);
+                    $("#courseModal").html(content);
+                    $(".fb-comments").map(function(t){FB.XFBML.parse(t);});
+                    $(".fb-like").map(function(t){FB.XFBML.parse(t);});
+                }
+            }); 
+            };
+            */
+        var open_course_modal = function(course_id) {
+            window.location = "/courses/course-" + course_id;
+        }
+
+
+        $("#courseModal").modal({show:false});
+        $("tbody tr").on("click", function(evt){        
+            var course_id = $(evt.srcElement).parent("tr").attr('study-course');
+            open_course_modal(course_id);
+        } );
+
+        if (window.location.href.search("course_uuid") >= 0) {
+            var params = window.location.href.split("?")[1];
+            var l_params = params.split("&");
+            var result = l_params.filter(function(a){
+                console.log(a);
+                return (a.search("course_uuid") >= 0);    
+            });
+            var course_id = result[0].split("=")[1];
+            open_course_modal(course_id);
+        }
+
+    });
+</script>
+
+{% endblock %}
+
+
+
+{% block subpage_end %}
+
+</div> <!-- page done-->
+
+<!-- For Bootstraping: notify this subpage is done.  -->
+<script type="application/javascript" subpage="courses" > self.app.bootstrap.onArrive("courses")</script>
+
+{% endblock %}

@@ -22,15 +22,15 @@ def do_ship(request):
       'course_js' : "/** Merged Javascript file here **/",
       'course_css': "/** Merged and Compiled LESS file here **/",
       'course_js' : "/** Merged Javascript file here **/",
-      'application_css': "/** Merged and Compiled LESS file here **/",
+      'application_css': "/** Merged and Compiled LESS file here **/"+APPLICATION_CSS,
       'application_js' : "/** Merged Javascript file here **/"+APPLICATION_JS,
     }
 
     # context_instance for STATIC_URL in templates.
     yield render_to_string("application/initialize.html", resources, context_instance=RequestContext(request) ).ljust(4096) 
     yield render_to_string("home/home.html", resources, context_instance=RequestContext(request) ).ljust(4096)
-    #yield render_to_string("course/course.html", resources ).ljust(4096)
-    #yield render_to_string("courses/courses.html", resources ).ljust(4096) 
+    yield render_to_string("course/course.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
+    yield render_to_string("courses/courses.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
     yield render_to_string("application/finalize.html", resources, context_instance=RequestContext(request) ).ljust(4096) 
 
 # Temporarily bootstraping Javascript should be replaced in application.js .
@@ -44,7 +44,18 @@ APPLICATION_JS = """
         if( true == self.app.settings.DEBUG ){ console.log("[DEBUG] Subpage arrived: ",id) }
         $('#'+id).replaceWith($('[subpage="'+id+'"]'))
         $('[subpage="'+id+'"]').attr('id',id)
-
     }
 
+"""
+
+APPLICATION_CSS = """
+    div.subpage
+    {
+        display:none;
+    }
+
+    div.subpage.active
+    {
+        display:block;
+    }
 """
