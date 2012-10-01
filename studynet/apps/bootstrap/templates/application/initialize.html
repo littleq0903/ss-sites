@@ -1,4 +1,6 @@
 
+{% load compress %}
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
           xmlns:fb="https://www.facebook.com/2008/fbml">
@@ -17,9 +19,20 @@
     <script src="{{ STATIC_URL }}js/lib/fluorine/library/main/context.js"></script>
     -->
 
+    <!-- 
     <script src="{{ STATIC_URL }}js/lib/fluorine/build/notifier.js"></script>
     <script src="{{ STATIC_URL }}js/lib/fluorine/build/process.js"></script>
     <script src="{{ STATIC_URL }}js/lib/fluorine/build/context.js"></script>
+    -->
+
+    <!-- Testing coffeescript -->
+
+    {% compress js %}
+    <script type='application/coffeescript' src="{{ STATIC_URL }}js/lib/fluorine/source/notifier/notifier.coffee"></script>
+    <script type='application/coffeescript' src="{{ STATIC_URL }}js/lib/fluorine/source/process/process.coffee"></script>
+    <script type='application/coffeescript' src="{{ STATIC_URL }}js/lib/fluorine/source/context/context.coffee"></script>
+    {% endcompress %}
+
 
     <!-- twitter-bootstrap -->
     <script src="{{ STATIC_URL }}js/lib/jquery/jquery-min.js"></script>

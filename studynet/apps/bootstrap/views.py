@@ -1,5 +1,6 @@
 # Not real BigPipe yet, but HTTP streaming only. 
 
+from django import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.views.decorators.http import condition
