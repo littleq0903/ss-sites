@@ -1,4 +1,0 @@
-
-// Bootstraping the application.
-
-

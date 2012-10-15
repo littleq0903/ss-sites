@@ -12,6 +12,9 @@
     <title>Social Study</title>
 
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
+
+    <link rel="stylesheet/less" href="{{ STATIC_URL }}less/application.less" />
+
     <!-- fluorine -->
     <!--
     <script src="{{ STATIC_URL }}js/lib/fluorine/library/main/notifier.js"></script>
@@ -25,19 +28,28 @@
     <script src="{{ STATIC_URL }}js/lib/fluorine/build/context.js"></script>
     -->
 
-    <!-- Testing coffeescript -->
-
-    {% compress js %}
-    <script type='application/coffeescript' src="{{ STATIC_URL }}js/lib/fluorine/source/notifier/notifier.coffee"></script>
-    <script type='application/coffeescript' src="{{ STATIC_URL }}js/lib/fluorine/source/process/process.coffee"></script>
-    <script type='application/coffeescript' src="{{ STATIC_URL }}js/lib/fluorine/source/context/context.coffee"></script>
-    {% endcompress %}
-
 
     <!-- twitter-bootstrap -->
     <script src="{{ STATIC_URL }}js/lib/jquery/jquery-min.js"></script>
     <script src="{{ STATIC_URL }}js/lib/underscore/underscore-min.js"></script>
     <script src="{{ STATIC_URL }}js/lib/twitter-bootstrap/twitter-bootstrap.min.js"></script>
+
+    <script src="{{ STATIC_URL }}js/lib/less/less.min.js"></script>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/lib/pagedown/theme.css" />
+    <script src="{{ STATIC_URL }}js/lib/pagedown/Markdown.Converter.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/pagedown/Markdown.Converter.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/pagedown/Markdown.Sanitizer.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/pagedown/Markdown.Editor.js"></script>
+
+
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/fluorine/build/fluorine/notifier.js"></script>
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/fluorine/build/fluorine/process.js"></script>
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/fluorine/build/fluorine/context.js"></script>
+
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/main/settings.js"></script>
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/main/bootstrap.js"></script>
+
 
     {% block head_end %}
     {% endblock %}
@@ -54,7 +66,6 @@
 
     <!-- Merged CSS -->
     <style type="text/css">
-    {{ application_css|safe }}
     </style>
 
     <!-- /Bootstraping -->
@@ -88,3 +99,6 @@
     <div class="subpage" id="course" >
     </div>
 
+    <!-- templates -->
+    <div class="subpage" id="template">
+    </div>

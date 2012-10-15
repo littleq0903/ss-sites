@@ -2,6 +2,7 @@
 <div subpage='home' class="subpage active" >
     {% extends "base/base.html" %}
 
+
     {% block home_active %}active{% endblock %}
 
     {% block head_end %}
@@ -31,31 +32,28 @@
     {% endblock %}
 
     {% block content_with_fluid %}
-    <div class="hero-unit ss-hero-unit">
-        <div class="video-div pull-right">
 
-            <object bgcolor='#ffffff' data='http://www.twitch.tv/widgets/archive_embed_player.swf' height='244' id='clip_embed_player_flash' type='application/x-shockwave-flash' width='400' class="pull-right"><param name='movie' value='http://www.twitch.tv/widgets/archive_embed_player.swf'><param name='allowScriptAccess' value='always'><param name='allowNetworking' value='all'><param name='allowFullScreen' value='true'><param name='flashvars' value='title=%E4%BA%8C%E9%9A%8E%E9%81%B8%E8%AA%B2%E5%BF%97%E9%A1%98%E6%8E%92%E5%BA%8F%E3%80%81%E6%A0%A1%E5%9C%92%E6%8E%88%E6%AC%8A%E8%BB%9F%E9%AB%94%E3%80%81+Social+Study%E3%80%81%E5%AE%BF%E7%B6%B2++%E6%95%99%E5%AD%B8+%289%2F3%29&auto_play=false&start_volume=25&hostname=www.twitch.tv&archive_id=330934185&channel=thisopenj'></object>
+    <div class="container-fluid">
 
-            <center>
-                <p class="ss-video-caption">第二階段選課介紹影片，感謝社會系
-                    <a target="_blank" href="https://www.facebook.com/thisopenj">Han Jiangping</a>
-                    同學為我們介紹 Social Study
-                </p>
-            </center>
+        <ul class="home-tabs-nav nav-pills nav" id="home-tabs-nav">
+          <li class="active">
+            <a href="#">編寫筆記</a>
+          </li>
+          <li><a href="#">檢視課表</a></li>
+          <li><a href="#">使用指引</a></li>
+        </ul>
+
+        <div class="container-fluid home-tabs" id="home-tabs"> 
+
+            {%include "widget/note-editor.html"%}
+            {%include "widget/user-guide.html"%}
+
         </div>
-        <h2>新學期。新開始</h2>
-        <p>和同學一起選課、上課、討論，都變得不再那麼無聊：）給政大學生的一個禮物。</p>
-        <p>還不知道怎麼選課嗎？看看右邊的影片吧！</p>
-        <br />
-        
-        <p>
-            <a class="btn btn-primary btn-large" href="/courses">
-                按這裡開始吧！
-            </a>
-        </p>
-    </div>
+    </div> <!-- main area -->
 
     <div class="row-fluid">
+            {%include "widget/activities.html"%}
+
         <div class="span4 well-large">
             <h3>科技始終來自於人性</h3>
             <p>對於大學生來說，選課、上課和討論一直都是一件很麻煩的事情，原因是在這個科技發達的時代，卻沒有好的解決方案來作這些事情，「科技始終來自於人性」，因此我們利用科技，提供你最時尚的網路環境，讓這些事情都像使用臉書般容易。</p>

@@ -1,7 +1,8 @@
 # Not real BigPipe yet, but HTTP streaming only. 
 
-from django import settings
+#from django import settings
 from django.http import HttpResponse
+from django.core.cache import cache
 from django.template.loader import render_to_string
 from django.views.decorators.http import condition
 from django.template import RequestContext
@@ -15,7 +16,10 @@ def ship(request):
 
 def do_ship(request):
 
-    # '.' will cause empty content.
+    # for debugging. TODO: remove while deploy.
+    #cache.clear()
+
+    # character '.' will cause empty content.
     resources = { 
       'home_css': "/** Merged and Compiled LESS file here **/",
       'home_js' : "/** Merged Javascript file here **/",
@@ -23,7 +27,7 @@ def do_ship(request):
       'course_js' : "/** Merged Javascript file here **/",
       'course_css': "/** Merged and Compiled LESS file here **/",
       'course_js' : "/** Merged Javascript file here **/",
-      'application_css': "/** Merged and Compiled LESS file here **/"+APPLICATION_CSS,
+      'application_css': "/** Merged and Compiled LESS file here **/",
       'application_js' : "/** Merged Javascript file here **/"+APPLICATION_JS,
     }
 
@@ -36,15 +40,26 @@ def do_ship(request):
 
 # Temporarily bootstraping Javascript should be replaced in application.js .
 APPLICATION_JS = """
-    self.app = {}
-    self.app.settings  = { 'DEBUG': true }
+    self.app = self.app || {}
+    self.app.settings  = self.app.settings || {}
     self.app.bootstrap = {}
     self.app.bootstrap.onArrive = function(id)
     {   
         $('script[subpage="'+id+'"]').remove()
         if( true == self.app.settings.DEBUG ){ console.log("[DEBUG] Subpage arrived: ",id) }
-        $('#'+id).replaceWith($('[subpage="'+id+'"]'))
-        $('[subpage="'+id+'"]').attr('id',id)
+
+        var $subpage = $('[subpage="'+id+'"]')
+
+        // Template will not be append into normal place.
+        if(! $subpage.hasClass('template') )
+        {
+            $('#'+id).replaceWith($subpage)
+            $('[subpage="'+id+'"]').attr('id',id)
+        }
+        else
+        {
+            $('#template').append($subpage)
+        }
     }
 
 """

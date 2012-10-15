@@ -169,12 +169,16 @@ LOGGING = {
 }
 
 COMPRESS_ENABLED = True
+COMPRESS_REBUILD_TIMEOUT = 30    
+COMPRESS_OFFIILE = True
 
 # Make sure you have `coffee` and `lessc` commands.
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/coco', 'coco -cbp'),
     ('application/coffeescript', 'coffee --compile --stdio'),
-    ('text/less', 'lessc {infile} {outfile}'),  
+    ('application/coco', 'coco -cbp'),
+    ('stylesheet/less', 'lessc {infile} {outfile}'),  
 )
 
 
