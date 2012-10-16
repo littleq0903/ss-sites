@@ -34,6 +34,7 @@ def do_ship(request):
     # context_instance for STATIC_URL in templates.
     yield render_to_string("application/initialize.html", resources, context_instance=RequestContext(request) ).ljust(4096) 
     yield render_to_string("home/home.html", resources, context_instance=RequestContext(request) ).ljust(4096)
+    yield render_to_string("widget/activity.html", resources, context_instance=RequestContext(request) ).ljust(4096)
     yield render_to_string("course/course.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
     yield render_to_string("courses/courses.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
     yield render_to_string("application/finalize.html", resources, context_instance=RequestContext(request) ).ljust(4096) 

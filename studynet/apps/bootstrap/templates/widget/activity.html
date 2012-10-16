@@ -1,0 +1,18 @@
+
+<div subpage="activity" class="subpage template" >
+  <li class="span2 activity">
+    <div class="thumbnail __template">
+      <img src="http://placehold.it/300x200" alt="">
+      <h3>Thumbnail label</h3>
+      <p>Thumbnail caption...</p>
+    </div>
+  </li>
+
+{% block subpage_end %}
+
+</div> <!-- page done-->
+
+<!-- For Bootstraping: notify this subpage is done.  -->
+<script type="application/javascript" subpage="activity" > self.app.bootstrap.onArrive("activity")</script>
+
+{% endblock %}
