@@ -7,6 +7,7 @@ body
 .wmd-panel
 {
 	min-width: 400px;
+    height: 390px;  /*Fixed panel*/
 }
 
 .wmd-button-bar 
@@ -17,7 +18,8 @@ body
 
 .wmd-input 
 { 
-	height: 300px;
+	height: 385px;
+	max-height: 385px;
 	width: 100%;
 	max-width:100%;
 	background-color: Gainsboro;
@@ -27,6 +29,8 @@ body
 .wmd-preview 
 { 
 	background-color: #c0e0ff; 
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .wmd-button-row 
