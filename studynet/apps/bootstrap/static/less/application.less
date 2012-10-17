@@ -16,6 +16,13 @@ body
 // ---- home ----
 .activities
 {
+    display: none;  // unless active.
+
+    &.active
+    {
+        display:block;
+    }
+
     .activity
     {
         background-color: white;    // default value
@@ -27,7 +34,7 @@ body
         &.active
         {
             background-color:cyan;
-            margin-top: -10px;      // leave handler space for user.
+            margin-top: 15px;      // leave handler space for user.
             z-index: 1;
         }
     }    

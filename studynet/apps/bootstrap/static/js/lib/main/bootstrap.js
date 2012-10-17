@@ -22,27 +22,21 @@ self.app.activeChannel = function(type)
     $('.activities').find('[channel="'+type+'"]').addClass('.active')
 }
 
-// Find a filter to match the activity.
-//
-// :: ChannelType -> ( Activity -> Boolean )
-self.app.makeFilter = function(type)
+// :: Action -> UI DOM Channel
+self.app.filterChannels = function(act)
 {
-    var simpleMatch = function(type)
+    var channels = $('.activities').toArray()
+    var result = _.filter
+    (  channels
+    ,  function(ch)
     {
-        return function(act)
-        {
-            return ( undefined != _.find(act.Categories, function(cat){ return cat == type} )) 
-        }
+        var attr = $(ch).attr('channel')
+        if( 'all' == attr ) { return true; } 
+        return ( undefined != _.find(act.Categories, function(cat){ return cat == attr }) )
     }
-
-    var dispatch = 
-    {   'all': function(act){ return true } 
-    ,   'friend': simpleMatch('friend')
-    ,   'system': simpleMatch('system')
-    }
-
-    return dispatch[type]
-}
+    )
+    return result
+}   
 
 // Render an activity object into a template.
 //
@@ -60,6 +54,7 @@ self.app.renderActivity = function(act)
             .find('h3')
                 .text(act.Category)
                 .end()
+            .data('Id',act.Id)
             .click
              (  function(e)
              {  var act_dom = this
@@ -91,18 +86,23 @@ self.app.offsetNewActivity = function(channel, overlap)
     // css class ".active" is for multi channel activities.
     if( 1 == $(channel).find('.activity').length )
     {
+        // Invisible activities can't detect offset ( will be 0 )... 
+        // return $(channel).offset().left + Number($(channel).css('padding-left').replace('px',""))
+        // Fortunately our activities are in the same place.
+        //    
         // Offset must add margins of the container.
-        return $(channel).offset().left + Number($(channel).css('padding-left').replace('px',""))
+        return ($('.activities:visible').eq(0).offset().left + Number($(channel).css('padding-left').replace('px',"")) )
     }
     else 
     {
         var offset_overlap = 0
+        var gap = overlap ? 0 : 5   // gap between not merge activity.
         var width_last = $(channel).find('.activity.last').width() 
         if( overlap ) 
         {   var left = 40   // left 40 px for bottom activity.
             offset_overlap = width_last - 40 
         } 
-        return $(channel).find('.activity.last').data('offset')+$(channel).find('.activity.last').width()-offset_overlap
+        return $(channel).find('.activity.last').data('offset')+$(channel).find('.activity.last').width()-offset_overlap+gap
     }
 }
 
@@ -112,7 +112,7 @@ self.app.offsetNewActivity = function(channel, overlap)
 // :: Id -> Callback Activity -> IO ()
 self.app.readActivity = function(id, fn)
 {
-    return self.app.Table[id]
+
 }
 
 // :: Id -> IO Activity
@@ -120,6 +120,7 @@ self.app.readActivitySync = function(id)
 {
     // Use big object to construct key/value storage unless Web Stroage can storage real object,
     // or I finished the async IndexedDB's APIs.
+    return self.app.Table[id]
 }
 
 // **Not Implemented yet **
@@ -139,13 +140,24 @@ self.app.writeActivitySync = function(id, act)
 
 // If merge with last activity in the channel ?
 //
-// :: UI DOM Channel -> UI DOM Activity -> Boolean
+// :: UI DOM Channel -> Activity -> Boolean
 self.app.ifMerge = function(channel, act)
 {
     // Find last activity.
-    var last = $(channel).find('.activity.last')
+    var last = $(channel).find('.activity.last').get(0)
+    if( undefined == last )
+    {
+        return false
+    } 
     var id = $(last).data('Id')
-    return true
+    var act_last = self.app.readActivitySync(id)
+
+    // Mutiple merge strategies ?
+    // 
+    // This strategy is find same tags in both act.
+    return ( 0 != _.intersection( act_last.Categories, act.Categories ).length )
+
+    // TODO: shouldn't intersect channel cat !!
 }
 
 //
@@ -207,7 +219,14 @@ fluorine.Event('app.bootstrap')
 // use whole track's length to minus it, then use the result as the left+ length.
 fluorine.Event('app.activities.new')
         ._
-         (  function(name, act) // Violate pureness principles to make app finished. 
+         (  function(name, act)
+         {
+            self.app.writeActivitySync(act.Id, act) 
+            return [act]
+         }
+         )
+        ._
+         (  function(act) // Violate pureness principles to make app finished. 
          {  
             // Note: These codes consider only one channel, and will be refactored to multiple channels version.
             var channel = $('.activities.active') 
@@ -217,26 +236,33 @@ fluorine.Event('app.activities.new')
             // 2. Filter it with n channels, and pickup fitted channels.
             // 3. Detect if merge, bind the result with those channels
             // 4. Append the DOM into those channels, simulateously, and pass if merge to let channels do merge.
+            //
 
-            var dom = self.app.renderActivity(act)
+            var channels = self.app.filterChannels(act)
+            _.each
+            (   channels
+            ,   function(ch)
+            {
+                var dom = self.app.renderActivity(act)
+                // Append to right-most.
+                $(dom).appendTo($(ch).find('.thumbnails')).offset({'left': self.app.offsetCalibration(ch, dom) })
 
+                // pass `true` if overlapping activities are needed. 
+                var offset = self.app.offsetNewActivity(ch, self.app.ifMerge(ch, act) )   
+                $(ch).find('.activity.last').removeClass('last')
 
-            // Append to right-most.
-            $(dom).appendTo($(channel).find('.thumbnails')).offset({'left': self.app.offsetCalibration(channel, dom) })
-            // pass `true` if overlapping activities are needed. 
-            var offset = self.app.offsetNewActivity($('.activities.active'), self.app.ifMerge(channel, dom) )   
-            $(channel).find('.activity.last').removeClass('last')
-            $(dom).addClass('last').data('offset', offset)  // or if another activity coming, the left will get wrong offset.
-
-            return fluorine.UI(dom).$()
-                        .animate
+                // or if another activity coming, the left will get wrong offset.
+                $(dom).addClass('last').data('offset', offset)
+                      .animate 
                         (
                         {  left: offset
                         ,  marginLeft: 0    // or left margin will cause position wrong... sucks.   
                         } 
-                        ,  $(channel).hasClass('active') ? 2000 : 0 // set to 0 if animation isn't important.
+                        ,  $(ch).hasClass('active') ? 2000 : 0 // set to 0 if animation isn't important.
                         )
-                        .done().run()
+            }
+            )
+            return 
           }
           )
          .out('_')(function(){return {}})
@@ -259,4 +285,4 @@ fluorine.UI('body').$()
         .forward()
 */
 
-//fluorine.Notifier.trigger({name: 'app.activities.new', activity:{Name: 'foobar', Categories: ['friend','comment']} })
+//fluorine.Notifier.trigger({name: 'app.activities.new', activity:{Id: '0',Name: 'foobar', Categories: ['friend','comment']} })
