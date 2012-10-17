@@ -33,7 +33,9 @@
 
     {% block content_with_fluid %}
 
-    <div class="container-fluid">
+    {%include "widget/side-chatroom.html"%}
+
+    <div class="container-fluid home-container" id="home-container">
 
         <ul class="home-tabs-nav nav-pills nav" id="home-tabs-nav">
           <li class="active">

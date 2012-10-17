@@ -210,7 +210,39 @@ fluorine.Event('app.bootstrap')
             })();
          }
          )
+         ._
+         (  function()
+         {   $('#side-chatroom .handler')
+                .toggle(    function(){ fluorine.Notifier.trigger('app.chatroom.side.active')}
+                       ,    function(){ fluorine.Notifier.trigger('app.chatroom.side.deactive')}
+                       )
+         }
+         )
         .out('app.bootstrap.done')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.chatroom.side.active')
+        ._
+         (  function(name)
+         {
+            $('#side-chatroom').addClass('active')
+
+             // Start chat
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.chatroom.side.deactive')
+        ._
+         (  function(name)
+         {
+            $('#side-chatroom').removeClass('active')
+         }
+         )
+        .out('_')(function(){return {}})
         .done()
         .run()
 

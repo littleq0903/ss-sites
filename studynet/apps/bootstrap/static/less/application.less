@@ -11,6 +11,10 @@ body
         display:block;
     }
 
+    .home-container
+    {
+        width:90%;
+    }
 }
 
 // ---- home ----
@@ -25,6 +29,7 @@ body
 
     .activity
     {
+        cursor: pointer;
         background-color: white;    // default value
         float: right;
         position: absolute;         // or cards can't put together.
@@ -42,7 +47,7 @@ body
 
 .home-tabs-nav
 {
-
+    margin-bottom: 5px;
 }
 
 .home-tabs
@@ -54,6 +59,13 @@ body
     {
         border: #DDD 1px solid;
         border-radius: 5px;
+        display: none;  // only show actived one.
+        min-height:450px;
+
+        &.active
+        {
+            display: inline-block;
+        }
     }
 
     .note-editor
@@ -98,6 +110,43 @@ body
         background: none;
     }
 }
+
+.side-chatroom
+{
+    height: 430px; 
+    padding: 3px;
+    position: absolute;
+    right: -145px;
+    top:97px;
+    width: 160px;
+
+    .handler
+    {
+        border-left: 4px #CCC double;
+        border-right: none;
+        cursor: pointer;
+        height: 25px;
+        position: absolute;
+        left:-13px;
+        top: 0px;
+        width: 11px;
+    }
+
+    &.active
+    {   
+        right:0px;
+    }
+
+    .content
+    {
+        .footer .input 
+        {
+            overflow: hidden;
+        }
+    }
+}
+
+
 
 
 //----
