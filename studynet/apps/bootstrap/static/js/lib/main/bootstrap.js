@@ -11,17 +11,48 @@ fluorine.Notifier.init()
 // So I violated my principles and them should be completed in fluorine's demo projects.
 //
 
+// Activity:: Activity Id Name Categories
+
+// Active corresponding activities channel.
+//
+// :: ChannelType -> UI ()
+self.app.activeChannel = function(type)
+{
+    $('.activities.active').removeClass('active')
+    $('.activities').find('[channel="'+type+'"]').addClass('.active')
+}
+
+// Find a filter to match the activity.
+//
+// :: ChannelType -> ( Activity -> Boolean )
+self.app.makeFilter = function(type)
+{
+    var simpleMatch = function(type)
+    {
+        return function(act)
+        {
+            return ( undefined != _.find(act.Categories, function(cat){ return cat == type} )) 
+        }
+    }
+
+    var dispatch = 
+    {   'all': function(act){ return true } 
+    ,   'friend': simpleMatch('friend')
+    ,   'system': simpleMatch('system')
+    }
+
+    return dispatch[type]
+}
+
 // Render an activity object into a template.
 //
 // ISSUE: Template related to UI, make it impure and different from templates shipped by hard-coding templates ?
 // ISSUE: Return context or value ? -- Return context is DEFINITELY RIGHT. But I haven't make it elegant enough.
-//
-// Activity:: Activity Name Category
-//
+
 // :: Activity -> UI DOM
 self.app.renderActivity = function(act)
 {
-    return fluorine.UI('#template .activity').$()
+    return $('#template .activity')
             .clone()
             .find('p')
                 .text(act.Name)
@@ -29,8 +60,21 @@ self.app.renderActivity = function(act)
             .find('h3')
                 .text(act.Category)
                 .end()
-            .done()
-            .run()
+            .click
+             (  function(e)
+             {  var act_dom = this
+
+                $('body').bind
+                 ( 'click.unfocus'
+                 , function(e)
+                 {    if( ! $(e.target).parents().andSelf().hasClass('activity') )
+                      { $(act_dom).removeClass('active') }
+                 } 
+                 )
+                $(this).siblings('.active').removeClass('active')
+                $(this).addClass('active') 
+             }
+             )
 }
 
 // Calculate how many offsets the activity should move.
@@ -39,32 +83,97 @@ self.app.renderActivity = function(act)
 // Or I should re-think about the contexted value ( any value handled ( side-effected ) by any context )
 // Or the $() naturally become a way to distinguish between UI DOM and UI a. Once $() called, selecting DOM chain begin.
 //
-// overlab:: Boolean. Overlap acitivities or not.
-self.app.offsetNewActivity = function(overlap)
+// overlap:: Boolean. Overlap acitivities or not.
+//
+// :: UI DOM Channel -> Boolean -> Offset
+self.app.offsetNewActivity = function(channel, overlap)
 {
-    if( 1 == $('.activities .activity').length )
+    // css class ".active" is for multi channel activities.
+    if( 1 == $(channel).find('.activity').length )
     {
         // Offset must add margins of the container.
-        return $('.activities').eq(0).offset().left + Number($('.activities').eq(0).css('padding-left').replace('px',""))
+        return $(channel).offset().left + Number($(channel).css('padding-left').replace('px',""))
     }
     else 
     {
         var offset_overlap = 0
-        var width_last = $('.activities .activity.last').width() 
+        var width_last = $(channel).find('.activity.last').width() 
         if( overlap ) 
         {   var left = 40   // left 40 px for bottom activity.
             offset_overlap = width_last - 40 
         } 
-        return $('.activities .activity.last').data('offset')+$('.activities .activity.last').width()-offset_overlap
+        return $(channel).find('.activity.last').data('offset')+$(channel).find('.activity.last').width()-offset_overlap
     }
 }
 
-self.app.offsetCalibration = function(dom_act)
+// **Not Implemented yet **
+// Read in an activity.
+//
+// :: Id -> Callback Activity -> IO ()
+self.app.readActivity = function(id, fn)
 {
-    return $('.activities').outerWidth()-$(dom_act).width()
+    return self.app.Table[id]
+}
+
+// :: Id -> IO Activity
+self.app.readActivitySync = function(id)
+{
+    // Use big object to construct key/value storage unless Web Stroage can storage real object,
+    // or I finished the async IndexedDB's APIs.
+}
+
+// **Not Implemented yet **
+// Write out an activity.
+//
+// :: Id -> Activity -> Callback -> IO ()
+self.app.writeActivity = function(id, act, fn)
+{
+
+}
+
+// :: Id -> Activity -> IO ()
+self.app.writeActivitySync = function(id, act)
+{
+    self.app.Table[id] = act
+}
+
+// If merge with last activity in the channel ?
+//
+// :: UI DOM Channel -> UI DOM Activity -> Boolean
+self.app.ifMerge = function(channel, act)
+{
+    // Find last activity.
+    var last = $(channel).find('.activity.last')
+    var id = $(last).data('Id')
+    return true
+}
+
+//
+// :: UI DOM Channel -> DOM Activity -> Offset
+self.app.offsetCalibration = function(channel, dom_act)
+{
+    return $(channel).outerWidth()-$(dom_act).width()
 }
 
 fluorine.Event('app.bootstrap')
+        ._
+         (  function()
+         {
+            // Prepare data storage. Even though the IndexedDB is a perfect way to storage things,
+            // but I have no time to construct a context to fit it's async IO.
+            self.app.Table = {}
+
+            /*
+            self.indexedDB = self.indexedDB || self.webkitIndexedDB || self.mozIndexedDB;
+            var request = self.indexedDB.open('socialstudy')
+            request.onerror = function(e){ console.error('[ERROR] Open database got wrong.'); throw e }
+            request.onsuccess = function()
+            {
+                var db = request
+            }
+            */
+         }
+         )
         ._
          (  function()  // note: Pure prinples violated.
          {
@@ -100,12 +209,23 @@ fluorine.Event('app.activities.new')
         ._
          (  function(name, act) // Violate pureness principles to make app finished. 
          {  
-            var dom = self.app.renderActivity(act).extract()
+            // Note: These codes consider only one channel, and will be refactored to multiple channels version.
+            var channel = $('.activities.active') 
+
+
+            // 1. Render DOM
+            // 2. Filter it with n channels, and pickup fitted channels.
+            // 3. Detect if merge, bind the result with those channels
+            // 4. Append the DOM into those channels, simulateously, and pass if merge to let channels do merge.
+
+            var dom = self.app.renderActivity(act)
+
 
             // Append to right-most.
-            $(dom).appendTo('.activities .thumbnails').offset({'left': self.app.offsetCalibration() })
-            var offset = self.app.offsetNewActivity()   // pass `true` if overlapping activities are needed. 
-            $('.activities .activity.last').removeClass('last')
+            $(dom).appendTo($(channel).find('.thumbnails')).offset({'left': self.app.offsetCalibration(channel, dom) })
+            // pass `true` if overlapping activities are needed. 
+            var offset = self.app.offsetNewActivity($('.activities.active'), self.app.ifMerge(channel, dom) )   
+            $(channel).find('.activity.last').removeClass('last')
             $(dom).addClass('last').data('offset', offset)  // or if another activity coming, the left will get wrong offset.
 
             return fluorine.UI(dom).$()
@@ -114,7 +234,7 @@ fluorine.Event('app.activities.new')
                         {  left: offset
                         ,  marginLeft: 0    // or left margin will cause position wrong... sucks.   
                         } 
-                        ,  5000
+                        ,  $(channel).hasClass('active') ? 2000 : 0 // set to 0 if animation isn't important.
                         )
                         .done().run()
           }
@@ -139,4 +259,4 @@ fluorine.UI('body').$()
         .forward()
 */
 
-//fluorine.Notifier.trigger({name: 'app.activities.new', activity:{Name: 'foobar', Category: 'comment'} })
+//fluorine.Notifier.trigger({name: 'app.activities.new', activity:{Name: 'foobar', Categories: ['friend','comment']} })

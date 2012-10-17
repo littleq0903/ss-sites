@@ -22,6 +22,14 @@ body
         float: right;
         position: absolute;         // or cards can't put together.
         left: 0px;                  // default value
+        z-index: 0;
+
+        &.active
+        {
+            background-color:cyan;
+            margin-top: -10px;      // leave handler space for user.
+            z-index: 1;
+        }
     }    
 }
 
