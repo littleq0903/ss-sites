@@ -5,6 +5,7 @@ from tornado import websocket
 GLOBALS={
     'sockets': []
 }
+PORT = 8888
 
 
 class ClientSocket(websocket.WebSocketHandler):
@@ -12,22 +13,21 @@ class ClientSocket(websocket.WebSocketHandler):
         GLOBALS['sockets'].append(self)
         print "WebSocket opened"
 
+    def on_message(self, message):
+        print 'received message: %s' % message
+        for client in GLOBALS['sockets']:
+            client.write_message(message)
+
     def on_close(self):
         print "WebSocket closed"
         GLOBALS['sockets'].remove(self)
 
-class Announcer(tornado.web.RequestHandler):
-    def get(self, *args, **kwargs):
-        data = self.get_argument('data')
-        for socket in GLOBALS['sockets']:
-            socket.write_message(data)
-        self.write('Posted')
 
 application = tornado.web.Application([
-    (r"/socket", ClientSocket),
-    (r"/push", Announcer),
+    (r"/socket", ClientSocket)
 ])
 
 if __name__ == "__main__":
-    application.listen(8888)
+    print 'Starting server on %s' % PORT
+    application.listen(PORT)
     tornado.ioloop.IOLoop.instance().start()
