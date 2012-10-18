@@ -154,10 +154,12 @@
 
 
         $("#courseModal").modal({show:false});
+        /*
         $("tbody tr").on("click", function(evt){        
             var course_id = $(evt.srcElement).parent("tr").attr('study-course');
             open_course_modal(course_id);
         } );
+        */
 
         if (window.location.href.search("course_uuid") >= 0) {
             var params = window.location.href.split("?")[1];

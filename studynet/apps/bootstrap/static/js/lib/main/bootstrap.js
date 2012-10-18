@@ -212,10 +212,21 @@ fluorine.Event('app.bootstrap')
          )
          ._
          (  function()
-         {   $('#side-chatroom .handler')
-                .toggle(    function(){ fluorine.Notifier.trigger('app.chatroom.side.active')}
-                       ,    function(){ fluorine.Notifier.trigger('app.chatroom.side.deactive')}
-                       )
+         {   $('#side-chatroom')
+                .find('.handler')
+                    .toggle(    function(){ fluorine.Notifier.trigger('app.chatroom.side.active')}
+                           ,    function(){ fluorine.Notifier.trigger('app.chatroom.side.deactive')}
+                           )
+                    .end()
+                .find('.toggle-list')
+                    .click( function(){ fluorine.Notifier.trigger('app.chatroom.side.list.active') })
+                    .end()
+                .find('.toggle-room')
+                    .click( function(){ fluorine.Notifier.trigger('app.chatroom.side.room.active') })
+                    .end()
+                .find('.list tr')
+                    .find('td')
+                    .click( function(){ fluorine.Notifier.trigger('app.chatroom.side.room.switch') } )
          }
          )
         .out('app.bootstrap.done')(function(){return {}})
@@ -245,6 +256,77 @@ fluorine.Event('app.chatroom.side.deactive')
         .out('_')(function(){return {}})
         .done()
         .run()
+
+fluorine.Event('app.chatroom.side.room.active')
+        ._
+         (  function(name)
+         {
+            $('#side-chatroom .content.list').removeClass('active')
+            $('#side-chatroom .content.room').addClass('active')
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.chatroom.side.list.active')
+        ._
+         (  function(name)
+         {
+            $('#side-chatroom .content.room').removeClass('active')
+            $('#side-chatroom .content.list').addClass('active')
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.chatroom.side.room.switch')
+        ._
+         (  function(name)
+         {
+             // Switch room: ws command out.
+         }
+         )
+        ._
+         (  function()
+         {
+             // Switch room: bind new receive user list note.
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.chatroom.side.userlist.put')
+        ._
+         (  function(name)
+         {
+            // Receive new userlist: 
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+// Message:: Message From Room Time Content
+fluorine.Event('app.chatroom.side.message.new')
+        ._
+         (  function(name, message)
+         {
+            $('#template [subpage="side-chatroom-message"] .message')
+                .clone()
+                .find('.from').text(message.Name).end()
+                .find('.content').text(message.Content).end()
+                .find('.time').text(message.Time).end()
+                .appendTo('#side-chatroom .room .body .wall')
+             $('#side-chatroom .content .body').scrollTop($('#side-chatroom .content .body .wall').innerHeight())
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
 
 // Nested Event context will cause problem. (Fluorine#1)
 // Calculate how many activities alread hold before this activity and their length; 
