@@ -226,7 +226,40 @@ fluorine.Event('app.bootstrap')
                     .end()
                 .find('.list tr')
                     .find('td')
-                    .click( function(){ fluorine.Notifier.trigger('app.chatroom.side.room.switch') } )
+                        .click( function(){ fluorine.Notifier.trigger('app.chatroom.side.room.switch') } )
+                        .end()
+                    .end()
+                .find('.room .input')
+                    .click
+                     ( function(e)
+                     {   e.stopPropagation() 
+                         fluorine.Notifier.trigger('app.chatroom.side.room.input.prepare')
+                     } 
+                     )
+                    .keypress
+                     (  function(e)
+                     {
+                         if( e.which == 13 && ! e.shiftKey )
+                         {
+                             fluorine.Notifier.trigger('app.chatroom.side.room.input.done')
+                             event.preventDefault();
+                         }
+                     }
+                     )
+                     .end()
+
+                $('body').bind
+                 ( 'click.unfocus'
+                 , function(e)
+                 {    if( ! $(e.target).parents().andSelf().is('[id="#side-chatroom"]') )
+                      {   $input = $('#side-chatroom .room .input')
+                          if( "" == $input.text() )
+                          {
+                              $input.addClass('tipon') 
+                          }
+                      }
+                 } 
+                 )
          }
          )
         .out('app.bootstrap.done')(function(){return {}})
@@ -327,6 +360,53 @@ fluorine.Event('app.chatroom.side.message.new')
         .done()
         .run()
 
+fluorine.Event('app.chatroom.side.room.input.prepare')
+        ._
+         (  function(name)
+         {
+             $('#side-chatroom .room .input').removeClass('tipon')
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.chatroom.side.room.input.done')
+        ._
+         (  function(name)
+         {
+             var text = $('#side-chatroom .room .input').text()
+             message = {'From': "FOOBAR", "Room": "FOOROOM", "Content": text, "Time": (new Date()).getTime()}
+             return [message]
+         }
+         )
+        ._
+         (  function(message)
+         {
+
+             $('#side-chatroom .room .input')
+             /* Won't work.
+                .animate
+                 (
+                 {  outline: "1px #C0E0FF solid"
+                 }
+                 ,  500
+                 )
+                .animate
+                 (
+                 {  outline: "none"
+                 }
+                 ,  0
+                 )
+             */
+                 .empty()
+
+             return [message]
+         }
+         )
+        .out('app.io.chat.post')(function(){return {'message': message}})
+        .done()
+        .run()
 
 // Nested Event context will cause problem. (Fluorine#1)
 // Calculate how many activities alread hold before this activity and their length; 
