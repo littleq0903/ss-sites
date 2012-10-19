@@ -189,7 +189,9 @@ fluorine.Event('app.bootstrap')
         ._
          (  function()
          {
-             fluorine.Notifier.trigger({name: 'app.course-nav.put', sections: ["編譯器設計"]})
+             // Fill course navs up. Initializing step, and should replace the dummy course with a new one.
+             // sections -- name:type
+             fluorine.Notifier.trigger({name: 'app.course-nav.put', sections: {"編譯器設計": "course"} })
          }
          )
         ._
@@ -377,17 +379,15 @@ fluorine.Event('app.course-nav.put')
              var $sep = $('#template [subpage="course-nav-section"] span') 
              _.each
              (  sections
-             ,  function(sec)
+             ,  function(type, name)
              {
-                 // Fill course navs up. Initializing step, and should replace the dummy course with a new one.
-
                  if( 1 < sections.length ) // no need sep if only one section.
                  {
                      $('#course-nav')
                         .append($sep.clone())
                  }
                  $('#course-nav')
-                    .append($li.clone().find('a').text('編譯器設計'))
+                    .append($li.clone().addClass(type).find('a').text(name).end())
              }
              )
          }
