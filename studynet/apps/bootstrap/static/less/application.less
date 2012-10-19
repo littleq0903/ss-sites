@@ -1,6 +1,9 @@
 
 body
 {
+    min-height: 660px;
+    overflow-x: hidden;
+
     i
     {
         cursor: pointer;
@@ -50,8 +53,40 @@ body
     }    
 }
 
+#home
+{
+    .course-nav
+    {
+        background-color: white;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        padding: 0px;
+        top: -17px;
+
+        i:first-of-type
+        {
+            margin-right: -10px;
+        }
+
+        i:last-of-type
+        {
+            opacity: 0.6;
+        }
+    }
+
+    /*
+    .course-nav:before
+    {
+        content: " > ";
+        color: #999;
+    }
+    */
+}
+
 .home-tabs-nav
 {
+    display: inline-block;
     margin-bottom: 5px;
 }
 
@@ -60,12 +95,15 @@ body
     padding-left:0px;
     padding-right:0px;
 
+    border: #DDD 1px solid;
+    border-radius: 5px;
+
+    min-height:450px;
     .home-tab
     {
-        border: #DDD 1px solid;
-        border-radius: 5px;
         display: none;  // only show actived one.
-        min-height:450px;
+        position: relative;
+        left:0px;       // for shift-leaving.
 
         &.active
         {
@@ -124,6 +162,7 @@ body
     right: -145px;
     top:97px;
     width: 160px;
+    z-index: 1000;  // top level.
 
     .handler
     {

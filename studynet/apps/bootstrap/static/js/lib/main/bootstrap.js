@@ -187,7 +187,36 @@ fluorine.Event('app.bootstrap')
          }
          )
         ._
-         (  function()  // note: Pure prinples violated.
+         (  function()
+         {
+             fluorine.Notifier.trigger({name: 'app.course-nav.put', sections: ["編譯器設計"]})
+         }
+         )
+        ._
+         (  function()
+         {
+            $('#home-container .home-tabs-nav')
+                .find('li a')
+                .click
+                 (  function(e)
+                 {  event.preventDefault();
+                    var $tab_active = $(this).parent('li')
+                    if( $tab_active.hasClass('active') ){ return }     // click on actived tab, do nothing.
+
+                    fluorine.Notifier.trigger({'name': 'app.tabs.active', 'tab': $tab_active.find('a').attr('href').replace(/#/, "") }) 
+                 
+                    var $tab_deactive = $('#home-container .home-tabs-nav li.active a').parent('li')
+                    var name_deactive = $tab_deactive.find('a').attr('href').replace(/#/,"")
+                    $tab_deactive.removeClass('active')
+                    $tab_active.addClass('active')
+                    fluorine.Notifier.trigger({'name': 'app.tabs.deactive', 'tab': name_deactive })
+                 }
+                 )
+                .end()
+         }
+         )
+        ._
+         (  function()  // note: Pure prinples violated. Initialize note.
          {
             (function () {
                 var converter2 = new Markdown.Converter();
@@ -266,6 +295,107 @@ fluorine.Event('app.bootstrap')
         .done()
         .run()
 
+fluorine.Event('app.tabs.active')
+        ._
+         (  function(nname, name)
+         {
+             var dispatch =
+             {  'note-editor': 'app.tabs.note-editor.active'
+             ,  'user-guide' : 'app.tabs.user-guide.active'
+             }
+             fluorine.Notifier.trigger(dispatch[name])
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.tabs.deactive')
+        ._
+         (  function(nname, name)
+         {
+             var dispatch =
+             {  'note-editor': 'app.tabs.note-editor.deactive'
+             ,  'user-guide' : 'app.tabs.user-guide.deactive'
+             }
+             fluorine.Notifier.trigger(dispatch[name])
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.tabs.note-editor.active')
+        ._
+         (  function(name)
+         {
+             $('#note-editor').addClass('active')
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.tabs.note-editor.deactive')
+        ._
+         (  function(name)
+         {
+             $('#note-editor').removeClass('active')
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.tabs.user-guide.active')
+        ._
+         (  function(name)
+         {
+             $('#user-guide').addClass('active')
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.tabs.user-guide.deactive')
+        ._
+         (  function(name)
+         {
+             $('#user-guide').removeClass('active')
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.course-nav.put')
+        ._
+         (  function(name, sections)
+         {
+             var $li  = $('#template [subpage="course-nav-section"] li')
+             var $sep = $('#template [subpage="course-nav-section"] span') 
+             _.each
+             (  sections
+             ,  function(sec)
+             {
+                 // Fill course navs up. Initializing step, and should replace the dummy course with a new one.
+
+                 if( 1 < sections.length ) // no need sep if only one section.
+                 {
+                     $('#course-nav')
+                        .append($sep.clone())
+                 }
+                 $('#course-nav')
+                    .append($li.clone().find('a').text('編譯器設計'))
+             }
+             )
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
 fluorine.Event('app.chatroom.side.active')
         ._
          (  function(name)
@@ -278,6 +408,7 @@ fluorine.Event('app.chatroom.side.active')
         .out('_')(function(){return {}})
         .done()
         .run()
+
 
 fluorine.Event('app.chatroom.side.deactive')
         ._
@@ -480,3 +611,15 @@ fluorine.UI('body').$()
 */
 
 //fluorine.Notifier.trigger({name: 'app.activities.new', activity:{Id: '0',Name: 'foobar', Categories: ['friend','comment']} })
+/*
+ *
+t = 
+{ 'name': 'app.chatroom.side.message.new'
+, 'message': 
+  {  'From': 'frombar'
+  ,  'Room': 'rooomc'
+  ,  'Time': ((new Date()).toISOString()
+  ,  'Content': "abc\nde\ngsgdsgsg\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nasd\n\n" 
+  } 
+}
+*/

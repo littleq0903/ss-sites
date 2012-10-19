@@ -39,11 +39,20 @@
 
         <ul class="home-tabs-nav nav-pills nav" id="home-tabs-nav">
           <li class="active">
-            <a href="#">編寫筆記</a>
+              <a href="#note-editor">編寫筆記</a>
           </li>
-          <li><a href="#">檢視課表</a></li>
-          <li><a href="#">使用指引</a></li>
+          <li>
+              <a href="#">檢視課表</a>
+          </li>
+          <li>
+              <a href="#user-guide">使用指引</a>
+          </li>
+          <li>
+              <a href="#"></a>
+          </li>
         </ul>
+
+        {% include "widget/course-nav.html" %}
 
         <div class="container-fluid home-tabs" id="home-tabs"> 
 
@@ -55,50 +64,6 @@
 
     <div class="row-fluid">
             {%include "widget/activities.html"%}
-
-        <div class="span4 well-large">
-            <h3>科技始終來自於人性</h3>
-            <p>對於大學生來說，選課、上課和討論一直都是一件很麻煩的事情，原因是在這個科技發達的時代，卻沒有好的解決方案來作這些事情，「科技始終來自於人性」，因此我們利用科技，提供你最時尚的網路環境，讓這些事情都像使用臉書般容易。</p>
-
-            <center class="well-large">
-                <img class="img-polaroid" src="{{ STATIC_URL }}img/schoolserver_sucks.jpeg" alt="" />
-            </center>
-        </div>
-        <div class="span4 well-large">
-            <h3>這是什麼？</h3>
-
-
-            <p>
-                這是一個和政大學生息息相關的課程網站，我們將會在未來推出幾個我們規劃好的功能，讓你在上課時完全不想上臉書只想要上這個網站。
-            </p>
-            <p>
-                我們建議使用 Google Chrome 瀏覽器的您按下下方 Web Store 的連結，前往下載我們的「
-                <a target="_blank" href="https://chrome.google.com/webstore/detail/lpihnfnmcibhakaadhjhdfppndhomkid">
-                    Social Study - NCCU
-                </a>
-                」擴充套件，他將會讓你的政大首頁和選課系統變得生動活潑。
-            </p>
-            <p>
-                覺得功能不夠？別急，好戲還在後頭！
-            </p>
-            <a target="_blank" href="https://chrome.google.com/webstore/detail/lpihnfnmcibhakaadhjhdfppndhomkid">
-                <div class="well">
-                    <center>
-                        <img src="{{ STATIC_URL }}img/available-on-chrome-store.png" alt="" />
-                    </center>
-                </div>
-            </a>
-
-        </div>
-        <div class="span4 well-large">
-            <h3>關於我們</h3>
-            <p>我們只是一群阿宅，我們知道大家也是，所以我們做出了讓大家可以「宅」著學習的方式，希望大家會喜歡。</p>
-            <div class="well-large">
-            <center>
-                <img class="img-polaroid" src="{{ STATIC_URL }}img/hackathon.png" alt="" />
-            </center>
-            </div>
-        </div>
     </div>
 
     {% endblock %}
