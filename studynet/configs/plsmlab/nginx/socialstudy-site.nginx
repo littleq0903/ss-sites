@@ -1,0 +1,13 @@
+upstream socialstudy-sites {
+    server 127.0.0.1:8080;    
+}
+
+server {
+    listen 1337;
+    server_name socialstudy.tw
+
+    location / {
+        proxy_pass http://socialstudy-sites;
+
+    }
+}
