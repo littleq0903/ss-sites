@@ -7,7 +7,7 @@ server {
     server_name socialstudy.tw
 
     location / {
-        proxy_pass http://socialstudy-sites;
+        fastcgi_pass http://socialstudy-sites;
 
     }
 }
