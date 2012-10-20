@@ -92,9 +92,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 AUTHENTICATION_BACKENDS = (
-        'django_facebook.auth_backends.FacebookBackend',
-        'django.contrib.auth.backends.ModelBackend',
-        )
+    'django_facebook.auth_backends.FacebookBackend',
+    'userena.backends.UserenaAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -133,6 +134,7 @@ INSTALLED_APPS = (
 
 LIB_APPS = (
     'django_facebook',
+    'userena',
 )
 
 
@@ -180,6 +182,7 @@ FACEBOOK_APP_ID = '157074917769562'
 FACEBOOK_APP_SECRET = '9e98d91b0a7c50189a47cdfe5a6c88f3'
 
 AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
+FACEBOOK_REGISTRATION_BACKEND = 'django_facebook.registration_backends.UserenaBackend'
 
 
 try:
