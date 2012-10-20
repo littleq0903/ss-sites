@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'compressor',
+    'django_facebook',
 )
 
 #LIB_APPS = ()
@@ -146,6 +147,7 @@ SITE_APPS = (
     'departments',
     'courses',
     'bootstrap',
+    'user_profile'
 )
 
 #INSTALLED_APPS += LIB_APPS
@@ -185,7 +187,7 @@ INSTALLED_APPS += SITE_APPS
 FACEBOOK_APP_ID = '157074917769562'
 FACEBOOK_APP_SECRET = '9e98d91b0a7c50189a47cdfe5a6c88f3'
 
-#AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
+AUTH_PROFILE_MODULE = 'user_profile.UserProfile'
 #FACEBOOK_REGISTRATION_BACKEND = 'django_facebook.registration_backends.UserenaBackend'
 
 COMPRESS_ENABLED = True
