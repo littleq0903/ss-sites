@@ -9,6 +9,7 @@
     <title>Social Study</title>
 
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/socialstudy-main.css" />
     <!-- fluorine -->
     <!--
     <script src="{{ STATIC_URL }}js/lib/fluorine/library/jquery/jquery-min.js"></script>
@@ -80,7 +81,8 @@
 
     <div class="navbar navbar-fixed-top navbar-inverse" >
         <div class="navbar-inner" style="padding-left: 10px; padding-right: 10px">
-            <a class="brand" href="/">Social Study</a>
+            <a id="ss-logo" class="brand" href="/">
+            </a>
             <ul class="nav">
                 {# this is important for activate the buttons on navbar #}
                 <li class="{% block home_active %}{% endblock %}"><a href="/">Home</a></li>

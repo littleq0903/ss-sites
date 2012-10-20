@@ -1,0 +1,17 @@
+upstream socialstudy {
+    server 127.0.0.1:8080;    
+}
+
+server {
+    listen 1337;
+    server_name socialstudy.tw;
+
+    location / {
+        #include fastcgi_params;
+        #fastcgi_pass socialstudy-sites;
+
+        include proxy_params;
+        proxy_pass http://socialstudy;
+
+    }
+}

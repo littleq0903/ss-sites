@@ -1,10 +1,19 @@
-Django==1.4.1
 distribute==0.6.27
-dj-database-url==0.2.1
-gunicorn==0.14.6
-psycopg2==2.4.5
+
+# Heroku
+#dj-database-url==0.2.1
+#gunicorn==0.14.6
+#psycopg2==2.4.5
+
 wsgiref==0.1.2
 
 # Make you have `coffee` and `lessc` commands.
 django_compressor
 simplejson
+tornado
+pymongo
+django-mongodb-engine
+djangotoolbox
+PIL
+django-facebook
+django-userena

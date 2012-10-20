@@ -1,6 +1,5 @@
 # Django settings for studynet project.
 
-import dj_database_url
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -13,10 +12,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-        #'default': dj_database_url.config(default='postgres://jhbsaudowefhif:s3SziM9NR1s2FdkX-g6Yf7G27-@ec2-107-22-164-173.compute-1.amazonaws.com:5432/d421lpe5fkgv6e')
-        'default': dj_database_url.config(default='postgres://localhost:5432/studynet_test')
-}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -88,6 +83,22 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django_facebook.context_processors.facebook',
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django_facebook.auth_backends.FacebookBackend',
+    'userena.backends.UserenaAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -125,6 +136,12 @@ INSTALLED_APPS = (
     'compressor',
 )
 
+LIB_APPS = (
+    'django_facebook',
+    'userena',
+)
+
+
 SITE_APPS = (
     'globals',
     'departments',
@@ -132,41 +149,45 @@ SITE_APPS = (
     'bootstrap',
 )
 
-HEROKU_APPS = (
-    'gunicorn',
-)
-
+INSTALLED_APPS += LIB_APPS
 INSTALLED_APPS += SITE_APPS
-INSTALLED_APPS += HEROKU_APPS
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}
+#LOGGING = {
+#    'version': 1,
+#    'disable_existing_loggers': False,
+#    'filters': {
+#        'require_debug_false': {
+#            '()': 'django.utils.log.RequireDebugFalse'
+#        }
+#    },
+#    'handlers': {
+#        'mail_admins': {
+#            'level': 'ERROR',
+#            'filters': ['require_debug_false'],
+#            'class': 'django.utils.log.AdminEmailHandler'
+#        }
+#    },
+#    'loggers': {
+#        'django.request': {
+#            'handlers': ['mail_admins'],
+#            'level': 'ERROR',
+#            'propagate': True,
+#        },
+#    }
+#}
+
+
+# TODO: update facebook api tokens
+FACEBOOK_APP_ID = '157074917769562'
+FACEBOOK_APP_SECRET = '9e98d91b0a7c50189a47cdfe5a6c88f3'
+
+AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
+FACEBOOK_REGISTRATION_BACKEND = 'django_facebook.registration_backends.UserenaBackend'
 
 COMPRESS_ENABLED = True
 COMPRESS_REBUILD_TIMEOUT = 30    

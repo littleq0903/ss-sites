@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls.defaults import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # Uncomment the next two lines to enable the admin:
@@ -33,5 +33,10 @@ urlpatterns += patterns('',
     (r'^$', TemplateView.as_view(template_name="home.html")),
 )
 
+# for django_facebook
+urlpatterns += patterns('',
+        (r'^facebook/', include('django_facebook.urls')),
+        (r'^accounts/', include('django_facebook.auth_urls')),
+        )
 
 urlpatterns += staticfiles_urlpatterns()
