@@ -21,4 +21,8 @@ CHAT_SERVER_URL = 'http://chat.socialstudy/push'
 FACEBOOK_APP_ID = ''
 FACEBOOK_APP_SECRET = ''
 
+TEMPLATE_DIRS = (
+    '/home/repo/nccy-study-net/studynet/templates',
+)
+
 
