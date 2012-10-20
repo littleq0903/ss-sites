@@ -23,6 +23,17 @@ body
     {
         width:90%;
     }
+
+    .wrapper-home
+    {
+        position: relative;
+        border: #DDD 1px solid;
+        border-right: 0px;
+        border-left: 0px;
+        width: 200%;
+        padding-left: 110px;
+        left: -100px;
+    }
 }
 
 // ---- home ----
@@ -92,14 +103,12 @@ body
 
 .home-tabs
 {
+    padding-top: 13px;
     padding-left:0px;
     padding-right:0px;
 
-    border: #DDD 1px solid;
-    border-left: none;
-    border-right: none;
-
-    min-height:450px;
+    min-height: 450px;
+    max-width: 1000px;
     .home-tab
     {
         display: none;  // only show actived one.
@@ -114,6 +123,8 @@ body
 
     .note-editor
     {
+        border-left: 1px #DDD solid;
+        border-right: 1px #DDD solid;
         .wmd-button-row
         {
             display:inline-block;
@@ -156,8 +167,6 @@ body
 
 [subpage="course"]
 {
-    margin-top: 5px;
-
     .main
     {
         .subpage
@@ -183,6 +192,8 @@ body
             border-left: 1px #CCC solid;
             border-right: 1px #CCC solid;
             margin-left: 0px;
+            margin-bottom: 0px;
+            margin-top: -10px;
             >li:first-of-type
             {
                 border-top: none;
@@ -290,6 +301,7 @@ body
 
 .side-chatroom
 {
+    border-left: 1px #DDD solid;
     height: 430px; 
     padding: 3px;
     position: absolute;
