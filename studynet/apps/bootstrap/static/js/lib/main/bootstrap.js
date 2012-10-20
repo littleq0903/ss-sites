@@ -12,6 +12,10 @@ fluorine.Notifier.init()
 //
 
 // Activity:: Activity Id Name Categories
+// CourseInfo:: CourseInfo CourseId Name Semester Teacher Students Location 
+// Students:: [User] {- friends of the user -}
+// User:: User UserId GravatarURL Name 
+// Note:: Note NoteId Name Author DateTime Content
 
 // Active corresponding activities channel.
 //
@@ -120,7 +124,7 @@ self.app.readActivitySync = function(id)
 {
     // Use big object to construct key/value storage unless Web Stroage can storage real object,
     // or I finished the async IndexedDB's APIs.
-    return self.app.Table[id]
+    return self.app.TableActivity[id]
 }
 
 // **Not Implemented yet **
@@ -135,7 +139,19 @@ self.app.writeActivity = function(id, act, fn)
 // :: Id -> Activity -> IO ()
 self.app.writeActivitySync = function(id, act)
 {
-    self.app.Table[id] = act
+    self.app.TableActivity[id] = act
+}
+
+// :: CourseId -> IO Course
+self.app.readCourseSync = function(cid)
+{
+    return self.app.TableCourse[cid]
+}
+
+// :: CourseId -> CourseInfo -> IO ()
+self.app.writeCourseSync = function(cid, info)
+{
+    self.app.TableCourse[cid] = info
 }
 
 // If merge with last activity in the channel ?
@@ -173,7 +189,8 @@ fluorine.Event('app.bootstrap')
          {
             // Prepare data storage. Even though the IndexedDB is a perfect way to storage things,
             // but I have no time to construct a context to fit it's async IO.
-            self.app.Table = {}
+            self.app.TableActivity = {}
+            self.app.TableCourse = {}
 
             /*
             self.indexedDB = self.indexedDB || self.webkitIndexedDB || self.mozIndexedDB;
@@ -186,12 +203,42 @@ fluorine.Event('app.bootstrap')
             */
          }
          )
+        ._  
+         (  function()
+         {
+             var course = 
+             {   'Name'    : '編譯器設計'
+              ,   'CourseId': 'c1'
+              ,   'Semester': '101/1'
+              ,   'Teacher' : 'CK'
+              ,   'DateTime': '周三456'
+              ,   'Students': []
+              ,   'Location': 'nccu'
+              ,   'Department':  'nccu'
+              ,   'Notes'   : ['n1','n2']
+              ,   'Comments': ['c1','c2','c3']
+              ,   'Media'   : ['m1','m2','m3','m4']
+             }
+
+             self.app.writeCourseSync('c1', course)
+             fluorine.Notifier.trigger({name: 'app.course.switch', cid: course.CourseId})
+         }
+         )
         ._
          (  function()
          {
              // Fill course navs up. Initializing step, and should replace the dummy course with a new one.
              // sections -- name:type
-             fluorine.Notifier.trigger({name: 'app.course-nav.put', sections: {"編譯器設計": "course"} })
+             var sections =
+             [
+             {   'name'   : "編譯器設計"
+             ,   'subpage': "comment"
+             ,   'id-data': "compiler_design"
+             ,   'type'   : "app.tabs.course.active"
+             }
+             ]
+
+             fluorine.Notifier.trigger({name: 'app.course-nav.put', sections: sections })
          }
          )
         ._
@@ -207,7 +254,7 @@ fluorine.Event('app.bootstrap')
 
                     fluorine.Notifier.trigger({'name': 'app.tabs.active', 'tab': $tab_active.find('a').attr('href').replace(/#/, "") }) 
                  
-                    var $tab_deactive = $('#home-container .home-tabs-nav li.active a').parent('li')
+                    var $tab_deactive = $('#home-container .home-tabs-nav li.active').add('#course-nav li.active')
                     var name_deactive = $tab_deactive.find('a').attr('href').replace(/#/,"")
                     $tab_deactive.removeClass('active')
                     $tab_active.addClass('active')
@@ -304,6 +351,7 @@ fluorine.Event('app.tabs.active')
              var dispatch =
              {  'note-editor': 'app.tabs.note-editor.active'
              ,  'user-guide' : 'app.tabs.user-guide.active'
+             ,  'course'     : 'app.tabs.course.active'
              }
              fluorine.Notifier.trigger(dispatch[name])
          }
@@ -319,6 +367,7 @@ fluorine.Event('app.tabs.deactive')
              var dispatch =
              {  'note-editor': 'app.tabs.note-editor.deactive'
              ,  'user-guide' : 'app.tabs.user-guide.deactive'
+             ,  'comment'    : 'app.tabs.course.deactive'       // course-nav tabs should be delegated to another functions.
              }
              fluorine.Notifier.trigger(dispatch[name])
          }
@@ -371,6 +420,177 @@ fluorine.Event('app.tabs.user-guide.deactive')
         .done()
         .run()
 
+// TODO: a lots of work to do...
+fluorine.Event('app.course.switch')
+        ._
+         (  function(name, cid)
+         {  
+             // Write the current course id.
+             $('#template [subpage="course"]').data('course-id', cid)
+         }
+         )
+        //.out('app.tabs.course.active')(function(){ return {} }) // Delegate to active to render page.
+        .out('_')(function(){ return {} }) // Delegate to active to render page.
+        .done()
+        .run()
+
+// TODO: course name data
+fluorine.Event('app.tabs.course.active')
+        ._ 
+         (  function(name)
+         {  
+            // Incoming course should add the info into the preparing to clone template. 
+            var info = self.app.readCourseSync($('#template [subpage="course"]').data('course-id'))
+            var simpleText = function(el, txt)
+            {
+                $(el).text(txt)
+            }
+
+            var students = function(ul, students)
+            {
+                $(ul).find('li')
+                     .each
+                      (  function($el)
+                      {
+                         var user = students.pop()
+                         $el.find('.gravatar').append('<img src="'+user.GravatarURL+'" />')
+                         $el.find('.name').text(user.Name)
+                      }
+                      )
+            }
+
+            var openMain = function(h3, data)
+            {
+                // Prevent double binding. Lazy way... ( detect bound events more better )
+                $(h3).unbind('click.note')
+                $(h3).bind
+                (   'click.note'
+                ,   function($e)
+                {
+                    // Cancel all actived subpages.
+                    $('#home-tabs div[subpage="course"] .subpage.active').removeClass('active')
+                    fluorine.Notifier.trigger({'name': 'app.course.subpage.active', 'subpage': $(h3).attr('class'), 'data': data})
+                }
+                )
+            }
+
+            var dispatch = 
+            {   'Name'    : simpleText  
+            ,   'Semester': simpleText
+            ,   'Teacher' : simpleText
+            ,   'DateTime': simpleText
+            ,   'Location': openMain 
+            ,   'Department': simpleText
+            ,   'Students': students 
+            ,   'Notes'   : function(el, data){  $(el).attr('data-num', data.length ) ; openMain(el, data)  }
+            ,   'Comments': function(el, data){  $(el).attr('data-num', data.length ) ; openMain(el, data)  }
+            }
+            /* Badge ugly...
+            ,   'Notes'   : function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; openMain(el, data)  }
+            ,   'Comments': function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; openMain(el, data)  }
+            */
+
+            return [info, dispatch]
+         }
+         )
+        ._
+         (  function(info, dispatch)
+         {
+            var $course = $('#template [subpage="course"]').clone().addClass('active')
+            $course.appendTo('#home-tabs')
+
+            $course.find('.sidebar ul.sections .info li')
+                .add('ul.sections h2.Name')
+                .add('ul.sections h3.Notes')
+                .add('ul.sections h3.Comments')
+                .add('ul.sections h3.Media')
+                .each
+                 (   function()
+                 {
+                     if( undefined === dispatch[$(this).attr('class')] ) { return }
+                     dispatch[$(this).attr('class')]($(this), info[$(this).attr('class')])
+                 }
+                 )
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+
+// a Namespaced active notification.
+fluorine.Event('app.tabs.course.deactive')
+        ._
+         (  function(name)
+         {
+            $('#home-tabs [subpage="course"]').removeClass('active')
+            $('#home-tabs .subpage.template').remove()
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+fluorine.Event('app.course.subpage.active')
+        ._
+         (  function(name, subpage, data)
+         {
+             // Clone and fill course page first.
+             $('#template [subpage="course"]').clone().appendTo('#home-tabs')
+
+             // TODO: fill data in.
+             $('#course-main-'+subpage).addClass('active')  
+             var dispatch =
+             {  'note'    : 'app.course.subpage.note.active'
+             ,  'comment' : 'app.course.subpage.comment.active'
+             ,  'map'     : 'app.course.subpage.map.active'
+             }
+             fluorine.Notifier.trigger({'name': dispatch[subpage], 'data': data})
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+//TODO: DEACTIVE.
+fluorine.Event('app.course.subpage.note.active')
+        ._
+         (  function(name, data)
+         {
+            var $row_tpl   = $('#template [subpage="course-main-note-row"] tr')
+            var $table = $('#course-main-note table') 
+
+            var sdata = _.sortBy
+            ( data
+            , function(d)
+            {
+                return Number(d.DateTime)
+            }
+            )
+            
+            _.each
+            ( sdata
+            , function(d)
+            {
+                $row_tpl.clone()
+                    .find('td.noteid').text(d.NoteId)
+                    .end()
+                    .find('td.author').text(d.Author)
+                    .end()
+                    .find('td.name').text(d.Name)
+                    .end()
+                    .find('td.date').text((new Date(d.DateTime)).toISOString())
+                    .end()
+                    .appendTo($table)
+            }
+            )
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+
 fluorine.Event('app.course-nav.put')
         ._
          (  function(name, sections)
@@ -379,15 +599,29 @@ fluorine.Event('app.course-nav.put')
              var $sep = $('#template [subpage="course-nav-section"] span') 
              _.each
              (  sections
-             ,  function(type, name)
+             ,  function(sec)
              {
                  if( 1 < sections.length ) // no need sep if only one section.
                  {
                      $('#course-nav')
                         .append($sep.clone())
                  }
-                 $('#course-nav')
-                    .append($li.clone().addClass(type).find('a').text(name).end())
+                 $li.clone()
+                    .find('a').text(sec.name)
+                    .end()
+                    .click
+                     (  function(e)
+                     {
+                        var $tab_deactive = $('#home-container .home-tabs-nav li.active').add('#course-nav li.active')
+                        var name_deactive = $tab_deactive.find('a').attr('href').replace(/#/,"")
+                        $tab_deactive.removeClass('active')
+                        fluorine.Notifier.trigger({'name': 'app.tabs.deactive', 'tab': name_deactive })
+
+                        $(this).addClass('active').find('a').attr('href','#'+sec.subpage)
+                        fluorine.Notifier.trigger({'name': sec.type, 'subpage': sec.subpage, 'data': self.app.readCourseSync(sec['id-data'])})
+                     } 
+                     )
+                    .appendTo('#course-nav')
              }
              )
          }
@@ -621,5 +855,18 @@ t =
   ,  'Time': ((new Date()).toISOString()
   ,  'Content': "abc\nde\ngsgdsgsg\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nasd\n\n" 
   } 
+}
+
+// CourseInfo:: CourseInfo CourseId Name Semester Teacher Students Location Notes Comments Media
+// Notes:: [NoteId]
+// Comments:: [CommentId]
+// Media:: [MediaItem]
+course = 
+{   'Name'    : '編譯器設計'
+,   'CourseId': 'c1'
+,   'Semester': '101/1'
+,   'Teacher' : 'CK'
+,   'Students': []
+,   'Location': 'nccu'
 }
 */

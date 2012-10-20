@@ -38,6 +38,12 @@ def do_ship(request):
     yield render_to_string("widget/side-chatroom-message.html", resources, context_instance=RequestContext(request) ).ljust(4096)
     yield render_to_string("widget/course-nav-section.html", resources, context_instance=RequestContext(request) ).ljust(4096)
     yield render_to_string("course/course.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
+    yield render_to_string("course/course-main-note.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
+    yield render_to_string("course/course-main-index.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
+    yield render_to_string("course/course-main-comment.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
+    yield render_to_string("course/course-main-media.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
+    yield render_to_string("course/course-main-note-row.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
+    yield render_to_string("course/course-students-slot.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
     yield render_to_string("courses/courses.html", resources, context_instance=RequestContext(request)  ).ljust(4096) 
     yield render_to_string("application/finalize.html", resources, context_instance=RequestContext(request) ).ljust(4096) 
 

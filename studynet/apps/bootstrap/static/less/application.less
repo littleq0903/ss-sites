@@ -96,7 +96,8 @@ body
     padding-right:0px;
 
     border: #DDD 1px solid;
-    border-radius: 5px;
+    border-left: none;
+    border-right: none;
 
     min-height:450px;
     .home-tab
@@ -147,11 +148,144 @@ body
         }
     }
 
-
     .user-guide
     {
         background: none;
     }
+}
+
+[subpage="course"]
+{
+    margin-top: 5px;
+
+    .main
+    {
+        .subpage
+        {
+            display: none;
+        }
+
+        .subpage.active
+        {
+            display: block;
+        }
+    }
+
+    .sidebar
+    {
+        li
+        {
+            list-style: none;
+        }
+        .sections
+        {
+
+            border-left: 1px #CCC solid;
+            border-right: 1px #CCC solid;
+            margin-left: 0px;
+            >li:first-of-type
+            {
+                border-top: none;
+            }
+            >li
+            {
+                border-top: 1px #CCC solid;
+
+                >*
+                {
+                    margin-left: 10px;
+                }
+            }
+
+
+            h3
+            {
+                font-size: 26px;
+                line-height: 44px
+            }
+            .active
+            {
+                
+            }
+
+            .info
+            {
+                max-height: 195px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                li
+                {
+                    font-size: 14pt;
+                    line-height: 24pt;
+                }
+
+                li.Semester:before
+                {
+                    content: "學期:";
+                }
+                li.Teacher:before
+                {
+                    content: "老師:";
+                }
+                li.DateTime:before
+                {
+                    content: "時間:";
+                }
+                li.Location:before
+                {
+                    content: "地點:";
+                }
+                li.Department:before
+                {
+                    content: "系所:";
+                }
+                li.Students:before
+                {
+                    content: "同學:";
+                    display: table;
+                }
+                li.Media:before
+                {
+                    content: "影音:";
+                }
+            }
+
+            .Notes
+            {
+                &:after
+                {
+                    // Content: how many notes.
+                    // Badge ugly...
+                    content: '#'attr(data-num);
+                }
+            }
+
+            .Comments
+            {
+                &:after
+                {
+                    // Content: how many notes.
+                    // Badge ugly...
+                    content: '#'attr(data-num);
+                }
+            }
+        }
+    }
+}
+
+#course .main.notes
+{
+
+}
+
+#course .main.comments
+{
+
+}
+
+#course .main.map
+{
+
 }
 
 .side-chatroom
