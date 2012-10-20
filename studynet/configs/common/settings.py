@@ -137,8 +137,6 @@ INSTALLED_APPS += HEROKU_APPS
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
