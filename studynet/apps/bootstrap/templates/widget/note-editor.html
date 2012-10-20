@@ -1,0 +1,41 @@
+
+<!-- Default active tab -->
+<div class="note-editor row-fluid home-tab active" id="note-editor">
+        <div></div>
+        <div id="wmd-button-bar" class="span12">
+            <div id="wmd-save-tools" class="note-save-tools">
+
+                <span>課程</span>
+                <div class="dropdown">
+                  <a class="dropdown-toggle course-toggle" data-toggle="dropdown" href="#">編譯器設計
+                        <i class="icon-chevron-down"></i>
+                  </a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    ...
+                  </ul>
+                </div>
+                <span class="btn_save"><a href="#">儲存</a></span>
+
+            </div>
+        </div>
+        <div class="wmd-panel span6">
+            <textarea class="wmd-input" id="wmd-input">
+                This is the *second* editor.
+------------------------------
+
+It has a plugin hook registered that surrounds all words starting with the
+letter A with asterisks before doing the Markdown conversion. Another one gives bare links
+a nicer link text. User input isn't sanitized here:
+
+<marquee>I'm the ghost from the past!</marquee>
+http://google.com
+http://stackoverflow.com
+It also includes a help button.
+Finally, note that when you press Ctrl-Q or click the "Blockquote" button (without having a
+selection), this editor creates an example text that's different from the first editor.
+
+            </textarea>
+        </div>
+        <!-- span6 will cause fluid failed: too wide.-->
+        <div id="wmd-preview" class="wmd-panel wmd-preview span5"></div>
+</div>

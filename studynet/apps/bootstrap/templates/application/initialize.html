@@ -1,0 +1,104 @@
+
+{% load compress %}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+          xmlns:fb="https://www.facebook.com/2008/fbml">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# socialstudytw: http://ogp.me/ns/fb/socialstudytw#">
+    <meta charset="UTF-8">
+    <meta name="author" content="LittleQ"/>
+    <meta name="description" content="政大選課評論系統，用學校選課系統選課太無聊嗎？來試試看 Social Study 吧！"/>
+    
+    <title>Social Study</title>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" />
+
+    <link rel="stylesheet/less" href="{{ STATIC_URL }}less/application.less" />
+
+    <!-- fluorine -->
+    <!--
+    <script src="{{ STATIC_URL }}js/lib/fluorine/library/main/notifier.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/fluorine/library/main/process.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/fluorine/library/main/context.js"></script>
+    -->
+
+    <!-- 
+    <script src="{{ STATIC_URL }}js/lib/fluorine/build/notifier.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/fluorine/build/process.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/fluorine/build/context.js"></script>
+    -->
+
+
+    <!-- twitter-bootstrap -->
+    <script src="{{ STATIC_URL }}js/lib/jquery/jquery-min.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/underscore/underscore-min.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/twitter-bootstrap/twitter-bootstrap.min.js"></script>
+
+    <script src="{{ STATIC_URL }}js/lib/less/less.min.js"></script>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/lib/pagedown/theme.css" />
+    <script src="{{ STATIC_URL }}js/lib/pagedown/Markdown.Converter.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/pagedown/Markdown.Converter.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/pagedown/Markdown.Sanitizer.js"></script>
+    <script src="{{ STATIC_URL }}js/lib/pagedown/Markdown.Editor.js"></script>
+
+
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/fluorine/build/fluorine/notifier.js"></script>
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/fluorine/build/fluorine/process.js"></script>
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/fluorine/build/fluorine/context.js"></script>
+
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/main/settings.js"></script>
+    <script type='application/javascript' src="{{ STATIC_URL }}js/lib/main/bootstrap.js"></script>
+
+
+    {% block head_end %}
+    {% endblock %}
+
+    {% block og_tags %}
+    {% endblock %}
+
+    <!-- Bootstraping -->
+
+    <!-- Compiled and merged Javascript codes -->
+    <script type="application/javascript">
+    {{ application_js|safe }}
+    </script>
+
+    <!-- Merged CSS -->
+    <style type="text/css">
+    </style>
+
+    <!-- /Bootstraping -->
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34498347-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+         })();
+    </script>
+</head>
+<body>
+
+    <!-- Start to fill all pages in this boostraping page -->
+
+    <!-- page: home -->
+    <div class="subpage" id="home" >
+    </div>
+
+    <!-- page: courses -->
+    <div class="subpage" id="courses" >
+    </div>
+
+    <!-- page: course -->
+    <div class="subpage" id="course" >
+    </div>
+
+    <!-- templates -->
+    <div class="subpage" id="template">
+    </div>

@@ -1,0 +1,432 @@
+
+body
+{
+    min-height: 660px;
+    overflow-x: hidden;
+
+    i
+    {
+        cursor: pointer;
+    }
+
+    .subpage
+    {
+        display:none;
+    }
+
+    .subpage.active
+    {
+        display:block;
+    }
+
+    .home-container
+    {
+        width:90%;
+    }
+
+    .wrapper-home
+    {
+        position: relative;
+        border: #DDD 1px solid;
+        border-right: 0px;
+        border-left: 0px;
+        width: 200%;
+        padding-left: 110px;
+        left: -100px;
+    }
+}
+
+// ---- home ----
+.activities
+{
+    display: none;  // unless active.
+
+    &.active
+    {
+        display:block;
+    }
+
+    .activity
+    {
+        cursor: pointer;
+        background-color: white;    // default value
+        float: right;
+        position: absolute;         // or cards can't put together.
+        left: 0px;                  // default value
+        z-index: 0;
+
+        &.active
+        {
+            background-color:cyan;
+            margin-top: 15px;      // leave handler space for user.
+            z-index: 1;
+        }
+    }    
+}
+
+#home
+{
+    .course-nav
+    {
+        background-color: white;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        padding: 0px;
+        top: -19px;
+
+        i:first-of-type
+        {
+            margin-right: -10px;
+        }
+
+        i:last-of-type
+        {
+            opacity: 0.6;
+        }
+    }
+
+    /*
+    .course-nav:before
+    {
+        content: " > ";
+        color: #999;
+    }
+    */
+}
+
+.home-tabs-nav
+{
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.home-tabs
+{
+    padding-top: 13px;
+    padding-left:0px;
+    padding-right:0px;
+
+    min-height: 450px;
+    max-width: 1000px;
+    .home-tab
+    {
+        display: none;  // only show actived one.
+        position: relative;
+        left:0px;       // for shift-leaving.
+
+        &.active
+        {
+            display: inline-block;
+        }
+    }
+
+    .note-editor
+    {
+        border-left: 1px #DDD solid;
+        border-right: 1px #DDD solid;
+        .wmd-button-row
+        {
+            display:inline-block;
+        }
+
+        .note-save-tools
+        {
+            bottom:10px;
+            border-radius: 5px;
+            border: #DDD 1px solid;
+            display:inline-block;
+            position:relative;
+
+            .btn_save
+            {
+
+            }
+
+            .dropdown
+            {
+                display:inline-block;
+            }
+
+            .course-toggle
+            {
+                color: #333;
+                &:link
+                {
+
+                }
+            }
+        }
+    }
+
+    .user-guide
+    {
+        background: none;
+    }
+}
+
+[subpage="course"]
+{
+    .main
+    {
+        .subpage
+        {
+            display: none;
+        }
+
+        .subpage.active
+        {
+            display: block;
+        }
+    }
+
+    .sidebar
+    {
+        li
+        {
+            list-style: none;
+        }
+        .sections
+        {
+
+            border-left: 1px #CCC solid;
+            border-right: 1px #CCC solid;
+            margin-left: 0px;
+            margin-bottom: 0px;
+            margin-top: -10px;
+            >li:first-of-type
+            {
+                border-top: none;
+            }
+            >li
+            {
+                border-top: 1px #CCC solid;
+
+                >*
+                {
+                    margin-left: 10px;
+                }
+            }
+
+
+            h3
+            {
+                font-size: 26px;
+                line-height: 44px
+            }
+            .active
+            {
+                
+            }
+
+            .info
+            {
+                max-height: 195px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                li
+                {
+                    font-size: 14pt;
+                    line-height: 24pt;
+                }
+
+                li.Semester:before
+                {
+                    content: "學期:";
+                }
+                li.Teacher:before
+                {
+                    content: "老師:";
+                }
+                li.DateTime:before
+                {
+                    content: "時間:";
+                }
+                li.Location:before
+                {
+                    content: "地點:";
+                }
+                li.Department:before
+                {
+                    content: "系所:";
+                }
+                li.Students:before
+                {
+                    content: "同學:";
+                    display: table;
+                }
+                li.Media:before
+                {
+                    content: "影音:";
+                }
+            }
+
+            .Notes
+            {
+                &:after
+                {
+                    // Content: how many notes.
+                    // Badge ugly...
+                    content: '#'attr(data-num);
+                }
+            }
+
+            .Comments
+            {
+                &:after
+                {
+                    // Content: how many notes.
+                    // Badge ugly...
+                    content: '#'attr(data-num);
+                }
+            }
+        }
+    }
+}
+
+#course .main.notes
+{
+
+}
+
+#course .main.comments
+{
+
+}
+
+#course .main.map
+{
+
+}
+
+.side-chatroom
+{
+    border-left: 1px #DDD solid;
+    height: 430px; 
+    padding: 3px;
+    position: absolute;
+    right: -145px;
+    top:103px;
+    width: 160px;
+    z-index: 1000;  // top level.
+
+    .handler
+    {
+        border-left: 4px #CCC double;
+        border-right: none;
+        cursor: pointer;
+        height: 25px;
+        position: absolute;
+        left:-13px;
+        top: 0px;
+        width: 11px;
+    }
+
+    &.active
+    {   
+        right:0px;
+    }
+
+    >.content
+    {
+        display: none;
+
+        .head
+        {
+            .menu
+            {
+                text-align: right;
+                border-bottom: 1px #CCC solid;
+                
+                .room-menu
+                {
+                    left: 55px;
+                    min-width: 0px;
+                    text-align: left;
+                    top: 20px;
+                    width: ; 
+                }
+            }
+        }
+
+        &.active
+        {
+            display: block;
+        }
+
+        &.room
+        {
+
+            .body
+            {
+                overflow-y: auto;
+                height: 350px;
+            }
+            .footer 
+            {
+                background-color: white;
+                border: 1px #CCC solid;
+                border-radius: 2px;
+                height: 50px;
+                position: absolute;
+                top: 380px;
+                width: 160px;
+                .input
+                {
+                    background-color: white;
+                    font-size: 10pt;
+                    height: 40px;
+                    margin-top: 2px;
+                    overflow-y: auto;
+                    outline: none;
+                    padding-left: 2px;
+
+                    &.tipon:before
+                    {
+                        content: "Say something...";
+                        color: #DDD;
+                        position: relative;
+                        left: 35px;
+                    }
+                }
+            }
+        }
+
+        &.list
+        {
+            .body
+            {
+                overflow-y: auto; 
+                height: 400px;
+                table.rooms
+                {
+                    td
+                    {
+                        cursor: pointer;
+                    }
+
+                    td.active
+                    {
+
+                    }
+
+                    td:first-of-type
+                    {
+                        border-top: none;
+                    }
+
+                    td:last-of-type
+                    {
+                        border-bottom: 1px solid #DDD;
+                    }
+                }   
+            }
+
+        }
+    }
+}
+
+
+
+
+//----

@@ -1,0 +1,80 @@
+
+<div subpage='home' class="subpage active" >
+    {% extends "base/base.html" %}
+
+
+    {% block home_active %}active{% endblock %}
+
+    {% block head_end %}
+    <style type="text/css">
+        .video-div {
+            width: 400px;
+            height: 280px;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            padding: 4px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+        }
+        .ss-hero-unit {
+            height: 295px;
+        }
+        p.ss-video-caption {
+            font-size: 13px;
+            line-height: 1.5em;
+
+        }
+    </style>
+
+    {% endblock %}
+
+    {% block content_with_fluid %}
+
+    {%include "widget/side-chatroom.html"%}
+
+    <div class="container-fluid home-container" id="home-container">
+
+        <ul class="home-tabs-nav nav-pills nav" id="home-tabs-nav">
+          <li class="active">
+              <a href="#note-editor">編寫筆記</a>
+          </li>
+          <li>
+              <a href="#">檢視課表</a>
+          </li>
+          <li>
+              <a href="#user-guide">使用指引</a>
+          </li>
+          <li>
+              <a href="#"></a>
+          </li>
+        </ul>
+
+        {% include "widget/course-nav.html" %}
+
+        <div class="wrapper-home"><!-- For horizon style -->
+        <div class="container-fluid home-tabs" id="home-tabs"> 
+
+            {%include "widget/note-editor.html"%}
+            {%include "widget/user-guide.html"%}
+
+        </div>
+        </div>
+    </div> <!-- main area -->
+
+    <div class="row-fluid">
+            {%include "widget/activities.html"%}
+    </div>
+
+    {% endblock %}
+
+    {% block subpage_end %}
+
+</div> <!-- page done-->
+
+<!-- For Bootstraping: notify this subpage is done.  -->
+<script type="application/javascript" subpage="home" > self.app.bootstrap.onArrive("home")</script>
+
+    {% endblock %}

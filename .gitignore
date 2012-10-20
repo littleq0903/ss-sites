@@ -18,5 +18,8 @@ pip-log.txt
 settings_local.py
 studynet/static
 
+# Database Storage
+data/*
+
 # extension
 extension/social-nccu/chrome/config/config.local.json

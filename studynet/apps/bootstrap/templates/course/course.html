@@ -1,0 +1,61 @@
+
+<div subpage="course" class="subpage template" >
+    <div class="row-fluid">
+    <div class="sidebar span3">
+        <ul class="sections">
+            <li>
+                <h2 class="Name"></h2>
+            </li>
+            <li>
+                <ul class="info">
+                    <li class="Semester">101/1</li>
+                    <li class="Teacher"></li>
+                    <li class="DateTime"></li>
+                    <li class="Location"></li>
+                    <li class="Department"></li>
+                    <li class="Students">
+                        <ul>
+
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h3 class="Notes">筆記</h3>
+            </li>
+            <li>
+                <h3 class="Comments">留言</h3>
+            </li>
+            <li>
+                <h3 class="Media">影音</h3>
+            </li>
+        </ul>
+    </div>
+    <div class="main span7">
+
+        <!-- page: main-index -->
+        <div class="subpage" id="course-main-index" >
+        </div>
+
+        <!-- page: main-note -->
+        <div class="subpage" id="course-main-note" >
+        </div>
+
+        <!-- page: main-comment -->
+        <div class="subpage" id="course-main-comment" >
+        </div>
+
+        <!-- page: main-map -->
+        <div class="subpage" id="course-main-map" >
+        </div>
+
+        <!-- page: main-media -->
+        <div class="subpage" id="course-main-media" >
+        </div>
+    </div>
+    </div>
+</div> <!-- page done-->
+
+<!-- For Bootstraping: notify this subpage is done.  -->
+<script type="application/javascript" subpage="course" > self.app.bootstrap.onArrive("course")</script>
+
