@@ -7,9 +7,12 @@ server {
     server_name socialstudy.tw;
 
     location / {
-        include fastcgi_params;
-        fastcgi_pass socialstudy-sites;
+        #include fastcgi_params;
+        #fastcgi_pass socialstudy-sites;
+
+        include proxy_params;
+        proxy_pass http://socialstudy-sites;
+        
 
     }
 }
-
