@@ -1,4 +1,0 @@
-[submodule "studynet/apps/bootstrap/static/js/lib/fluorine"]
-	path = studynet/apps/bootstrap/static/js/lib/fluorine
-    url =  git@github.com:snowmantw/Fluorine.git
-    ignore = dirty
