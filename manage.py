@@ -28,7 +28,7 @@ if __name__ == "__main__":
     if os.environ['HEROKU'] == "true":
         settings_location = "studynet.configs.heroku.settings"
     elif os.environ['PLSMLAB'] == 'true':
-        settings_location = "studynet.configs.heroku.settings"
+        settings_location = "studynet.configs.plsmlab.settings"
     else:
         settings_location = "studynet.configs.common.settings"
     print "Using setting: %s" % settings_location
