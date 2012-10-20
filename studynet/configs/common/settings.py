@@ -81,6 +81,21 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django_facebook.context_processors.facebook',
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+)
+
+AUTHENTICATION_BACKENDS = (
+        'django_facebook.auth_backends.FacebookBackend',
+        'django.contrib.auth.backends.ModelBackend',
+        )
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -116,18 +131,19 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 )
 
+LIB_APPS = (
+    'django_facebook',
+)
+
+
 SITE_APPS = (
     'globals',
     'departments',
     'courses'
 )
 
-HEROKU_APPS = (
-    'gunicorn',
-)
-
+INSTALLED_APPS += LIB_APPS
 INSTALLED_APPS += SITE_APPS
-INSTALLED_APPS += HEROKU_APPS
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -157,6 +173,13 @@ INSTALLED_APPS += HEROKU_APPS
 #        },
 #    }
 #}
+
+
+# TODO: update facebook api tokens
+FACEBOOK_APP_ID = '157074917769562'
+FACEBOOK_APP_SECRET = '9e98d91b0a7c50189a47cdfe5a6c88f3'
+
+AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
 
 
 try:
