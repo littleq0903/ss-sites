@@ -183,6 +183,21 @@ self.app.offsetCalibration = function(channel, dom_act)
     return $(channel).outerWidth()-$(dom_act).width()
 }
 
+self.app.queryYouTube = function SearchYouTube(query, callback) 
+{
+        $.ajax({
+        url: 'http://gdata.youtube.com/feeds/mobile/videos?alt=json-in-script&q=' + query,
+        dataType: 'jsonp',
+        success: function (data) {
+            callback(data)
+        },
+        error: function () {
+            throw new Error("Error loading youtube video results");
+        }
+        });
+        return false
+}
+
 fluorine.Event('app.bootstrap')
         ._
          (  function()
@@ -215,9 +230,9 @@ fluorine.Event('app.bootstrap')
               ,   'Students': []
               ,   'Location': 'nccu'
               ,   'Department':  'nccu'
-              ,   'Notes'   : ['n1','n2']
-              ,   'Comments': ['c1','c2','c3']
-              ,   'Media'   : ['m1','m2','m3','m4']
+              ,   'Notes'   : ['n1','n2','n3','n4','n5']
+              ,   'Comments': ['c1','c2','c3','c4','c5','c6','c7','c8']
+              ,   'Media'   : ['Nyan Cat','m2','m3','m4']
              }
 
              self.app.writeCourseSync('c1', course)
@@ -484,6 +499,7 @@ fluorine.Event('app.tabs.course.active')
             ,   'Students': students 
             ,   'Notes'   : function(el, data){  $(el).attr('data-num', data.length ) ; openMain(el, data)  }
             ,   'Comments': function(el, data){  $(el).attr('data-num', data.length ) ; openMain(el, data)  }
+            ,   'Media'   : function(el, data){  $(el).attr('data-num', data.length ) ; openMain(el, data)  }
             }
             /* Badge ugly...
             ,   'Notes'   : function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; openMain(el, data)  }
@@ -539,11 +555,12 @@ fluorine.Event('app.course.subpage.active')
              $('#template [subpage="course"]').clone().appendTo('#home-tabs')
 
              // TODO: fill data in.
-             $('#course-main-'+subpage).addClass('active')  
+             $('#course-main-'+subpage.toLowerCase()).addClass('active')  
              var dispatch =
-             {  'note'    : 'app.course.subpage.note.active'
-             ,  'comment' : 'app.course.subpage.comment.active'
-             ,  'map'     : 'app.course.subpage.map.active'
+             {  'Note'    : 'app.course.subpage.note.active'
+             ,  'Comment' : 'app.course.subpage.comment.active'
+             ,  'Map'     : 'app.course.subpage.map.active'
+             ,  'Media'   : 'app.course.subpage.media.active'
              }
              fluorine.Notifier.trigger({'name': dispatch[subpage], 'data': data})
          }
@@ -589,6 +606,46 @@ fluorine.Event('app.course.subpage.note.active')
         .out('_')(function(){return {}})
         .done()
         .run()
+
+fluorine.Event('app.course.subpage.media.active')
+        ._
+         (  function(name, names)
+         {
+             //TODO: wrapper width follow contents, not parent.
+                 $(function(){$( "#course-main-media .slider" ).slider({slide: function(e, ui){
+                     var wrapw   = $('#course-main-media .wrapper').width()
+                     var current = ui.value*(- wrapw / 100)
+                     $( "#course-main-media .wrapper" ).css('left', current+'%')
+                 }});})
+
+
+                var qry_success = function(data) 
+                {
+                    _.each
+                    (   data.feed.entry
+                    ,   function(ent)
+                    {   // No paging yet. TODO.
+
+                        var img_src = ent.media$group.media$thumbnail[0].url
+                        var src =  ent.media$group.media$player[0].url
+                        var title =  ent.media$group.media$title.$t
+                        var count = ent.yt$statistics.viewCount
+                        var author = ent.author[0].name.$t 
+
+                        $('[subpage="course-main-media"] .wall .wrapper').append('<div><a href="'+src+'" target="_blank"><img src="'+img_src+'"></a></div>')
+                    }
+                    ) 
+                }
+                
+            _.each( names, function(name){ self.app.queryYouTube(name, qry_success)})
+         }
+         )
+        .out('_')(function(){return {}})
+        .done()
+        .run()
+
+
+
 
 
 fluorine.Event('app.course-nav.put')

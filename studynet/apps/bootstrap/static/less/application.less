@@ -165,6 +165,51 @@ body
     }
 }
 
+#course-main-media
+{
+    .slider
+    {
+
+    }
+    .wall
+    {
+        margin-top: 40px;
+        max-height: 430px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        width:1000%;
+        text-align: left;
+
+        .wrapper
+        {
+            white-space: nowrap;
+            position:relative;
+        }
+
+        .wrapper > div
+        {
+            border-right:1px #DDD solid;
+            display: inline;
+            text-align:center;
+            width: 440px;
+        }
+        /*
+        div
+        {
+            height: 190px;
+            width:190px;
+        }
+
+
+        div.main
+        {
+            height:100%;
+            width:100%;
+        }
+        */
+    }
+}
+
 [subpage="course"]
 {
     .main
@@ -280,6 +325,16 @@ body
                     content: '#'attr(data-num);
                 }
             }
+
+            .Media
+            {
+                &:after
+                {
+                    // Content: how many notes.
+                    // Badge ugly...
+                    content: '#'attr(data-num);
+                }
+            }
         }
     }
 }
@@ -301,6 +356,7 @@ body
 
 .side-chatroom
 {
+    background-color: white;
     border-left: 1px #DDD solid;
     height: 430px; 
     padding: 3px;
