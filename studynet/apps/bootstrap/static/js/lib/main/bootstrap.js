@@ -232,7 +232,7 @@ fluorine.Event('app.bootstrap')
               ,   'Department':  'nccu'
               ,   'Notes'   : ['n1','n2','n3','n4','n5']
               ,   'Comments': ['c1','c2','c3','c4','c5','c6','c7','c8']
-              ,   'Media'   : ['Nyan Cat','m2','m3','m4']
+              ,   'Media'   : ['Complier Desig','開放式課程 Compiler', 'Coursera Compiler']
              }
 
              self.app.writeCourseSync('c1', course)
@@ -247,7 +247,7 @@ fluorine.Event('app.bootstrap')
              var sections =
              [
              {   'name'   : "編譯器設計"
-             ,   'subpage': "comment"
+             ,   'subpage': "media"
              ,   'id-data': "compiler_design"
              ,   'type'   : "app.tabs.course.active"
              }
@@ -489,18 +489,82 @@ fluorine.Event('app.tabs.course.active')
                 )
             }
 
+            // data become like tags.
+            var queryMedia = function(h3, data)
+            {
+                var qry_success = function(data) 
+                {
+                    $('[subpage="course"] h3.Media').attr('data-num',data.feed.entry.length)
+                    _.each
+                    (   data.feed.entry
+                    ,   function(ent)
+                    {   // No paging yet. TODO.
+
+                        var img_src = ent.media$group.media$thumbnail[0].url
+                        var src =  ent.media$group.media$player[0].url
+                        var title =  ent.media$group.media$title.$t
+                        var count = ent.yt$statistics.viewCount
+                        var author = ent.author[0].name.$t 
+
+                        $('[subpage="course-main-media"] .wall .wrapper').append('<div><a href="'+src+'" target="_blank"><img src="'+img_src+'"></a></div>')
+                    }
+                    ) 
+                }
+                
+                _.each( data , function(name){ self.app.queryYouTube(name, qry_success)})
+            }
+
+            var updateNav = function(name, subpage, id_data, type)
+            {
+                //TODO: Rese before new one.
+                var sections = _.map
+                (   $('#course-nav li')
+                ,   function(li)
+                {
+                    return $(li).data('data-sec')
+                }
+                )
+                sections.push
+                (
+                 {   'name'   : name
+                 ,   'subpage': subpage
+                 ,   'id-data': id_data
+                 ,   'type'   : type
+                 }
+                )
+
+                fluorine.Notifier.trigger({name: 'app.course-nav.put', sections: sections })
+            }
+
             var dispatch = 
             {   'Name'    : simpleText  
             ,   'Semester': simpleText
             ,   'Teacher' : simpleText
             ,   'DateTime': simpleText
-            ,   'Location': openMain 
+            ,   'Location': function(el, data)
+                            {  $(el).attr('data-num', data.length )
+                               $(el).click(function(){ updateNav('地點', 'Map', info.CourseId, 'app.course.subpage.media.active') })
+                               openMain(el, data)  
+                            }
             ,   'Department': simpleText
             ,   'Students': students 
-            ,   'Notes'   : function(el, data){  $(el).attr('data-num', data.length ) ; openMain(el, data)  }
-            ,   'Comments': function(el, data){  $(el).attr('data-num', data.length ) ; openMain(el, data)  }
-            ,   'Media'   : function(el, data){  $(el).attr('data-num', data.length ) ; openMain(el, data)  }
+            ,   'Notes'   : function(el, data)
+                            {  $(el).attr('data-num', data.length ) 
+                               $(el).click(function(){ updateNav('筆記', 'Notes', info.CourseId, 'app.course.subpage.note.active') })
+                                openMain(el, data)  
+                            }
+            ,   'Comments': function(el, data)
+                            {  $(el).attr('data-num', data.length )
+                               $(el).click(function(){ updateNav('留言', 'Comments', info.CourseId, 'app.course.subpage.comment.active') })
+                                openMain(el, data)  
+                            }
+            ,   'Media'   : function(el, data)
+                            {  queryMedia(el, data)
+                               $(el).click(function(){ updateNav('影音', 'Media', info.CourseId, 'app.course.subpage.media.active') })
+                               openMain(el, data)  
+                            }
             }
+
             /* Badge ugly...
             ,   'Notes'   : function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; openMain(el, data)  }
             ,   'Comments': function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; openMain(el, data)  }
@@ -541,6 +605,19 @@ fluorine.Event('app.tabs.course.deactive')
          {
             $('#home-tabs [subpage="course"]').removeClass('active')
             $('#home-tabs .subpage.template').remove()
+
+
+             // Reset the nav.
+             var sections =
+             [
+             {   'name'   : "編譯器設計"
+             ,   'subpage': "media"
+             ,   'id-data': "compiler_design"
+             ,   'type'   : "app.tabs.course.active"
+             }
+             ]
+
+             fluorine.Notifier.trigger({name: 'app.course-nav.put', sections: sections })
          }
          )
         .out('_')(function(){return {}})
@@ -614,30 +691,16 @@ fluorine.Event('app.course.subpage.media.active')
              //TODO: wrapper width follow contents, not parent.
                  $(function(){$( "#course-main-media .slider" ).slider({slide: function(e, ui){
                      var wrapw   = $('#course-main-media .wrapper').width()
-                     var current = ui.value*(- wrapw / 100)
-                     $( "#course-main-media .wrapper" ).css('left', current+'%')
+                     var current = ( wrapw / 100 ) * (-ui.value)
+                     if( wrapw + current < 800 )
+                 {
+                     current += 800     // The last one should not be hidden.
+                 }
+                     $( "#course-main-media .wrapper" ).css('left', current)
                  }});})
 
 
-                var qry_success = function(data) 
-                {
-                    _.each
-                    (   data.feed.entry
-                    ,   function(ent)
-                    {   // No paging yet. TODO.
 
-                        var img_src = ent.media$group.media$thumbnail[0].url
-                        var src =  ent.media$group.media$player[0].url
-                        var title =  ent.media$group.media$title.$t
-                        var count = ent.yt$statistics.viewCount
-                        var author = ent.author[0].name.$t 
-
-                        $('[subpage="course-main-media"] .wall .wrapper').append('<div><a href="'+src+'" target="_blank"><img src="'+img_src+'"></a></div>')
-                    }
-                    ) 
-                }
-                
-            _.each( names, function(name){ self.app.queryYouTube(name, qry_success)})
          }
          )
         .out('_')(function(){return {}})
@@ -666,6 +729,7 @@ fluorine.Event('app.course-nav.put')
                  $li.clone()
                     .find('a').text(sec.name)
                     .end()
+                    .data('data-sec', sec)
                     .click
                      (  function(e)
                      {

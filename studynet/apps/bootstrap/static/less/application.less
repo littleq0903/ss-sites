@@ -169,7 +169,18 @@ body
 {
     .slider
     {
+        border: none;
+        border-bottom: 1px #DDD solid;
+        margin-top: 15px;
+        width: 900px;
 
+        .ui-slider-handle
+        {
+            background: white;
+            top: 4px;
+            height: 13px;
+            left: 100%;
+        }
     }
     .wall
     {
@@ -182,8 +193,9 @@ body
 
         .wrapper
         {
-            white-space: nowrap;
+            display: inline;    // or the width will not container all inner contents.
             position:relative;
+            white-space: nowrap;
         }
 
         .wrapper > div
