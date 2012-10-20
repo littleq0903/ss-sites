@@ -138,9 +138,7 @@ INSTALLED_APPS = (
     'compressor',
 )
 
-LIB_APPS = (
-    'django_facebook',
-)
+#LIB_APPS = ()
 
 
 SITE_APPS = (
@@ -150,7 +148,7 @@ SITE_APPS = (
     'bootstrap',
 )
 
-INSTALLED_APPS += LIB_APPS
+#INSTALLED_APPS += LIB_APPS
 INSTALLED_APPS += SITE_APPS
 
 # A sample logging configuration. The only tangible logging
@@ -187,8 +185,8 @@ INSTALLED_APPS += SITE_APPS
 FACEBOOK_APP_ID = '157074917769562'
 FACEBOOK_APP_SECRET = '9e98d91b0a7c50189a47cdfe5a6c88f3'
 
-AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
-FACEBOOK_REGISTRATION_BACKEND = 'django_facebook.registration_backends.UserenaBackend'
+#AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
+#FACEBOOK_REGISTRATION_BACKEND = 'django_facebook.registration_backends.UserenaBackend'
 
 COMPRESS_ENABLED = True
 COMPRESS_REBUILD_TIMEOUT = 30    
