@@ -22,7 +22,7 @@ FACEBOOK_APP_ID = ''
 FACEBOOK_APP_SECRET = ''
 
 TEMPLATE_DIRS = (
-    '/home/ubuntu/repo/nccy-study-net/studynet/templates',
+    '/home/ubuntu/repo/nccu-study-net/studynet/templates',
 )
 
 
