@@ -4,7 +4,7 @@ upstream socialstudy-sites {
 
 server {
     listen 1337;
-    server_name socialstudy.tw
+    server_name socialstudy.tw;
 
     location / {
         include fastcgi_params;
