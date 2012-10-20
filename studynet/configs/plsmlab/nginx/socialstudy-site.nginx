@@ -1,4 +1,4 @@
-upstream socialstudy-sites {
+upstream socialstudy {
     server 127.0.0.1:8080;    
 }
 
@@ -11,7 +11,7 @@ server {
         #fastcgi_pass socialstudy-sites;
 
         include proxy_params;
-        proxy_pass http://socialstudy-sites/;
+        proxy_pass http://socialstudy;
 
     }
 }
