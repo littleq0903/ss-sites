@@ -517,6 +517,8 @@ fluorine.Event('app.tabs.course.active')
             var updateNav = function(name, subpage, id_data, type)
             {
                 //TODO: Rese before new one.
+                // These label all second level label, so ignore before labels is safe.
+                /*
                 var sections = _.map
                 (   $('#course-nav li')
                 ,   function(li)
@@ -524,6 +526,9 @@ fluorine.Event('app.tabs.course.active')
                     return $(li).data('data-sec')
                 }
                 )
+                */
+
+                sections = [ $('#course-nav li:first').data('data-sec') ]
                 sections.push
                 (
                  {   'name'   : name
@@ -717,6 +722,7 @@ fluorine.Event('app.course-nav.put')
          {
              var $li  = $('#template [subpage="course-nav-section"] li')
              var $sep = $('#template [subpage="course-nav-section"] span') 
+             $('#course-nav').children().not('i').remove()
              _.each
              (  sections
              ,  function(sec)
