@@ -1,6 +1,47 @@
 
-<div subpage="course-main-comment" class="subpage" >
+<div subpage="course-main-comment" class="subpage">
+	<div id="know_result">
+		<ol id="know_list">
+
+		</ol>
+	</div>
 </div> <!-- page done-->
+
+<script type="text/javascript">
+	$.ajax({
+      url: '/yknow_api/',
+      type: 'GET',
+      dataType: "json",
+      data: {
+      	p: 'compiler'
+      },
+      cache: false,
+      error: function(xhr) {
+      	// alert(xhr.responseText);
+      },
+      success: function(JData) {
+
+			//field : name, lat, lng, difference
+			var index = 0;
+			$("#know_list").text("");
+			$.each(JData.SearchResult.Result, function(){
+				itemObj = JData.SearchResult.Result[index];
+				//alert(JData[index]);
+				var newitem = $('<li><h4><a href="' + itemObj.URL + '">' + itemObj.Subject + '</a></h4><p>' + itemObj.Content + '</p><p class="memo"><em>[ ' + itemObj.Status + ' ]</em><span>分類：<a href="http://tw.knowledge.yahoo.com/dir/dir?sid='+itemObj.CategoryId+'">'+itemObj.Category+'</a></span><span>時間：'+itemObj.AskDate+'</span></p></li>');
+				// var newitem = $("<div class='item'>"+JData.SearchResult.Result[index].Subject+"</div><hr>");
+				newitem.appendTo($('#know_list'));
+
+      		/*var latlng = new google.maps.LatLng(JData[index].latitude, JData[index].longitude);
+      		newspot = newSpotMarker(JData[index].node_name, latlng.lat(), latlng.lng());
+      		spots[0].nextSpot.push(newspot);
+      		spots[0].nextPoly.push(addPolyline(spots[0], newspot, JData.length-index));*/
+      		index++;
+      	});
+
+			//alert(JData.node_name);
+      }
+    });
+</script>
 
 <!-- For Bootstraping: notify this subpage is done.  -->
 <script type="application/javascript" subpage="course-main-comment" > self.app.bootstrap.onArrive("course-main-comment")</script>
