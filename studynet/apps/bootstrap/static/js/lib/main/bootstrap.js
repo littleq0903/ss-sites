@@ -382,7 +382,10 @@ fluorine.Event('app.tabs.deactive')
              var dispatch =
              {  'note-editor': 'app.tabs.note-editor.deactive'
              ,  'user-guide' : 'app.tabs.user-guide.deactive'
-             ,  'comment'    : 'app.tabs.course.deactive'       // course-nav tabs should be delegated to another functions.
+             ,  'comments'   : 'app.tabs.course.deactive'       // course-nav tabs should be delegated to another functions.
+             ,  'map'        : 'app.tabs.course.deactive'       // course-nav tabs should be delegated to another functions.
+             ,  'notes'      : 'app.tabs.course.deactive'       // course-nav tabs should be delegated to another functions.
+             ,  'media'      : 'app.tabs.course.deactive'       // course-nav tabs should be delegated to another functions.
              }
              fluorine.Notifier.trigger(dispatch[name])
          }
@@ -474,7 +477,7 @@ fluorine.Event('app.tabs.course.active')
                       )
             }
 
-            var openMain = function(h3, data)
+            var bindOpenMain = function(h3, data)
             {
                 // Prevent double binding. Lazy way... ( detect bound events more better )
                 $(h3).unbind('click.note')
@@ -548,31 +551,67 @@ fluorine.Event('app.tabs.course.active')
             ,   'DateTime': simpleText
             ,   'Location': function(el, data)
                             {  $(el).attr('data-num', data.length )
-                               $(el).click(function(){ updateNav('地點', 'Map', info.CourseId, 'app.course.subpage.media.active') })
-                               openMain(el, data)  
+                               $(el).click
+                               (    function()
+                               {    updateNav('地點', 'Map', info.CourseId, 'app.course.subpage.media.active') 
+
+                                   // Because click from sidebar won't go though normal click way.
+                                   // FIXME: Duplicated paths.
+                                   $('#course-nav li:last').addClass('active').find('a').attr('href','map')
+                               }
+                               )
+                               bindOpenMain(el, data)  
+
                             }
             ,   'Department': simpleText
             ,   'Students': students 
             ,   'Notes'   : function(el, data)
                             {  $(el).attr('data-num', data.length ) 
-                               $(el).click(function(){ updateNav('筆記', 'Notes', info.CourseId, 'app.course.subpage.note.active') })
-                                openMain(el, data)  
+                               $(el).click
+                               (    function()
+                               {    updateNav('筆記', 'Notes', info.CourseId, 'app.course.subpage.note.active') 
+                                    $('#course-nav li:last').addClass('active')
+
+                                   // Because click from sidebar won't go though normal click way.
+                                   // FIXME: Duplicated paths.
+                                   $('#course-nav li:last').addClass('active').find('a').attr('href','notes')
+                               }
+                               )
+                                bindOpenMain(el, data)  
                             }
             ,   'Comments': function(el, data)
                             {  $(el).attr('data-num', data.length )
-                               $(el).click(function(){ updateNav('留言', 'Comments', info.CourseId, 'app.course.subpage.comment.active') })
-                                openMain(el, data)  
+                               $(el).click
+                               (    function()
+                               {    updateNav('留言', 'Comments', info.CourseId, 'app.course.subpage.comment.active') 
+                                    $('#course-nav li:last').addClass('active')
+
+                                   // Because click from sidebar won't go though normal click way.
+                                   // FIXME: Duplicated paths.
+                                   $('#course-nav li:last').addClass('active').find('a').attr('href','comments')
+                               }
+                               )
+                                bindOpenMain(el, data)  
+
                             }
             ,   'Media'   : function(el, data)
                             {  queryMedia(el, data)
-                               $(el).click(function(){ updateNav('影音', 'Media', info.CourseId, 'app.course.subpage.media.active') })
-                               openMain(el, data)  
+                               $(el).click
+                                (   function()
+                                    {  updateNav('影音', 'Media', info.CourseId, 'app.course.subpage.media.active') 
+
+                                       // Because click from sidebar won't go though normal click way.
+                                       // FIXME: Duplicated paths.
+                                       $('#course-nav li:last').addClass('active').find('a').attr('href','media')
+                                    }
+                                )
+                               bindOpenMain(el, data)  
                             }
             }
 
             /* Badge ugly...
-            ,   'Notes'   : function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; openMain(el, data)  }
-            ,   'Comments': function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; openMain(el, data)  }
+            ,   'Notes'   : function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; bindOpenMain(el, data)  }
+            ,   'Comments': function(el, data){  $(el).find('.badge.badge-info').text(data.length) ; bindOpenMain(el, data)  }
             */
 
             return [info, dispatch]
@@ -639,8 +678,8 @@ fluorine.Event('app.course.subpage.active')
              // TODO: fill data in.
              $('#course-main-'+subpage.toLowerCase()).addClass('active')  
              var dispatch =
-             {  'Note'    : 'app.course.subpage.note.active'
-             ,  'Comment' : 'app.course.subpage.comment.active'
+             {  'Notes'    : 'app.course.subpage.note.active'
+             ,  'Comments' : 'app.course.subpage.comment.active'
              ,  'Map'     : 'app.course.subpage.map.active'
              ,  'Media'   : 'app.course.subpage.media.active'
              }
@@ -729,8 +768,10 @@ fluorine.Event('app.course-nav.put')
              {
                  if( 1 < sections.length ) // no need sep if only one section.
                  {
-                     $('#course-nav')
-                        .append($sep.clone())
+                     if( $('#course-nav li').length != 0 )
+                     {
+                         $('#course-nav').append($sep.clone())
+                     }
                  }
                  $li.clone()
                     .find('a').text(sec.name)
