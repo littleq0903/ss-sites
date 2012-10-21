@@ -225,10 +225,10 @@ fluorine.Event('app.bootstrap')
              {   'Name'    : '編譯器設計'
               ,   'CourseId': 'c1'
               ,   'Semester': '101/1'
-              ,   'Teacher' : 'Cheng Kung'
+              ,   'Teacher' : 'Kung Cheng'
               ,   'DateTime': '周二234'
               ,   'Students': []
-              ,   'Location': 'nccu'
+              ,   'Location': '大仁樓102'
               ,   'Department': '政大資科所'
               ,   'Notes'   : ['n1','n2','n3','n4','n5']
               ,   'Comments': ['c1','c2','c3','c4','c5','c6','c7','c8']
