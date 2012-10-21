@@ -225,14 +225,14 @@ fluorine.Event('app.bootstrap')
              {   'Name'    : '編譯器設計'
               ,   'CourseId': 'c1'
               ,   'Semester': '101/1'
-              ,   'Teacher' : 'CK'
-              ,   'DateTime': '周三456'
+              ,   'Teacher' : 'Cheng Kung'
+              ,   'DateTime': '周二234'
               ,   'Students': []
               ,   'Location': 'nccu'
-              ,   'Department':  'nccu'
+              ,   'Department': '政大資科所'
               ,   'Notes'   : ['n1','n2','n3','n4','n5']
               ,   'Comments': ['c1','c2','c3','c4','c5','c6','c7','c8']
-              ,   'Media'   : ['Complier Desig','開放式課程 Compiler', 'Coursera Compiler']
+              ,   'Media'   : ['Complier Design','開放式課程 Compiler', 'Coursera Compiler']
              }
 
              self.app.writeCourseSync('c1', course)
@@ -254,6 +254,11 @@ fluorine.Event('app.bootstrap')
              ]
 
              fluorine.Notifier.trigger({name: 'app.course-nav.put', sections: sections })
+             // Hack bind the first page.
+             $('#course-nav li a').bind('click', function()
+                 {
+                     self.FIRST_COURSENAV = true
+                 })
          }
          )
         ._
@@ -509,7 +514,7 @@ fluorine.Event('app.tabs.course.active')
                         var count = ent.yt$statistics.viewCount
                         var author = ent.author[0].name.$t 
 
-                        $('[subpage="course-main-media"] .wall .wrapper').append('<div><a href="'+src+'" target="_blank"><img src="'+img_src+'"></a></div>')
+                        $('[subpage="course-main-media"] .wall .wrapper').append('<div><a href="'+src+'" target="_blank"><img title="'+title+'" src="'+img_src+'"></a></div>')
                     }
                     ) 
                 }
@@ -606,6 +611,11 @@ fluorine.Event('app.tabs.course.active')
                                     }
                                 )
                                bindOpenMain(el, data)  
+                               if( self.FIRST_COURSENAV )
+                               {
+                                   $('h3.Media').trigger('click')
+                                   self.FIRST_COURSENAV = false
+                               }
                             }
             }
 

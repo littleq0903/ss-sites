@@ -199,11 +199,18 @@ body
         width:1000%;
         text-align: left;
 
+
+
         .wrapper
         {
             display: inline;    // or the width will not container all inner contents.
             position:relative;
             white-space: nowrap;
+
+            img:before
+            {
+
+            }
         }
 
         .wrapper > div
@@ -212,7 +219,10 @@ body
             display: inline;
             text-align:center;
             width: 440px;
+                content: attr(title);
+                font-size: 18pt;
         }
+
         /*
         div
         {
