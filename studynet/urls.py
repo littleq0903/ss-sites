@@ -27,6 +27,11 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('',
+        (r'^facebook/', include('django_facebook.urls')),
+        (r'^accounts/', include('django_facebook.auth_urls')),
+        )
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += patterns('',
     (r'^prototype/', TemplateView.as_view(template_name="prototype.html")),
     (r'^channel\.html', TemplateView.as_view(template_name="fb/channel.html")),
     (r'^favicon\.ico', 'django.views.generic.simple.redirect_to', {'url': '/static/img/favicon.ico'}),
@@ -34,9 +39,4 @@ urlpatterns += patterns('',
 )
 
 # for django_facebook
-urlpatterns += patterns('',
-        (r'^facebook/', include('django_facebook.urls')),
-        (r'^accounts/', include('django_facebook.auth_urls')),
-        )
 
-urlpatterns += staticfiles_urlpatterns()

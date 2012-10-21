@@ -13,5 +13,9 @@ server {
         include proxy_params;
         proxy_pass http://socialstudy;
 
+        location /static/ {
+            root /Users/littleq/repository/nccu-study-net/;    
+        }
+
     }
 }
